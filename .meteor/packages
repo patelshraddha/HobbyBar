@@ -5,7 +5,6 @@
 
 standard-app-packages
 autopublish
-insecure
 preserve-inputs
 accounts-password
 accounts-ui
@@ -13,3 +12,4 @@ accounts-google
 accounts-twitter
 accounts-facebook
 bootstrap
+insecure
