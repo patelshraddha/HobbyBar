@@ -13,3 +13,5 @@ accounts-twitter
 accounts-facebook
 bootstrap
 insecure
+mini-pages
+iron-router
