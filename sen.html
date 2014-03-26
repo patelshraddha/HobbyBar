@@ -3,13 +3,43 @@
 </head>
 
 <body>
-	<div>
-   {{> header}}
-</div>
-   <div>
-   	   {{>content}}
-   </div>
+	
 </body>
+
+
+
+<template name="layout">
+  {{#if currentUser}}
+			{{> header}}
+  {{/if}}
+  {{yield}}
+</template>
+
+
+
+
+
+
+
+<template name="home">
+  {{#if currentUser}}
+       {{#if firsttimelogin}}
+	      <p>This is the first time login. Paste all code Here.</p>
+	   {{else}}
+	      <p>Dynamic generation module Here.</p>
+	  {{/if}}
+			
+     {{else}}
+            {{>user_loggedout}}
+  {{/if}}
+  
+</template>
+
+<template name="user_loggedout">
+	<li><a id="logingoogle">Login with Google</a></li>
+	<li><a id="loginfacebook">Login with Facebook</a></li>
+</template>
+
 
 <template name="header">
 
@@ -18,7 +48,7 @@
 			<div class="container">
 				<div class="nav pull-right">
 
-					{{> user_info}}
+					{{> user_loggedin}}
 
 				</div>
 			</div>
@@ -30,15 +60,7 @@
 
 
 
-<template name="user_info">
-	<ul class="nav pull-right">
-		{{#if currentUser}}
-			{{> user_loggedin}}
-		{{else}}
-			{{> user_loggedout}}
-		{{/if}}
-	</ul>
-</template>
+
 
 <template name="user_loggedin">
 	{{#if loggingIn}}
@@ -72,8 +94,5 @@
 
 </template>
 
-<template name="user_loggedout">
-	<li><a id="logingoogle">Login with Google</a></li>
-	<li><a id="loginfacebook">Login with Facebook</a></li>
-</template>
+
 

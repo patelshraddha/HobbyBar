@@ -1,6 +1,16 @@
 
 
 
+Router.configure({
+  layoutTemplate: 'layout'
+});
+
+Router.map(function() {
+  this.route('home', {path: '/'});
+})
+
+
+
 if (Meteor.isClient) {
  Meteor.subscribe("messages");
  Meteor.subscribe("userData");
@@ -41,12 +51,12 @@ if (Meteor.isClient) {
   "click #logingoogle": function(e, tmpl){
             
             Meteor.loginWithGoogle({
-
+                
                 requestPermissions: ['email']
                 //Meteor.users.update({_id:Meteor.userId()}, {$inc:{count: 1}});
             }, function (err) {
                 if(err) {
-                    
+                        
                 } else {
                     Meteor.call("incrementcount",Meteor.userId(),function(error, affectedDocs) {
                      if (error) {
