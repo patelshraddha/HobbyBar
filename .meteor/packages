@@ -5,13 +5,14 @@
 
 standard-app-packages
 autopublish
-preserve-inputs
 accounts-password
 accounts-ui
 accounts-google
 accounts-twitter
 accounts-facebook
-bootstrap
 insecure
 mini-pages
 iron-router
+less
+jquery
+bootboxjs

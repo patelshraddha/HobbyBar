@@ -1,0 +1,136 @@
+<template name="home">
+
+
+
+
+  
+<div class="content">
+        {{#if currentUser}}
+        {{>user}}
+        {{else}}
+        <div class="slider">
+        <div class="container-fluid">
+          <div id="heroSlider" class="carousel slide">
+            <div class="carousel-inner">
+              
+                {{#each firsthobby}}
+                <div class="active item">
+                <div class="hero-unit">
+                  <div class="row-fluid">
+                    <div class="span7 marketting-info">
+                      <h1>{{name}}</h1>
+                      <p>{{description}}
+                      </p>                    
+                    </div>
+                    <div class="span5">
+                      <img src="{{imagesrc}}" class="thumbnail">
+                    </div>
+                  </div>                  
+                </div>
+              </div> 
+              {{/each}}           
+
+              {{#each resthobbies}}
+                
+                
+                   <div class="item">
+
+                <div class="hero-unit">
+                  <div class="row-fluid">
+                    <div class="span7 marketting-info">
+                      <h1>{{name}}</h1>
+                      <p>{{description}}
+                      </p>                   
+                    </div>
+                    <div class="span5">
+                      <img src="{{imagesrc}}" class="thumbnail">
+                    </div>
+                  </div>                  
+                </div>
+              </div>
+              {{/each}}
+          </div>
+            <a class="left carousel-control" href="#heroSlider" data-slide="prev">‹</a>
+            <a class="right carousel-control" href="#heroSlider" data-slide="next">›</a>
+          </div>
+        </div>
+      </div>
+      <!-- End: slider -->
+      <!-- Start: PRODUCT LIST -->
+        <div class="container">
+          <div class="page-header">
+            <h2>Hobbies in a Glance</h2>
+          </div>
+          <div class="row-fluid">
+            <ul class="thumbnails">
+
+
+              {{#each hobbies}}
+              <li class="span4">
+                <div class="thumbnail">
+                  <img src="{{imagesrc}}" alt="product name">
+                  <div class="caption">
+                    <h3>{{name}}</h3>
+                   
+                  </div>
+                  <div class="widget-footer">
+                    <p>
+                     
+                      <!--add link here-->
+                      <a href="#" class="btn">Read more</a>
+                    </p>
+                  </div>
+                </div>
+              </li>
+              {{/each}}
+             </ul>
+                  </div>
+
+
+                  <footer>
+      <div class="container">
+        <div class="row">
+         
+          <div class="span2">
+            <h4><i class="icon-beaker icon-white"></i> About us</h4>
+            <nav>
+              <ul class="quick-links">
+                <!--<li><a href="our_works.html">Our Aim</a></li>-->
+                <li><a href="patnerships.html">Partners</a></li>
+                <!--<li><a href="leadership.html">Leadership</a></li>-->
+                <!--<li><a href="news.html">Forums</a></li>-->
+                <li><a href="contact_us.html">Contact us</a></li>
+                <!--<li><a href="blog.html">Blog</a></li>-->
+              </ul>
+            </nav>          
+          </div>
+          
+          <div class="span3">
+            <h4>Get in touch</h4>
+            <div class="social-icons-row">
+              <a href="#"><i class="icon-twitter"></i></a>
+              <a href="#"><i class="icon-facebook"></i></a>
+              <a href="#"><i class="icon-linkedin"></i></a>                                         
+            </div>
+            <div class="social-icons-row">
+              <a href="#"><i class="icon-google-plus"></i></a>              
+              <a href="#"><i class="icon-github"></i></a>
+              <a href="#"><i class="icon-envelope"></i></a>        
+            </div>
+            
+          </div>      
+          
+        </div>
+      </div>
+      <hr class="footer-divider">
+      <div class="container">
+        <p>
+          &copy; 2014-3000 The HobbyBar, DA-IICT, Inc. All Rights Reserved.
+        </p>
+      </div>
+    </footer>
+</div>
+{{/if}}
+</div>
+
+</template>

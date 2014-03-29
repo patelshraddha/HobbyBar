@@ -2,6 +2,8 @@
   "packages": {
     "router": {},
     "mini-pages": {},
-    "iron-router": {}
+    "iron-router": {},
+    "bootstrap-3": {},
+    "bootboxjs": {}
   }
 }
