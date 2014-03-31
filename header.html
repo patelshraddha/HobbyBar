@@ -61,6 +61,7 @@
                 if(err) {
                         
                 } else {
+                    window.location.href = '/user/'+Meteor.userId();
                     box.modal('hide');
                     Meteor.call('incrementcount',Meteor.userId(),function(error, affectedDocs) {
                      if (error) {
@@ -74,7 +75,7 @@
             "
                     >
                       <i class="icon-twitter icon-large"></i>
-                      Signin with Twitter
+                     
                     </a>
                   </li>
                   <li>
@@ -85,6 +86,7 @@
                 if(err) {
                     
                 } else {
+                     window.location.href = '/user/'+Meteor.userId();
                      box.modal('hide');
                      Meteor.call('incrementcount',Meteor.userId(),function(error, affectedDocs) {
                      if (error) {
@@ -97,7 +99,7 @@
                 }
             });">
                       <i class="icon-facebook icon-large"></i>
-                      Signin with Facebook
+                      
                     </a>
                   </li>
                   <li>
@@ -109,6 +111,7 @@
                 if(err) {
                         
                 } else {
+                    window.location.href = '/user/'+Meteor.userId();
                     box.modal('hide');
                     Meteor.call('incrementcount',Meteor.userId(),function(error, affectedDocs) {
                      if (error) {
@@ -120,7 +123,7 @@
                 }
             });">
                       <i class="icon-google-plus icon-large"></i>
-                      Signin with Google
+                     
                     </a>
                   </li>
 

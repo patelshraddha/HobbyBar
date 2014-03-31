@@ -2,13 +2,44 @@ Hobbies = new Meteor.Collection("hobbies");
  
 
 Router.configure({
-  layoutTemplate: 'layout'
+  layoutTemplate: 'layout',
+  loadingTemplate: 'loading',
+  notFoundtemplate: 'notFound'
 });
+
+
+
 
 Router.map(function() {
   this.route('home', {path: '/'});
   this.route('home');
   this.route('contact');
+
+
+
+  this.route('hobby', {
+  path: '/hobby/:hobbyname',
+  data: function (){
+    hobbyname  = this.params.hobbyname;
+    templateData = {
+      hobbyname: hobbyname,
+        };
+    return templateData;  }  });
+
+
+  this.route('user', {
+  path: '/user/:userid',
+  data: function (){
+    userid  = this.params.userid;
+    templateData = {
+      userid: userid,
+        };
+    return templateData;  },  });
+  
+  this.route('notFound', {
+  path: '*'
+});
+
 })
 
 
@@ -16,18 +47,23 @@ Router.map(function() {
 if (Meteor.isClient) {
  
    Meteor.startup(function () {
-   Session.set('data','<html><head><script type="text/javascript">function init(){var button = document.getElementById("twitterbutton");if(button.addEventListener){button.addEventListener("click", function() {Meteor.loginWithTwitter({equestPermissions: ["email"]}, function (err) {if(err) {} else {Meteor.call("incrementcount",Meteor.userId(),function(error, affectedDocs) {if (error) {console.log(error.message);} else {}});}});}, false);}else if(button.attachEvent){button.attachEvent("onclick", function() { alert("alert");});}};if(window.addEventListener){window.addEventListener("load", init, false);}else if(window.attachEvent){window.attachEvent("onload", init);} else{document.addEventListener("load", init, false);}</script></head><body><h4><i class="icon-thumbs-up"></i> Sign in with third party account</h4><ul class="signin-with-list"><li><a class="btn-twitter" id="twitterbutton"><i class="icon-twitter icon-large"></i>Signin with Twitter</a></li></body></html>');
- });
+  });
 
-
-
+   
+   
+   Meteor.methods({
+     showsignin: function () {
+    var boxContentString ="Please sign in to continue";
+   boxer=bootbox.dialog(boxContentString);
+  }
+});
 
 
  Template.header.events({
     'click #signin' : function () {
      
   
-  var boxContentString =$('#modal-body').html();
+  var boxContentString =$('#modal-content').html();
    box=bootbox.dialog(boxContentString/*,[
      
     {

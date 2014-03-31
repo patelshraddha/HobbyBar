@@ -1,5 +1,7 @@
-<template name="userpage">
-
-
-
+<template name="user">
+{{#if currentUser}}
+{{userid}} 
+{{else}}
+    {{>home}}
+{{/if}}
 </template>
