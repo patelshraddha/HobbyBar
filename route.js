@@ -1,9 +1,9 @@
 var IR_BeforeHooks = {
     isLoggedIn: function() {
         if (!(Meteor.loggingIn() || Meteor.user())) {
-         
-          alert("Please login");
-          this.render('home');
+          this.redirect('/');
+          bootbox.alert("Please sign in to continue.", function() {
+          });
            this.stop();
         }
     }
@@ -12,6 +12,6 @@ var IR_BeforeHooks = {
 }
 
 // (Global) Before hooks for any route
-//Router.before(IR_BeforeHooks.isLoggedIn,{only: ['contact']});
+Router.before(IR_BeforeHooks.isLoggedIn,{except: ['contact','home']});
 
 

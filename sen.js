@@ -3,8 +3,7 @@ Hobbies = new Meteor.Collection("hobbies");
 
 Router.configure({
   layoutTemplate: 'layout',
-  loadingTemplate: 'loading',
-  notFoundtemplate: 'notFound'
+  loadingTemplate: 'loading'
 });
 
 
@@ -21,10 +20,7 @@ Router.map(function() {
   path: '/hobby/:hobbyname',
   data: function (){
     hobbyname  = this.params.hobbyname;
-    templateData = {
-      hobbyname: hobbyname,
-        };
-    return templateData;  }  });
+    return Hobbies.findOne({name: hobbyname}); }  });
 
 
   this.route('user', {
@@ -35,7 +31,7 @@ Router.map(function() {
       userid: userid,
         };
     return templateData;  },  });
-  
+
   this.route('notFound', {
   path: '*'
 });
@@ -235,7 +231,7 @@ if (Meteor.isServer) {
 });
   Accounts.onCreateUser(function (options, user) {
      
-
+   
 
     if (user.services.google !== undefined) {
       var accessToken = user.services.google.accessToken,

@@ -1,7 +1,5 @@
 <template name="user">
-{{#if currentUser}}
-{{userid}} 
-{{else}}
-    {{>home}}
-{{/if}}
+ <a href="#">{{currentUser.profile.name}}</a>
+ <p> Here we are</p>
+{{currentUser.profile.name}}
 </template>
