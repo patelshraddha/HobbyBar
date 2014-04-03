@@ -1,8 +1,17 @@
 <template name="hobby">
-<div class="hobbycontainer" style="background: url('{{imagesrc}}');background-size: cover;height:100%;width:100%" >
 
-<p>{{name}}</p> 
-<img style="height: 50px" src=" {{imagesrc}}" />
+<div class="hobbycontainer" style="background: url('{{imagesrc}}');background-size: cover;height:100%;width:100%" >
+	<div class="bg-opac" style="
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.01);"></div>
+    <div>
+    	<h1 class="heading">{{name}}</h1>
+    	<div class="h-text">{{description}}</div>
+    </div>
 <div class="page-scroll">
                             <a href="#" class="btn btn-circle" id="navigator">
                                 <i class="fa fa-angle-double-down animated"></i>

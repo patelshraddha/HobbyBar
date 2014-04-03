@@ -4,6 +4,66 @@ body, html {
   width:100%;
 }
 
+.p-heading
+{
+	text-transform: uppercase;
+    font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 400;
+    font-size: 25px;
+    font-weight: 400;
+    margin-left: 30px;
+    margin-top: 30px;
+
+}
+.form{
+	margin-top: 50px;
+	position:absolute;
+	right: 200px;
+	left: 300px;
+	width: 600px;
+	padding: 50px;
+	height: 500px;
+	vertical-align: center;
+	align : center;
+	background: url('../images/content.png');
+	color: black;
+	-moz-border-radius: 30px;
+ border-radius: 15px;
+    padding:10px;
+
+}
+.form-only
+{
+	opacity: 0.3;
+}
+.q-topic
+ {
+ 	margin-top: 10px;
+ 	margin-left: 30px;
+   background: white;
+   box-shadow: 2px;
+   border: 2px;
+   height: 50px;
+   width :500px;
+     -moz-border-radius: 30px;
+ border-radius: 15px;
+    border:solid 3px #A4A4A4; 
+    padding:10px;
+ }
+
+ .q-descrip{
+   background: white;
+   margin-left: 30px;
+   box-shadow: 2px;
+   border: 2px;
+   height: 200px;
+   width :500px;
+     -moz-border-radius: 30px;
+ border-radius: 15px;
+    border:solid 3px #A4A4A4; 
+    padding:10px;
+ }
+
 .tester {
 display:none;
 }
