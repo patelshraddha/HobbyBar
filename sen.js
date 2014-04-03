@@ -13,7 +13,7 @@ Router.map(function() {
   this.route('home', {path: '/'});
   this.route('home');
   this.route('contact');
-
+  this.route('test');
 
 
   this.route('hobby', {
@@ -177,10 +177,13 @@ if (Meteor.isClient) {
 
   Template.test.events({
   "click #hi": function(e, tmpl){
-           alert("you clicked");
+          /* alert("you clicked");
             $("#div1").fadeIn();
     $("#div2").fadeIn("slow");
-    $("#div3").fadeIn("slow");
+    $("#div3").fadeIn("slow");*/
+         $('html, body').animate({
+        scrollTop: $("#div5").offset().top
+    }, 1000);
           
         },
 

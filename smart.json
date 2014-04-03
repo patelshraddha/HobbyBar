@@ -4,6 +4,7 @@
     "mini-pages": {},
     "iron-router": {},
     "bootstrap-3": {},
-    "bootboxjs": {}
+    "bootboxjs": {},
+    "font-awesome": {}
   }
 }

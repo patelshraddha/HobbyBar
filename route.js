@@ -12,6 +12,6 @@ var IR_BeforeHooks = {
 }
 
 // (Global) Before hooks for any route
-Router.before(IR_BeforeHooks.isLoggedIn,{except: ['contact','home']});
+//Router.before(IR_BeforeHooks.isLoggedIn,{except: ['contact','home','notFound']});
 
 
