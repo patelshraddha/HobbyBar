@@ -2,17 +2,46 @@
 body, html {
   height: 100%;
   width:100%;
+
 }
+
+
+
+@font-face {
+    font-family: Reenie Beanie; 
+    src:url("../fonts/ReenieBeanie.ttf");
+}
+
+
+/*hobby part*/
+.pos {
+position: absolute;
+bottom:10px;
+right:600px;
+}
+
+.suscribebutton {
+position: absolute;
+bottom:500px;
+right:600px; 
+}
+
+.newposter {
+position: absolute;
+bottom:400px;
+right:600px; 
+}
+
 
 .p-heading
 {
 	text-transform: uppercase;
     font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
-    font-weight: 400;
-    font-size: 25px;
-    font-weight: 400;
+    font-weight: bolder;
+    font-size: 40px;
     margin-left: 30px;
     margin-top: 30px;
+    color: #3B170B;
 
 }
 .form{
@@ -25,7 +54,7 @@ body, html {
 	height: 500px;
 	vertical-align: center;
 	align : center;
-	background: url('../images/content.png');
+	background: url('../images/texture1.jpg');
 	color: black;
 	-moz-border-radius: 30px;
  border-radius: 15px;
@@ -47,7 +76,7 @@ body, html {
    width :500px;
      -moz-border-radius: 30px;
  border-radius: 15px;
-    border:solid 3px #A4A4A4; 
+    border:solid 3px #3B170B; 
     padding:10px;
  }
 
@@ -60,7 +89,7 @@ body, html {
    width :500px;
      -moz-border-radius: 30px;
  border-radius: 15px;
-    border:solid 3px #A4A4A4; 
+    border:solid 3px #3B170B; 
     padding:10px;
  }
 
@@ -68,11 +97,147 @@ body, html {
 display:none;
 }
 
+
+
+.posts {
+  font-family:arial,sans-serif;
+  font-size:100%;
+  margin:0em;
+  background-color:#160700;
+  color:#fff;
+
+}
+
+.posts h2,p{
+  font-size:100%;
+  font-weight:normal;
+}
+
+.posts ul li h2{
+    font-family:"Reenie Beanie",arial,sans-serif;
+     font-size:250%;
+}
+
+
+.posts ul,li{
+  list-style:none;
+}
+.posts ul{
+  overflow:hidden;
+  padding:3em;
+}
+
+.posts ul li{
+  margin:1em;
+  float:left;
+}
+.posts ul li h2{
+  font-size:140%;
+  font-weight:bold;
+  padding-bottom:10px;
+}
+.posts ul li p{
+  font-family:"Reenie Beanie",arial,sans-serif;
+  font-size:180%;
+}
+
+
+.posts ul li:nth-child(even) a{
+  -o-transform:rotate(6deg);
+  -webkit-transform:rotate(6deg);
+  -moz-transform:rotate(6deg);
+  position:relative;
+  top:5px;
+}
+
+.posts ul li:nth-child(3n) a{
+  -o-transform:rotate(-4deg);
+  -webkit-transform:rotate(-4deg);
+  -moz-transform:rotate(-4deg);
+  position:relative;
+  top:-5px;
+}
+.posts ul li:nth-child(5n) a{
+  -o-transform:rotate(10deg);
+  -webkit-transform:rotate(10deg);
+  -moz-transform:rotate(10deg);
+  position:relative;
+  top:-10px;
+}
+
+.posts ul li:nth-child(odd) a:hover,ul li a:focus{
+  -moz-box-shadow:10px 10px 7px rgba(0,0,0,.7);
+  -webkit-box-shadow: 10px 10px 7px rgba(0,0,0,.7);
+  box-shadow:10px 10px 7px rgba(0,0,0,.7);
+  -webkit-transform: scale(1.5);
+  -moz-transform: scale(1.5);
+  -o-transform: scale(1.5);
+  position:relative;
+  z-index:5;
+}
+
+.posts ul li:nth-child(even) a:hover,ul li a:focus{
+  -moz-box-shadow:10px 10px 7px rgba(0,0,0,.7);
+  -webkit-box-shadow: 10px 10px 7px rgba(0,0,0,.7);
+  box-shadow:10px 10px 7px rgba(0,0,0,.7);
+  -webkit-transform: scale(1.5);
+  -moz-transform: scale(1.5);
+  -o-transform: scale(1.5);
+  position:relative;
+  z-index:5;
+}
+
+
+
+
+
+.posts ul li:nth-child(even) a{
+  -o-transform:rotate(4deg);
+  -webkit-transform:rotate(4deg);
+  -moz-transform:rotate(4deg);
+  position:relative;
+  top:5px;
+  background:#cfc;
+}
+.posts ul li:nth-child(3n) a{
+  -o-transform:rotate(-3deg);
+  -webkit-transform:rotate(-3deg);
+  -moz-transform:rotate(-3deg);
+  position:relative;
+  top:-5px;
+  background:#ccf;
+}
+
+.posts ul li a{
+  text-decoration:none;
+  color:#000;
+  background:#ffc;
+  display:block;
+  height:14em;
+  width:13em;
+  padding:1em;
+  margin-right: 3em;
+  -moz-box-shadow:5px 5px 7px rgba(33,33,33,1);
+  -webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+  box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+  -moz-transition:-moz-transform .15s linear;
+  -o-transition:-o-transform .15s linear;
+  -webkit-transition:-webkit-transform .15s linear;
+}
+
+
+
+
+
+
+
+
 .container {
 padding-left:auto;
 margin-right: auto;
 margin-left: auto;
 width:auto;
+
 }
 
 .maker {

@@ -1,9 +1,13 @@
 Hobbies = new Meteor.Collection("hobbies");
- 
+Posts =new Meteor.Collection("posts");
+
 
 Router.configure({
   layoutTemplate: 'layout',
-  loadingTemplate: 'loading'
+  loadingTemplate: 'loading',
+  after: function () {
+        Session.set('hash', this.params.hash);
+    },
 });
 
 
@@ -14,11 +18,23 @@ Router.map(function() {
   this.route('home');
   this.route('contact');
   this.route('test');
-  this.route('post-question');
+  this.route('newpost', {
+  path: '/:hobbyname/newpost',
+  waitOn:function(){
+            return Meteor.subscribe("hobbylist");
+        },
+  data: function (){
+    hobbyname  = this.params.hobbyname;
+    return Hobbies.findOne({name: hobbyname}); }  });
+
+  this.route('posts');
 
 
-  this.route('hobby', {
-  path: '/hobby/:hobbyname',
+  this.route('hobbymain', {
+  path: '/:hobbyname/main',
+  waitOn:function(){
+            return Meteor.subscribe("hobbylist");
+        },
   data: function (){
     hobbyname  = this.params.hobbyname;
     return Hobbies.findOne({name: hobbyname}); }  });
@@ -44,6 +60,7 @@ Router.map(function() {
 if (Meteor.isClient) {
  
    Meteor.startup(function () {
+    
   });
 
    
@@ -54,6 +71,58 @@ if (Meteor.isClient) {
    boxer=bootbox.dialog(boxContentString);
   }
 });
+
+
+
+
+
+
+Template.hobbymain.rendered = function() {
+    $("html,body").animate({scrollTop: 0},500);
+    $(document).keydown(function(e) {
+    switch(e.which) {
+        case 37: // left
+        break;
+
+        case 38: $("html,body").animate({scrollTop: 0},500);
+        break;
+
+        case 39: // right
+        break;
+
+        case 40:  $('html, body').animate({scrollTop:$('#posts').offset().top-75}, 'slow');
+        break;
+
+        default: return; // exit this handler for other keys
+    }
+    e.preventDefault(); // prevent the default action (scroll / move caret)
+    });
+    var showChar = 100;
+    var ellipsestext = "...";
+    var moretext = "more";
+    var lesstext = "less";
+    $(".more").each(function() {
+
+        var content = $(this).html();
+ 
+        if(content.length > showChar) {
+            
+            var c = content.substr(0, showChar);
+            var h = content.substr(showChar-1, content.length - showChar);
+ 
+            var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>';
+            $(this).html(html);
+        }
+ 
+    });
+}
+Template.contact.rendered = function() {
+  $("html,body").animate({scrollTop: 0},500);
+}
+Template.user.rendered = function() {
+  $("html,body").animate({scrollTop: 0},500);
+}
+
 
 
  Template.header.events({
@@ -105,10 +174,113 @@ if (Meteor.isClient) {
 
 
 
- Meteor.subscribe("messages");
+ 
  Meteor.subscribe("userData");
+ 
+
+
+  Template.hobbymain.events({
+  "click #suscribe": function(e, tmpl) {
+    Meteor.call('addhobby',this.hobbyid);
+       },
+  "click #previous": function(e, tmpl) {
+         alert(pageNumber);
+         if(pageNumber!=0)
+            pageNumber=pageNumber-1;
+       },
+  "click #next": function(e, tmpl) {
+       pageNumber=pageNumber+1;
+      alert(pageNumber);
+       },
+  "click #unsuscribe": function(e, tmpl) {
+    Meteor.call('removehobby',this.hobbyid);
+       },
+  "click #navigator": function(e, tmpl){
+         $('html, body').animate({scrollTop:$('#posts').offset().top-75}, 'slow');
+
+          
+        },
+
+    
+
+   });
+
+
+
+  Template.newpost.rendered = function() {
+  $("html,body").animate({scrollTop: 0},500);
+  $(document).keyup(function(e) {
+
+  if (e.keyCode == 27) {window.location = '/'+hobbyname+'/main';}   // esc
+});
+}
+
+  Template.newpost.events({
+  
+  "click #post": function(e, tmpl){
+         var y=$('#data').val();
+         var x=$('#topic').val();
+         
+         if (x==null || x=="")
+         {
+           alert("No heading of post found!!!!");
+           return false;
+         }
+         if(y==null || y=="")
+        {
+          alert("No data found :(");
+          return false;
+        }
+        if(_.contains(Meteor.user().suscribed,this.hobbyid))
+        {
+          
+          
+          Meteor.call('addpost',this.hobbyid,x,y);
+          window.location = '/'+this.name+'/main';
+          return true;
+        }
+        else
+        {
+          alert('You are not suscribed!!');
+          return false;
+        }
+
+          
+        },
+
+    
+
+   });
+
+
+
+
+
+  Template.hobbymain.helpers({
+    checkhobby: function() {
+      if(this.hobbyid==undefined)
+        return false;
+      else
+       return !_.contains(Meteor.user().suscribed,this.hobbyid);
+      
+    },
+    filterpost: function() {
+      if(this.hobbyid==undefined)
+        return null;
+      else
+      {
+        pageNumber=0;
+        return Posts.find({hobbyid:this.hobbyid},{sort:{timeval: -1}}).fetch().slice(pageNumber*8,(pageNumber+1)*8);
+        //return Meteor.call('getposts',this.hobbyid,pageNumber);
+      }
+    },
+
+
+  })
+
   Template.header.events({
   "click #logout": function(e, tmpl) {
+
     Meteor.logout();
        }
    });
@@ -149,10 +321,26 @@ if (Meteor.isClient) {
 
   Template.home.rendered = function () {
 
-  Session.set('data',Template.signin.data);
-  console.log(Template.signin.data);
-   
-  $("document").ready(function() {
+  $("html,body").animate({scrollTop: 0},1000);
+  $(document).keydown(function(e) {
+    switch(e.which) {
+        /*case 37: // left
+        break;*/
+
+        case 38: $("html,body").animate({scrollTop: 0},500);
+        break;
+
+      /*  case 39: // right
+        break;
+
+        case 40:  $('html, body').animate({scrollTop:$('#posts').offset().top-75}, 'slow');
+        break;*/
+
+        default: return; // exit this handler for other keys
+    }
+    e.preventDefault(); // prevent the default action (scroll / move caret)
+    }); 
+  
  
   
    
@@ -166,10 +354,6 @@ if (Meteor.isClient) {
   $('.carousel').carousel({
       interval: 4000
    });
-   $('.left carousel-control').click();  
-
-
-});
 };
 
  
@@ -183,7 +367,7 @@ if (Meteor.isClient) {
     $("#div2").fadeIn("slow");
     $("#div3").fadeIn("slow");*/
          $('html, body').animate({
-        scrollTop: $("#div5").offset().top
+        scrollTop: $("#div5").offset().top+230
     }, 1000);
           
         },
@@ -215,8 +399,59 @@ if (Meteor.isServer) {
         return "Update Successful";
       }
     });
+  },
+  addhobby: function (hobbyid) {
+    
+    Meteor.users.update({
+      _id: Meteor.userId()
+    }, {
+      $addToSet: {
+        
+        suscribed : hobbyid
+
+      }
+    }, function(error, affectedDocs) {
+      if (error) {
+        throw new Meteor.Error(500, error.message);
+      } else {
+        return "Update Successful";
+      }
+    });
+  },
+  getposts: function(hobbyid,pageNumber)
+  {
+    Posts.find({hobbyid:hobbyid},{sort:{timeval: -1}}).fetch().slice(pageNumber*8,(pageNumber+1)*8);
+  },
+  removehobby: function (hobbyid) {
+    
+    Meteor.users.update({
+      _id: Meteor.userId()
+    }, {
+      $pull: {
+        
+        suscribed : hobbyid
+
+      }
+    }, function(error, affectedDocs) {
+      if (error) {
+        throw new Meteor.Error(500, error.message);
+      } else {
+        return "Update Successful";
+      }
+    });
+  },
+  addpost: function (hobbyid,topic,data) {
+    Posts.insert({hobbyid:hobbyid,data:data,topic:topic,userid:Meteor.userId(),likes:1,likeusers:[Meteor.userId()],timestamp:new Date(),timeval:((new Date).valueOf())});
   }
+
+
+
+
+
+
 });
+
+
 
 
 
@@ -230,8 +465,13 @@ if (Meteor.isServer) {
   }
 });
 
-  Meteor.publish("messages", function() {
-    return Meteor.users.find();
+  Meteor.publish("hobbylist", function() {
+    if (this.userId) {
+    return Meteor.users.find({_id: this.userId},
+                             {fields: {'suscribed':1}});
+  } else {
+    this.ready();
+  }
 });
   Accounts.onCreateUser(function (options, user) {
      
@@ -268,6 +508,7 @@ if (Meteor.isServer) {
 
         // console.log(profile);
         user.profile = profile;
+        user.suscribed=[];
         user.count= 0;
         return user;
   }
@@ -275,7 +516,9 @@ else if (user.services.facebook !== undefined) {
     if (options.profile) {
         options.profile.picture = "http://graph.facebook.com/" + user.services.facebook.id + "/picture/?type=large";
         user.profile = options.profile;
+        
     }
+    user.suscribed=[];
     user.count= 0;
     return user;
 }
@@ -283,6 +526,7 @@ else if (user.services.twitter !== undefined) {
     if (options.profile) {
         user.profile = options.profile;
     }
+    user.suscribed=[];
     user.count= 0;
     return user;
 }

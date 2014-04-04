@@ -43,6 +43,7 @@
 .content {
   padding: 30px 0;
   background: url('../images/content.png');
+  background-attachment:fixed;
 }
 .thumbnail img {
   width: 100%;

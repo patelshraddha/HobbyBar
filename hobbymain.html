@@ -1,0 +1,50 @@
+<template name="hobbymain">
+<div class="hobbycontainer" style="background: url('{{imagesrc}}');background-size: cover;height:100%;width:100%;background-attachment:fixed;" >
+ 
+	
+    <div class="page-scroll">
+		 <a href="#" class="btn btn-circle pos" id="navigator">
+ 	 	 <i class="fa fa-angle-double-down animated"></i>
+     	 </a>                       
+    </div>
+
+
+    <div>
+
+    	{{#if checkhobby}}
+    	   <button id="suscribe" class="suscribebutton">Suscribe</button>
+
+         
+    	   {{else}}
+         <a href="/{{name}}/newpost" class="newposter"><button>New post</button></a>
+    	   <button id="unsuscribe" class="suscribebutton">Unsuscribe</button>
+    	{{/if}}
+    </div>
+  
+   
+
+</div>
+
+
+    <div class="posts" id="posts">
+      <button id='previous'> Previous </button> <button id='next'> Next</button>
+      <ul>
+        {{#each filterpost}}
+  <li>
+    <a href="#">
+      <h2>{{topic}}</h2>
+      <p><div class="more">
+         {{data}}
+</div></p>
+    </a>
+  </li>
+  {{/each}}
+  </ul>   
+
+    </div>
+
+
+
+
+
+</template>
