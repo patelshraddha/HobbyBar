@@ -33,7 +33,9 @@ Router.map(function() {
   this.route('hobbymain', {
   path: '/:hobbyname/main',
   waitOn:function(){
-            return Meteor.subscribe("hobbylist");
+    pageno=0;
+    postssuscribed=Meteor.subscribe('getposts', this.params.hobbyname,pageno);
+    return [Meteor.subscribe('hobbylist'),postssuscribed];
         },
   data: function (){
     hobbyname  = this.params.hobbyname;
@@ -78,6 +80,11 @@ if (Meteor.isClient) {
 
 
 Template.hobbymain.rendered = function() {
+   
+   
+
+
+
     $("html,body").animate({scrollTop: 0},500);
     $(document).keydown(function(e) {
     switch(e.which) {
@@ -176,6 +183,7 @@ Template.user.rendered = function() {
 
  
  Meteor.subscribe("userData");
+ Meteor.subscribe("hobbies");
  
 
 
@@ -184,15 +192,30 @@ Template.user.rendered = function() {
     Meteor.call('addhobby',this.hobbyid);
        },
   "click #previous": function(e, tmpl) {
-         alert(pageNumber);
-         if(pageNumber!=0)
-            pageNumber=pageNumber-1;
+         
+
+         if(pageno!=0)
+         {
+            pageno=pageno-1;
+            postssuscribed.stop();
+            postssuscribed=Meteor.subscribe('getposts',hobbyname,pageno);
+         }
+         
+         // $('#previous').hide();
+         
        },
   "click #next": function(e, tmpl) {
-       pageNumber=pageNumber+1;
-      alert(pageNumber);
+       
+       //$('#previous').show();
+       pageno=pageno+1;
+       
+       postssuscribed.stop();
+       postssuscribed=Meteor.subscribe('getposts',hobbyname,pageno);
+       
        },
   "click #unsuscribe": function(e, tmpl) {
+     
+     
     Meteor.call('removehobby',this.hobbyid);
        },
   "click #navigator": function(e, tmpl){
@@ -265,14 +288,8 @@ Template.user.rendered = function() {
       
     },
     filterpost: function() {
-      if(this.hobbyid==undefined)
-        return null;
-      else
-      {
-        pageNumber=0;
-        return Posts.find({hobbyid:this.hobbyid},{sort:{timeval: -1}}).fetch().slice(pageNumber*8,(pageNumber+1)*8);
-        //return Meteor.call('getposts',this.hobbyid,pageNumber);
-      }
+      
+         return Posts.find();
     },
 
 
@@ -420,7 +437,7 @@ if (Meteor.isServer) {
   },
   getposts: function(hobbyid,pageNumber)
   {
-    Posts.find({hobbyid:hobbyid},{sort:{timeval: -1}}).fetch().slice(pageNumber*8,(pageNumber+1)*8);
+    return Posts.find({hobbyid:hobbyid},{sort:{timeval: -1}}).fetch().slice(pageNumber*1,(pageNumber+1)*1);
   },
   removehobby: function (hobbyid) {
     
@@ -451,8 +468,23 @@ if (Meteor.isServer) {
 
 });
 
+ Meteor.publish("getposts",function(hobbyname,pageNumber){
+    var raceCursor = Hobbies.find({name:hobbyname});
+var races = raceCursor.fetch();
+ var hobbyid;
+for (var i=0; i<races.length; i++) {
+    console.log( races[i].raceName );
+    hobbyid=races[i].hobbyid;
+}
+    var returnCursor=Posts.find({hobbyid:hobbyid},{sort:{timeval: -1},limit:8,skip:(pageNumber*8)});
+    return returnCursor;
+ });
 
 
+
+ Meteor.publish("hobbies", function () {
+  return Hobbies.find();
+});
 
 
 

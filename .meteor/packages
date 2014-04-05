@@ -4,7 +4,6 @@
 # but you can also edit it by hand.
 
 standard-app-packages
-autopublish
 accounts-password
 accounts-ui
 accounts-google
@@ -17,3 +16,4 @@ less
 jquery
 bootboxjs
 font-awesome
+paginated-subscription

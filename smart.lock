@@ -7,7 +7,8 @@
       "iron-router": {},
       "bootstrap-3": {},
       "bootboxjs": {},
-      "font-awesome": {}
+      "font-awesome": {},
+      "paginated-subscription": {}
     },
     "packages": {
       "router": {
@@ -39,6 +40,11 @@
         "git": "https://github.com/nate-strauser/meteor-font-awesome.git",
         "tag": "v4.0.3",
         "commit": "61e9361384347547ae144f8228faa4deffda23db"
+      },
+      "paginated-subscription": {
+        "git": "https://github.com/tmeasday/meteor-paginated-subscription.git",
+        "tag": "v0.1.2",
+        "commit": "35e0c6112df2b4cfeb60b559276a93cac5ee2dd6"
       },
       "page-js-ie-support": {
         "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",
