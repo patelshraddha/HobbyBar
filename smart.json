@@ -6,6 +6,7 @@
     "bootstrap-3": {},
     "bootboxjs": {},
     "font-awesome": {},
-    "paginated-subscription": {}
+    "paginated-subscription": {},
+    "popcorn": {}
   }
 }

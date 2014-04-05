@@ -17,6 +17,7 @@
          
     	   {{else}}
          <a href="/{{name}}/newpost" class="newposter"><button>New post</button></a>
+         <a href="/{{name}}/newvideopost" class="newvideoposter"><button>New video post</button></a>
     	   <button id="unsuscribe" class="suscribebutton">Unsuscribe</button>
     	{{/if}}
     </div>
@@ -29,15 +30,28 @@
     <div class="posts" id="posts">
       <button id='previous'> Previous </button> <button id='next'> Next</button>
       <ul>
-        {{#each filterpost}}
-  <li>
+    {{#each filterpost}}
+    <li>
     <a href="#">
-      <h2>{{topic}}</h2>
-      <p><div class="more">
-         {{data}}
-</div></p>
+      <h2><div class="headermore">{{topic}}</div></h2>
+      <p><div class="more">{{data}}</div></p>
     </a>
-  </li>
+   </li>
+  {{/each}}
+  </ul>   
+
+    </div>
+
+    <div class="videoposts">
+      <button id='vprevious'> Previous </button> <button id='vnext'> Next</button>
+      <ul>
+    {{#each filtervideopost}}
+    <li>
+    <a href="#">
+      <h2><div class="headermore">{{topic}}</div></h2>
+      <img src='{{picurl}}'/>
+    </a>
+   </li>
   {{/each}}
   </ul>   
 

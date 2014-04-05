@@ -31,6 +31,11 @@ position: absolute;
 bottom:400px;
 right:600px; 
 }
+.newvideoposter {
+position: absolute;
+bottom:300px;
+right:600px; 
+}
 
 
 .p-heading
@@ -61,6 +66,29 @@ right:600px;
     padding:10px;
 
 }
+
+
+.videoform{
+  margin-top: 50px;
+  position:absolute;
+  right: 200px;
+  left: 300px;
+  width: 600px;
+  padding: 50px;
+  height: 400px;
+  vertical-align: center;
+  align : center;
+  background: url('../images/texture1.jpg');
+  color: black;
+  -moz-border-radius: 30px;
+ border-radius: 15px;
+    padding:10px;
+
+}
+
+
+
+
 .form-only
 {
 	opacity: 0.3;
@@ -107,6 +135,70 @@ display:none;
   color:#fff;
 
 }
+
+
+.videoposts {
+  font-family:arial,sans-serif;
+  font-size:100%;
+  margin:0em;
+  background-color:#160700;
+  color:#fff;
+
+}
+
+.videoposts h2,p{
+  font-size:100%;
+  font-weight:normal;
+}
+
+.videoposts ul li h2{
+    font-family:"Reenie Beanie",arial,sans-serif;
+     font-size:250%;
+}
+
+
+.videoposts ul,li{
+  list-style:none;
+}
+.videoposts ul{
+  overflow:hidden;
+  padding:3em;
+}
+
+.videoposts ul li{
+  margin:1em;
+  float:left;
+}
+.videoposts ul li h2{
+  font-size:140%;
+  font-weight:bold;
+  padding-bottom:10px;
+}
+.videoposts ul li p{
+  font-family:"Reenie Beanie",arial,sans-serif;
+  font-size:180%;
+}
+
+
+.videoposts ul li a{
+  text-decoration:none;
+  color:#000;
+  background:white;
+  display:block;
+  height:14em;
+  width:13em;
+  padding:1em;
+  margin-right: 3em;
+  -moz-box-shadow:5px 5px 7px rgba(33,33,33,1);
+  -webkit-box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+  box-shadow: 5px 5px 7px rgba(33,33,33,.7);
+  -moz-transition:-moz-transform .15s linear;
+  -o-transition:-o-transform .15s linear;
+  -webkit-transition:-webkit-transform .15s linear;
+}
+
+
+
 
 .posts h2,p{
   font-size:100%;

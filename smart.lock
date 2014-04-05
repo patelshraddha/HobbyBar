@@ -8,7 +8,8 @@
       "bootstrap-3": {},
       "bootboxjs": {},
       "font-awesome": {},
-      "paginated-subscription": {}
+      "paginated-subscription": {},
+      "popcorn": {}
     },
     "packages": {
       "router": {
@@ -45,6 +46,11 @@
         "git": "https://github.com/tmeasday/meteor-paginated-subscription.git",
         "tag": "v0.1.2",
         "commit": "35e0c6112df2b4cfeb60b559276a93cac5ee2dd6"
+      },
+      "popcorn": {
+        "git": "https://github.com/santihbc/meteor-popcorn-js.git",
+        "tag": "v0.1.0",
+        "commit": "20c5e438f0d1634f7c2ca3b0f78ac0bf63cb2e7c"
       },
       "page-js-ie-support": {
         "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",

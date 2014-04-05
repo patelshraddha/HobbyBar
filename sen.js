@@ -1,5 +1,6 @@
 Hobbies = new Meteor.Collection("hobbies");
 Posts =new Meteor.Collection("posts");
+Videoposts=new Meteor.Collection("videoposts");
 
 
 Router.configure({
@@ -18,6 +19,7 @@ Router.map(function() {
   this.route('home');
   this.route('contact');
   this.route('test');
+  this.route('vid');
   this.route('newpost', {
   path: '/:hobbyname/newpost',
   waitOn:function(){
@@ -30,12 +32,26 @@ Router.map(function() {
   this.route('posts');
 
 
+  this.route('newvideopost', {
+  path: '/:hobbyname/newvideopost',
+  waitOn:function(){
+            return Meteor.subscribe("hobbylist");
+        },
+  data: function (){
+    hobbyname  = this.params.hobbyname;
+    return Hobbies.findOne({name: hobbyname}); }  });
+
+
+
+
   this.route('hobbymain', {
   path: '/:hobbyname/main',
   waitOn:function(){
     pageno=0;
+    vpageno=0;
     postssuscribed=Meteor.subscribe('getposts', this.params.hobbyname,pageno);
-    return [Meteor.subscribe('hobbylist'),postssuscribed];
+    videopostssuscribed=Meteor.subscribe('getvideoposts', this.params.hobbyname,vpageno);
+    return [Meteor.subscribe('hobbylist'),postssuscribed,videopostssuscribed];
         },
   data: function (){
     hobbyname  = this.params.hobbyname;
@@ -86,6 +102,24 @@ Template.hobbymain.rendered = function() {
 
 
     $("html,body").animate({scrollTop: 0},500);
+   /* var example = Popcorn.youtube(
+           '#video',
+           'http://www.youtube.com/watch?v=CxvgCLgwdNk' );
+ 
+         // add a footnote at 2 seconds, and remove it at 6 seconds
+         example.footnote({
+           start: 2,
+           end: 6,
+           text: "Pop!",
+           target: "footnotediv"
+         });
+ 
+         // play the video right away*/
+        
+
+
+
+
     $(document).keydown(function(e) {
     switch(e.which) {
         case 37: // left
@@ -104,24 +138,35 @@ Template.hobbymain.rendered = function() {
     }
     e.preventDefault(); // prevent the default action (scroll / move caret)
     });
+    var showheading=50;
     var showChar = 100;
     var ellipsestext = "...";
-    var moretext = "more";
-    var lesstext = "less";
-    $(".more").each(function() {
-
+    $('.more').each(function() {
         var content = $(this).html();
- 
         if(content.length > showChar) {
-            
+ 
             var c = content.substr(0, showChar);
             var h = content.substr(showChar-1, content.length - showChar);
  
-            var html = c + '<span class="moreellipses">' + ellipsestext+ '&nbsp;</span><span class="morecontent"><span>';
+            var html = c + '<span class="moreellipses">' + ellipsestext;
             $(this).html(html);
         }
  
     });
+    $(".headermore").each(function() {
+
+        var content = $(this).html();
+ 
+        if(content.length > showheading) {
+            
+            var c = content.substr(0, showheading);
+            var h = content.substr(showheading-1, content.length - showheading);
+            var html = c + '<span class="moreellipses">' + ellipsestext;
+            $(this).html(html);
+        }
+ 
+    });
+
 }
 Template.contact.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
@@ -201,7 +246,7 @@ Template.user.rendered = function() {
             postssuscribed=Meteor.subscribe('getposts',hobbyname,pageno);
          }
          
-         // $('#previous').hide();
+         
          
        },
   "click #next": function(e, tmpl) {
@@ -213,6 +258,32 @@ Template.user.rendered = function() {
        postssuscribed=Meteor.subscribe('getposts',hobbyname,pageno);
        
        },
+  "click #vprevious": function(e, tmpl) {
+         
+
+         if(vpageno!=0)
+         {
+            vpageno=vpageno-1;
+            videopostssuscribed.stop();
+            videopostssuscribed=Meteor.subscribe('getvideoposts',hobbyname,vpageno);
+         }
+         
+         
+         
+       },
+  "click #vnext": function(e, tmpl) {
+       
+       //$('#previous').show();
+       vpageno=vpageno+1;
+       
+       videopostssuscribed.stop();
+       videopostssuscribed=Meteor.subscribe('getvideoposts',hobbyname,vpageno);
+       
+       },
+
+
+
+
   "click #unsuscribe": function(e, tmpl) {
      
      
@@ -229,15 +300,14 @@ Template.user.rendered = function() {
    });
 
 
-
-  Template.newpost.rendered = function() {
+ Template.newvideopost.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
   $(document).keyup(function(e) {
 
   if (e.keyCode == 27) {window.location = '/'+hobbyname+'/main';}   // esc
 });
 }
-
+  
   Template.newpost.events({
   
   "click #post": function(e, tmpl){
@@ -251,7 +321,7 @@ Template.user.rendered = function() {
          }
          if(y==null || y=="")
         {
-          alert("No data found :(");
+          alert("No url found");
           return false;
         }
         if(_.contains(Meteor.user().suscribed,this.hobbyid))
@@ -279,6 +349,75 @@ Template.user.rendered = function() {
 
 
 
+
+
+
+
+  Template.newpost.rendered = function() {
+  $("html,body").animate({scrollTop: 0},500);
+  $(document).keyup(function(e) {
+
+  if (e.keyCode == 27) {window.location = '/'+hobbyname+'/main';}   // esc
+});
+}
+
+  Template.newvideopost.events({
+  
+  "click #post": function(e, tmpl){
+         var y=$('#data').val();
+         var x=$('#topic').val();
+         
+         if (x==null || x=="")
+         {
+           alert("No heading of post found!!!!");
+           return false;
+         }
+         if(y==null || y=="")
+        {
+          alert("No data found :(");
+          return false;
+        }
+        if(_.contains(Meteor.user().suscribed,this.hobbyid))
+        {
+            var url=y;
+            if (url.indexOf('youtube.com') > -1) {
+            
+                   var id = url.split('v=')[1].split('&')[0];
+                if (!id) {
+                      alert("Not a valid youtube url");
+                      return false;
+                }
+                var m=('http://i1.ytimg.com/vi/'+id+'/hqdefault.jpg');
+                Meteor.call('addvideopost',this.hobbyid,x,y,m);
+                window.location = '/'+this.name+'/main';
+                return true;}
+           else
+           {
+             alert("Not a valid youtube url");
+             return false;
+           }
+          
+          
+        }
+        else
+        {
+          alert('You are not suscribed!!');
+          return false;
+        }
+
+          
+        },
+
+    
+
+   });   
+
+
+  })
+
+
+
+
   Template.hobbymain.helpers({
     checkhobby: function() {
       if(this.hobbyid==undefined)
@@ -290,6 +429,10 @@ Template.user.rendered = function() {
     filterpost: function() {
       
          return Posts.find();
+    },
+    filtervideopost: function() {
+      
+         return Videoposts.find();
     },
 
 
@@ -435,10 +578,6 @@ if (Meteor.isServer) {
       }
     });
   },
-  getposts: function(hobbyid,pageNumber)
-  {
-    return Posts.find({hobbyid:hobbyid},{sort:{timeval: -1}}).fetch().slice(pageNumber*1,(pageNumber+1)*1);
-  },
   removehobby: function (hobbyid) {
     
     Meteor.users.update({
@@ -459,7 +598,12 @@ if (Meteor.isServer) {
   },
   addpost: function (hobbyid,topic,data) {
     Posts.insert({hobbyid:hobbyid,data:data,topic:topic,userid:Meteor.userId(),likes:1,likeusers:[Meteor.userId()],timestamp:new Date(),timeval:((new Date).valueOf())});
+  },
+  addvideopost: function (hobbyid,topic,url,picurl) {
+    Videoposts.insert({hobbyid:hobbyid,url:url,picurl:picurl,topic:topic,userid:Meteor.userId(),likes:1,likeusers:[Meteor.userId()],timestamp:new Date(),timeval:((new Date).valueOf())});
   }
+
+
 
 
 
@@ -479,6 +623,23 @@ for (var i=0; i<races.length; i++) {
     var returnCursor=Posts.find({hobbyid:hobbyid},{sort:{timeval: -1},limit:8,skip:(pageNumber*8)});
     return returnCursor;
  });
+
+ Meteor.publish("getvideoposts",function(hobbyname,pageNumber){
+    var raceCursor = Hobbies.find({name:hobbyname});
+var races = raceCursor.fetch();
+ var hobbyid;
+for (var i=0; i<races.length; i++) {
+    console.log( races[i].raceName );
+    hobbyid=races[i].hobbyid;
+}
+    var returnCursor=Videoposts.find({hobbyid:hobbyid},{sort:{timeval: -1},limit:8,skip:(pageNumber*8)});
+    return returnCursor;
+ });
+
+
+
+
+
 
 
 
