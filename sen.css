@@ -31,10 +31,10 @@ right:600px;
 }
 
 .suscribebutton {
-position: absolute;
-bottom:500px;
-right:600px; 
-background-color:#E6E6E6;
+   position: absolute;
+   bottom:500px;
+   right:600px; 
+   background-color:#D8D8D8;
     -moz-border-radius:28px;
     -webkit-border-radius:28px;
     border-radius:28px;
@@ -43,6 +43,7 @@ background-color:#E6E6E6;
     cursor:pointer;
     color:#333029;
     font-family:arial;
+    font-weight: bold;
     font-size:17px;
     padding:5px 18px;
     text-decoration:none;
