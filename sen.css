@@ -241,10 +241,18 @@ display:none;
   font-size:140%;
   font-weight:bold;
   padding-bottom:10px;
+  /*overflow:hidden;*/
 }
 .posts ul li p{
   font-family:"Reenie Beanie",arial,sans-serif;
   font-size:180%;
+  overflow:hidden;
+}
+
+.ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 
