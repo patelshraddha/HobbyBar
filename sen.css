@@ -24,6 +24,19 @@ right:600px;
 position: absolute;
 bottom:500px;
 right:600px; 
+background-color:#E6E6E6;
+    -moz-border-radius:28px;
+    -webkit-border-radius:28px;
+    border-radius:28px;
+    border:3px solid #333029;
+    display:inline-block;
+    cursor:pointer;
+    color:#333029;
+    font-family:arial;
+    font-size:17px;
+    padding:5px 18px;
+    text-decoration:none;
+    text-shadow:1px 4px 0px #ffffff;
 }
 
 .newposter {
@@ -34,7 +47,8 @@ right:600px;
 .newvideoposter {
 position: absolute;
 bottom:300px;
-right:600px; 
+right:575px; 
+text-align: center;
 }
 
 
@@ -387,4 +401,5 @@ left:100px;
 .hero-unit h1 {
   margin: 10px 0 10px 0;
 }
+ 
  

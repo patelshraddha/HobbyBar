@@ -52,7 +52,6 @@
                           <button type="button" class="bootbox-close-button close" data-dismiss="modal" aria-hidden="true">×</button>
                           <h4><i class="icon-thumbs-up"></i> Sign in with third party account</h4>
                 <ul class="signin-with-list">
-                  <li>
                     <a class="btn-twitter" id="logintwitter" onClick=" Meteor.loginWithTwitter({
                 
                 requestPermissions: ['email']
@@ -74,11 +73,10 @@
             });
             "
                     >
-                      <i class="icon-twitter icon-large"></i>
+                      <img src="../images/social-icons/twitter.jpeg" width="50px" height="50px">
                      
                     </a>
-                  </li>
-                  <li>
+                  
                     <a class="btn-facebook" id="loginfacebook" onClick="
                        Meteor.loginWithFacebook({
                 requestPermissions: ['email','basic_info']
@@ -98,11 +96,10 @@
                     
                 }
             });">
-                      <i class="icon-facebook icon-large"></i>
+                      <img src="../images/social-icons/fb.jpeg" width="50px" height="50px">
                       
                     </a>
-                  </li>
-                  <li>
+                 
                     <a class="btn-google" id="logingoogle" onClick="Meteor.loginWithGoogle({
                 
                 requestPermissions: ['email']
@@ -122,10 +119,10 @@
                      });
                 }
             });">
-                      <i class="icon-google-plus icon-large"></i>
+                       <img src="../images/social-icons/gplus.jpeg" width="50px" height="100">
                      
                     </a>
-                  </li>
+                 
 
                   
 

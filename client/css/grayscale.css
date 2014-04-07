@@ -20,6 +20,7 @@
     text-transform: uppercase;
 }
 
+
 .h-text
 {
     position: absolute;
@@ -38,7 +39,7 @@ height: 50px;
 margin-top: 15px;
 padding: 7px 16px;
 border: 5px solid #fff;
-border-radius: 90px;
+border-radius: 90px ;
 position: absolute;
 bottom: 10px;
 right: 600px;
@@ -86,10 +87,13 @@ right: 600px;
 
 .btn-default {
     
-    color: #848484;
+    color: #3B170B;
     margin-top: 10px;
     background: white;
     margin-left: 30px;
+    margin-right: 50px;
+    border:solid 1px #3B170B; 
+
 }
 
 .btn-default:hover,
@@ -104,10 +108,6 @@ right: 600px;
     padding: 25px;
     font-size: 26px;
 }
-
-
-
-
 
 
 

@@ -144,6 +144,8 @@
 }
 .signin-with-list {
   list-style: none;
+  padding-top: 25px;
+  margin: 0 auto;
 }
 .signin-with-list > li {
   margin-top: 20px;
@@ -155,19 +157,26 @@
   cursor: pointer;
 }
 .btn-facebook {
-  background: #3679EA;
+
+  margin-top: 50px;
+  padding-left: 50px;
+  padding-right: 20px;
   -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
          border-radius: 3px;
 }
 .btn-twitter {
-  background: #53cbe9;
+  margin-top: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
   -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
          border-radius: 3px;
 }
 .btn-google {
-  background: #7288de;
+  margin-top: 50px;
+  padding-left: 20px;
+  padding-right: 20px;
   -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
          border-radius: 3px;

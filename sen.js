@@ -19,7 +19,8 @@ Router.map(function() {
   this.route('home');
   this.route('contact');
   this.route('test');
-  this.route('vid');
+  this.route('editpost');
+
   this.route('newpost', {
   path: '/:hobbyname/newpost',
   waitOn:function(){
@@ -174,6 +175,7 @@ Template.contact.rendered = function() {
 Template.user.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
 }
+
 
 
 
@@ -350,9 +352,6 @@ Template.user.rendered = function() {
 
 
 
-
-
-
   Template.newpost.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
   $(document).keyup(function(e) {
@@ -411,9 +410,6 @@ Template.user.rendered = function() {
     
 
    });   
-
-
-  })
 
 
 

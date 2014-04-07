@@ -2974,6 +2974,7 @@ input[type="submit"].btn.btn-mini {
 }
 .navbar-fixed-top {
   top: 0;
+  opacity: 0.7;
 }
 .navbar-fixed-top .navbar-inner,
 .navbar-static-top .navbar-inner {
