@@ -20,6 +20,16 @@ bottom:10px;
 right:600px;
 }
 
+.invert-color{
+ -webkit-filter: invert(100%);  
+ filter: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPg0KIDwhLS0gaHR0cDovL3VzZXJzdHlsZXMub3JnL3VzZXJzLzExNzg2NCAtLT4NCiA8ZmlsdGVyIGlkPSJpbnZlcnQiPg0KICA8ZmVDb2xvck1hdHJpeCBpbj0iU291cmNlR3JhcGhpYyIgdHlwZT0ibWF0cml4IiB2YWx1ZXM9Ig0KCS0xIDAgMCAwIDENCgkwIC0xIDAgMCAxDQoJMCAwIC0xIDAgMQ0KCTAgMCAwIDEgMCIvPg0KIDwvZmlsdGVyPg0KPC9zdmc+#invert);
+
+}
+
+.post-bg{
+  background: url("../images/n1.jpg");
+}
+
 .suscribebutton {
 position: absolute;
 bottom:500px;
@@ -81,6 +91,109 @@ text-align: center;
 
 }
 
+.postform{
+  background-image: url('../images/scroll.jpg');
+  border: 0px solid ;
+  width : 400px;
+  height: 100%;
+  margin-top: 25px;
+  position: absolute;
+  left: 175px;
+  top :150px;
+
+}
+
+.cover {
+  margin-top: 50px;
+  position: relative;
+  width: 500px;
+  height: 550px;
+  margin: 20px auto;
+  background: url("../images/n5.jpeg");
+  z-index: 1;
+  padding: 10px;
+  
+  -webkit-box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  -mox-box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+
+}
+
+  .vpost{
+
+   position:absolute;
+   left: -175px;
+   top: -125px;
+   background: white;
+   box-shadow: 2px;
+   border: 2px;
+   height: 200px;
+   width :400px;
+  -moz-border-radius: 30px;
+ border-radius: 15px;
+    border:solid 2px #3B170B; 
+    padding:10px;
+    visibility: hidden;
+   transition-property:visibility;
+  -webkit-transition: visibility 0.1s ease;
+  -moz-transition: visibility 0.1s ease;
+  -ms-transition: visibility 0.1s ease;
+  -o-transition:visibility 0.1s ease;
+  
+}
+
+.vcomment{
+
+  top:50px;
+  margin-top: 10px;
+}
+
+.cover:hover .vpost{
+  visibility: visible;
+}
+
+.left_gate {
+  position: absolute;
+  background: url("../images/n5.jpeg");
+  bottom: 0; right: 50%; left: 0; top: 0;
+  border:1px solid #F0F0F0;
+    
+  -webkit-transition: all 0.5s ease-out;
+  -moz-transition: all 0.5s ease-out;
+  -ms-transition: all 0.5s ease-out;
+  -o-transition:all 0.5s ease-out;
+  transition: all 0.5s ease-out;
+    
+    
+  
+}
+.cover:hover .left_gate {
+  right: 100%; left: -50%;
+}
+
+.right_gate {
+  position: absolute;
+  background: url("../images/n5.jpeg");
+  bottom: 0;
+  left: 50%;
+  right: 0;
+  top: 0;
+  border:1px solid #F0F0F0;
+  
+  -webkit-transition: all 0.5s ease-out;
+  -moz-transition: all 0.5s ease-out;
+  -ms-transition: all 0.5s ease-out;
+  -o-transition: all 0.5s ease-out;
+  transition: all 0.5s ease-out;
+}
+.cover:hover .right_gate {
+  left: 100%; right: -50%;
+}
+
+.cover img {
+    width: 100%;
+    height: 550px;
+}
 
 .videoform{
   margin-top: 50px;
