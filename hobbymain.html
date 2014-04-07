@@ -27,14 +27,14 @@
 </div>
 
 
-    <div class="posts" id="posts">
+<div class="posts" id="posts">
       <button id='previous'> Previous </button> <button id='next'> Next</button>
       <ul>
     {{#each filterpost}}
     <li>
     <a href="#">
-      <h2><div class="headermore">{{topic}}</div></h2>
-      <p><div class="more">{{data}}</div></p>
+      <h2 class="ellipsis"><div class="headermore">{{topic}}</div></h2>
+      <p class="ellipsis"><div class="more">{{data}}</div></p>
     </a>
    </li>
   {{/each}}
@@ -55,7 +55,7 @@
   {{/each}}
   </ul>   
 
-    </div>
+</div>
 
 
 
