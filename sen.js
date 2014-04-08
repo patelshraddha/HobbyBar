@@ -20,8 +20,7 @@ Router.map(function() {
   this.route('contact');
   this.route('test');
   this.route('editpost');
-
-  this.route('postpage');
+  this.route('pagepost');
   this.route('newpost', {
   path: '/:hobbyname/newpost',
   waitOn:function(){

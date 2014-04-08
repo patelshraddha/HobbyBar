@@ -26,6 +26,11 @@ right:600px;
 
 }
 
+.postpg-bg{
+  background-image:url('../images/texture1.jpg') ;
+  height: auto;
+}
+
 .post-bg{
   background: url("../images/n1.jpg");
 }
@@ -105,57 +110,22 @@ text-align: center;
 }
 
 .cover {
-  margin-top: 50px;
   position: relative;
-  width: 500px;
-  height: 550px;
+  width: 600px;
   margin: 20px auto;
-  background: url("../images/n5.jpeg");
+  background:url("../images/n6.jpeg");
+  background-size: 100%;
   z-index: 1;
   padding: 10px;
   
   -webkit-box-shadow: 0 2px 10px rgba(0,0,0,0.3);
   -mox-box-shadow: 0 2px 10px rgba(0,0,0,0.3);
   box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-
-}
-
-  .vpost{
-
-   position:absolute;
-   left: -175px;
-   top: -125px;
-   background: white;
-   box-shadow: 2px;
-   border: 2px;
-   height: 200px;
-   width :400px;
-  -moz-border-radius: 30px;
- border-radius: 15px;
-    border:solid 2px #3B170B; 
-    padding:10px;
-    visibility: hidden;
-   transition-property:visibility;
-  -webkit-transition: visibility 0.1s ease;
-  -moz-transition: visibility 0.1s ease;
-  -ms-transition: visibility 0.1s ease;
-  -o-transition:visibility 0.1s ease;
-  
-}
-
-.vcomment{
-
-  top:50px;
-  margin-top: 10px;
-}
-
-.cover:hover .vpost{
-  visibility: visible;
 }
 
 .left_gate {
   position: absolute;
-  background: url("../images/n5.jpeg");
+  background:url("../images/n5.jpeg");
   bottom: 0; right: 50%; left: 0; top: 0;
   border:1px solid #F0F0F0;
     
@@ -191,11 +161,15 @@ text-align: center;
   left: 100%; right: -50%;
 }
 
-.cover img {
-    width: 100%;
-    height: 550px;
-}
 
+.like{
+  width:50px;
+  height:50px; 
+  padding-left: 20px;
+}
+.post-details{
+  text-align: right;
+}
 .videoform{
   margin-top: 50px;
   position:absolute;
