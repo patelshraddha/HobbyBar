@@ -1,0 +1,31 @@
+<template name="displaypost">
+<div class="post-q-bg" style="background: url('{{imagesrc}}');background-size: cover;height:100%;width:100%;background-attachment:fixed;">
+    <div class="form" style=" align:center">
+        <h1 class="p-heading">{{topic}}</h1>
+        <p>{{data}}</p>   
+         {{#if checklike}}
+            <button id="unlike">Unlike</button>
+          {{else}}
+          <button id="like">Like</button>
+          {{/if}}
+         <p>No of likes: {{likes}}</p>
+         {{#each author}}
+         <p>Created by:{{profile.name}} </p>
+         <img style="height: 50px" src="{{profile.picture}}" />
+         <img style="height: 50px" src=" {{services.twitter.profile_image_url}}" />
+         {{/each}}
+         {{#if creator}}
+            <a href="/Posts/{{_id}}/Editpost"><button>Edit</button></a>
+            <button id="delete">Delete the post</button>
+         {{/if}}
+    </div>  
+  </div>
+
+
+
+
+
+
+
+
+</template>

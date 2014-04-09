@@ -3999,7 +3999,7 @@ a.thumbnail:hover {
 .modal-body {
   overflow-y: auto;
   max-height: 400px;
-  padding: 15px;
+  padding: 0px;
 }
 .modal-form {
   margin-bottom: 0;

@@ -1,5 +1,5 @@
 <template name="hobbymain">
-<div class="hobbycontainer" style="background: url('{{imagesrc}}');background-size: cover;height:100%;width:100%;background-attachment:fixed;" >
+<div class="hobbycontainer" style="background: url('{{imagesrc}}');background-size: cover;height:100%;width:100%;background-attachment:fixed;">
  
 	
     <div class="page-scroll">
@@ -12,12 +12,15 @@
     <div>
 
     	{{#if checkhobby}}
-    	   <button id="suscribe" class="suscribebutton">Suscribe</button>
+    	   <button id="suscribe" class="suscribebutton; btn btn-success">Suscribe</button>
 
          
     	   {{else}}
+
          <a href="/{{name}}/newpost"><button class="suscribebutton newposter">New post</button></a>
          <a href="/{{name}}/newvideopost"><button class="suscribebutton newvideoposter">New video post</button></a>
+
+        
     	   <button id="unsuscribe" class="suscribebutton">Unsuscribe</button>
     	{{/if}}
     </div>
@@ -32,9 +35,15 @@
       <ul>
     {{#each filterpost}}
     <li>
-    <a href="#">
+
+    <a href="/Posts/{{_id}}">
       <h2 class="ellipsis"><div class="headermore">{{topic}}</div></h2>
       <p class="ellipsis"><div class="more">{{data}}</div></p>
+
+    <!--<a href="/Posts/{{_id}}">
+      <h2><div class="headermore">{{stopic}}</div></h2>
+      <p><div class="more">{{sdata}}</div></p>-->
+
     </a>
    </li>
   {{/each}}
@@ -48,7 +57,7 @@
     {{#each filtervideopost}}
     <li>
     <a href="#">
-      <h2><div class="headermore">{{topic}}</div></h2>
+      <h2><div class="headermore">{{stopic}}</div></h2>
       <img src='{{picurl}}'/>
     </a>
    </li>

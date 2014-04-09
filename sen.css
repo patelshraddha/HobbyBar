@@ -245,7 +245,9 @@ display:none;
   margin:0em;
   background-color:#160700;
   color:#fff;
-
+position: relative;
+ top:-1em;
+ padding: 0em;
 }
 
 .videoposts h2,p{

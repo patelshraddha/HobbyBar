@@ -3,6 +3,7 @@ Posts =new Meteor.Collection("posts");
 Videoposts=new Meteor.Collection("videoposts");
 
 
+
 Router.configure({
   layoutTemplate: 'layout',
   loadingTemplate: 'loading',
@@ -30,7 +31,12 @@ Router.map(function() {
     hobbyname  = this.params.hobbyname;
     return Hobbies.findOne({name: hobbyname}); }  });
 
-  this.route('posts');
+  
+
+
+
+  
+
 
 
   this.route('newvideopost', {
@@ -44,6 +50,36 @@ Router.map(function() {
 
 
 
+  this.route('displaypost', {
+  path: '/Posts/:postid',
+  waitOn:function(){
+            postid=this.params.postid;
+            postdetails=Meteor.subscribe("displaypost",postid);
+            return [postdetails];
+        },
+  data: function (){
+    var hobbyid;
+    var hobby;
+    Posts.find().forEach(function(myDoc) {hobbyid=myDoc.hobbyid}); 
+    Hobbies.find({hobbyid:hobbyid}).forEach( function(myDoc) {hobby=myDoc.name} );
+    hobbyname=hobby;
+    return Posts.findOne(); }  });
+
+  this.route('editpost', {
+  path: '/Posts/:postid/Editpost',
+  waitOn:function(){
+            postid=this.params.postid;
+            postdetails=Meteor.subscribe("displaypost",postid);
+            return [postdetails];
+        },
+  data: function (){
+   
+    return Posts.findOne(); }  });
+
+  
+
+  
+
 
   this.route('hobbymain', {
   path: '/:hobbyname/main',
@@ -52,6 +88,8 @@ Router.map(function() {
     vpageno=0;
     postssuscribed=Meteor.subscribe('getposts', this.params.hobbyname,pageno);
     videopostssuscribed=Meteor.subscribe('getvideoposts', this.params.hobbyname,vpageno);
+    pagespost=Meteor.subscribe('postcount');
+    pagesvideos=Meteor.subscribe('videocount');
     return [Meteor.subscribe('hobbylist'),postssuscribed,videopostssuscribed];
         },
   data: function (){
@@ -116,10 +154,10 @@ Template.hobbymain.rendered = function() {
          });
  
          // play the video right away*/
-        
+      
 
 
-
+  
 
     $(document).keydown(function(e) {
     switch(e.which) {
@@ -132,14 +170,37 @@ Template.hobbymain.rendered = function() {
         case 39: // right
         break;
 
-        case 40:  $('html, body').animate({scrollTop:$('#posts').offset().top-75}, 'slow');
-        break;
+        /*case 40:  $('html, body').animate({scrollTop:$('#posts').offset().top-75}, 'slow');
+        break;*/
 
         default: return; // exit this handler for other keys
     }
     e.preventDefault(); // prevent the default action (scroll / move caret)
     });
-    var showheading=50;
+
+
+
+    /*if($('.more').get().length==0)
+    {
+      console.log('True');
+    }
+    else
+    {
+      console.log('False');
+    }*/
+    /*$('.more').each(function(i, obj) {
+      // console.log($(obj).html());
+    });*/
+    /*if(log.length==1)
+    {
+    console.log("yes");   
+    }
+    else
+    {
+      console.log("false");
+    }
+
+    /*var showheading=50;
     var showChar = 100;
     var ellipsestext = "...";
     $('.more').each(function() {
@@ -166,7 +227,7 @@ Template.hobbymain.rendered = function() {
             $(this).html(html);
         }
  
-    });
+    });*/
 
 }
 Template.contact.rendered = function() {
@@ -176,7 +237,15 @@ Template.user.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
 }
 
+Template.displaypost.rendered = function() {
+  $("html,body").animate({scrollTop: 0},500);
 
+
+}
+Template.editpost.rendered = function() {
+  $("html,body").animate({scrollTop: 0},500);
+
+}
 
 
  Template.header.events({
@@ -220,7 +289,7 @@ Template.user.rendered = function() {
 
 );
 
-    Session.set('box',r);
+    Session.set('box',box);
    }
    
   });
@@ -231,6 +300,7 @@ Template.user.rendered = function() {
  
  Meteor.subscribe("userData");
  Meteor.subscribe("hobbies");
+ Meteor.subscribe("users");
  
 
 
@@ -239,14 +309,13 @@ Template.user.rendered = function() {
     Meteor.call('addhobby',this.hobbyid);
        },
   "click #previous": function(e, tmpl) {
-         
-
          if(pageno!=0)
          {
             pageno=pageno-1;
             postssuscribed.stop();
             postssuscribed=Meteor.subscribe('getposts',hobbyname,pageno);
          }
+         
          
          
          
@@ -328,8 +397,6 @@ Template.user.rendered = function() {
         }
         if(_.contains(Meteor.user().suscribed,this.hobbyid))
         {
-          
-          
           Meteor.call('addpost',this.hobbyid,x,y);
           window.location = '/'+this.name+'/main';
           return true;
@@ -358,6 +425,16 @@ Template.user.rendered = function() {
 
   if (e.keyCode == 27) {window.location = '/'+hobbyname+'/main';}   // esc
 });
+}
+
+  Template.editpost.rendered = function() {
+  $("html,body").animate({scrollTop: 0},500);
+  
+  $(document).keyup(function(e) {
+
+  if (e.keyCode == 27) {window.location = '/Posts/'+postid;}   // esc
+});
+
 }
 
   Template.newvideopost.events({
@@ -414,6 +491,8 @@ Template.user.rendered = function() {
 
 
 
+
+
   Template.hobbymain.helpers({
     checkhobby: function() {
       if(this.hobbyid==undefined)
@@ -423,7 +502,7 @@ Template.user.rendered = function() {
       
     },
     filterpost: function() {
-      
+       
          return Posts.find();
     },
     filtervideopost: function() {
@@ -433,6 +512,95 @@ Template.user.rendered = function() {
 
 
   })
+
+
+
+
+
+  Template.displaypost.helpers({
+    checklike: function() {
+      if(Posts.findOne()==undefined)
+      {
+       return false;
+     }
+      else
+      {  
+      return _.contains(Posts.findOne().likeusers,Meteor.userId());
+       }
+    },
+    author: function() {
+       
+         return Meteor.users.find({_id:this.userid});
+    },
+    creator: function() {
+      
+         return (this.userid==Meteor.userId());
+    },
+
+
+  })
+
+  
+  Template.displaypost.events({
+  "click #unlike": function(e, tmpl) {
+   
+    Meteor.call('unlike',this._id,Meteor.userId());
+       },
+  "click #like": function(e, tmpl) {
+    Meteor.call('like',this._id,Meteor.userId());
+       },
+  "click #delete": function(e, tmpl) {
+     var answer=confirm("Are you sure you want to delete this post?");
+     if(answer==true)
+     {
+    Meteor.call('deletepost',postid);
+    window.location = '/'+hobbyname+'/main';
+    alert('Deleted your post!!');
+      }
+       }
+
+
+   });
+
+ Template.editpost.events({
+  "click #submit": function(e, tmpl) {
+      var y=$('#data').val();
+         var x=$('#topic').val();
+         
+         if (x==null || x=="")
+         {
+           alert("No heading of post found!!!!");
+           return false;
+         }
+         if(y==null || y=="")
+        {
+          alert("No url found");
+          return false;
+        }
+       // if(_.contains(Meteor.user().suscribed,this.hobbyid))
+        {
+          Meteor.call("updatepost",postid,x,y); 
+          window.location = '/Posts/'+postid;
+          return true;
+        }
+     /*   else
+        {
+          alert('You are not suscribed!!');
+          return false;
+        }*/
+
+          
+
+   
+     
+       }
+
+
+   });
+
+
+
+
 
   Template.header.events({
   "click #logout": function(e, tmpl) {
@@ -593,20 +761,88 @@ if (Meteor.isServer) {
     });
   },
   addpost: function (hobbyid,topic,data) {
-    Posts.insert({hobbyid:hobbyid,data:data,topic:topic,userid:Meteor.userId(),likes:1,likeusers:[Meteor.userId()],timestamp:new Date(),timeval:((new Date).valueOf())});
+
+           showChartopic=30;
+            var c = topic.substr(0, showChartopic);
+            var stopic = c + '...';
+            showChardata=70;
+            var c = data.substr(0, showChardata);
+            var sdata = c + '...';
+           
+       
+          
+    Posts.insert({hobbyid:hobbyid,data:data,stopic:stopic,sdata:sdata,topic:topic,userid:Meteor.userId(),likes:1,likeusers:[Meteor.userId()],timestamp:new Date(),timeval:((new Date).valueOf())});
+  },
+  updatepost:function(postid,topic,data)
+  {
+     showChartopic=30;
+            var c = topic.substr(0, showChartopic);
+            var stopic = c + '...';
+            showChardata=70;
+            var c = data.substr(0, showChardata);
+            var sdata = c + '...';
+    Posts.update({_id:postid},{$set:{topic:topic,data:data,sdata:sdata,stopic:stopic}});
+  },
+  deletepost:function(postid){
+    Posts.remove({_id:postid});
+    //remove the corresponding comments
   },
   addvideopost: function (hobbyid,topic,url,picurl) {
-    Videoposts.insert({hobbyid:hobbyid,url:url,picurl:picurl,topic:topic,userid:Meteor.userId(),likes:1,likeusers:[Meteor.userId()],timestamp:new Date(),timeval:((new Date).valueOf())});
-  }
-
-
-
-
-
-
-
-
+    showChartopic=30;
+            var c = topic.substr(0, showChartopic);
+            var stopic = c + '...';
+    Videoposts.insert({hobbyid:hobbyid,url:url,stopic:stopic,picurl:picurl,topic:topic,userid:Meteor.userId(),likes:1,likeusers:[Meteor.userId()],timestamp:new Date(),timeval:((new Date).valueOf())});
+  },
+  unlike: function (postid,userid) {
+      Posts.update({
+      _id: postid
+    }, {
+      $pull:{likeusers:userid},
+      $inc:{likes:-1}
+    }, function(error, affectedDocs) {
+      if (error) {
+        throw new Meteor.Error(500, error.message);
+      } else {
+        return "Update Successful";
+      }
+    });
+      },
+  like: function (postid,userid) { 
+    Posts.update({
+      _id: postid
+    }, {
+      
+      $addToSet: {likeusers:userid},
+      $set: { timestamp:new Date()},
+      $set: {timeval:((new Date).valueOf())},
+      $inc:{likes:1}
+      
+    }, function(error, affectedDocs) {
+      if (error) {
+        throw new Meteor.Error(500, error.message);
+      } else {
+        return "Update Successful";
+      }
+    });
+  } 
 });
+
+Meteor.publish("users",function(){
+   return Meteor.users.find();
+});
+
+
+
+Meteor.publish("postcount",function(){
+   var pages=Posts.count();
+   return Math.ceil(pages/8);
+});
+
+Meteor.publish("videocount",function(){
+   var pages=Videoposts.count();
+   return Math.ceil(pages/8);
+});
+
 
  Meteor.publish("getposts",function(hobbyname,pageNumber){
     var raceCursor = Hobbies.find({name:hobbyname});
@@ -643,6 +879,9 @@ for (var i=0; i<races.length; i++) {
   return Hobbies.find();
 });
 
+ Meteor.publish("displaypost", function (postid) {
+  return Posts.find({_id:postid});
+});
 
 
  Meteor.publish("userData", function () {

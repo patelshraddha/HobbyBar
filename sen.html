@@ -1,9 +1,12 @@
 <head>
+	<link rel="icon" sizes="16x16 32x32" href="/../favicon.ico?v=2">
 	<title>HobbyBar</title>
    
 </head>
 
-<body>
+<body>  
+     
+
 	 {{>header}}
 	
 </body>
@@ -12,24 +15,11 @@
 
 <template name="layout">
     {{>yield}}
+    {{>loginButtons}}
 </template>
 
 
 
-
-<!--<template name="home">
-  {{#if currentUser}}
-       {{#if firsttimelogin}}
-	      <p>This is the first time login. Paste all code Here.</p>
-	   {{else}}
-	      <p>Dynamic generation module Here.</p>
-	  {{/if}}
-			
-     {{else}}
-            {{>user_loggedout}}
-  {{/if}}
- 
-</template> -->
 
 
 
