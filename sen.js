@@ -65,6 +65,31 @@ Router.map(function() {
     hobbyname=hobby;
     return Posts.findOne(); }  });
 
+  this.route('displayvideo', {
+  path: '/VideoPosts/:videoid',
+  waitOn:function(){
+            videoid=this.params.videoid;
+            videodetails=Meteor.subscribe("displayvideo",videoid);
+            return [videodetails];
+        },
+  data: function (){
+    var hobbyid;
+    var hobby;
+    var urler;
+
+    Videoposts.find().forEach(function(myDoc) {hobbyid=myDoc.hobbyid});
+    Videoposts.find().forEach(function(myDoc) {urler=myDoc.url}); 
+    Hobbies.find({hobbyid:hobbyid}).forEach( function(myDoc) {hobby=myDoc.name} );
+    hobbyname=hobby;
+    url=urler;
+    return Videoposts.findOne(); }  });
+
+ 
+
+
+
+
+
   this.route('editpost', {
   path: '/Posts/:postid/Editpost',
   waitOn:function(){
@@ -141,21 +166,7 @@ Template.hobbymain.rendered = function() {
 
 
     $("html,body").animate({scrollTop: 0},500);
-   /* var example = Popcorn.youtube(
-           '#video',
-           'http://www.youtube.com/watch?v=CxvgCLgwdNk' );
- 
-         // add a footnote at 2 seconds, and remove it at 6 seconds
-         example.footnote({
-           start: 2,
-           end: 6,
-           text: "Pop!",
-           target: "footnotediv"
-         });
- 
-         // play the video right away*/
-      
-
+  
 
   
 
@@ -242,6 +253,24 @@ Template.displaypost.rendered = function() {
 
 
 }
+
+Template.displayvideo.rendered = function() {
+  $("html,body").animate({scrollTop: 0},500);
+  
+  var example = Popcorn.youtube(
+           '#video',url );
+ 
+         // add a footnote at 2 seconds, and remove it at 6 seconds
+         example.footnote({
+           start: 2,
+           end: 6,
+           text: "Pop!",
+           target: "footnotediv"
+         });
+  
+
+}
+
 Template.editpost.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
 
@@ -540,6 +569,30 @@ Template.editpost.rendered = function() {
 
   })
 
+
+  Template.displayvideo.helpers({
+    checklike: function() {
+      if(Videoposts.findOne()==undefined)
+      {
+       return false;
+     }
+      else
+      {  
+      return _.contains(Videoposts.findOne().likeusers,Meteor.userId());
+       }
+    },
+    author: function() {
+       
+         return Meteor.users.find({_id:this.userid});
+    },
+    creator: function() {
+      
+         return (this.userid==Meteor.userId());
+    },
+
+
+  })
+
   
   Template.displaypost.events({
   "click #unlike": function(e, tmpl) {
@@ -554,6 +607,28 @@ Template.editpost.rendered = function() {
      if(answer==true)
      {
     Meteor.call('deletepost',postid);
+    window.location = '/'+hobbyname+'/main';
+    alert('Deleted your post!!');
+      }
+       }
+
+
+   });
+
+
+  Template.displayvideo.events({
+  "click #unlike": function(e, tmpl) {
+   
+    Meteor.call('unlikevideo',this._id,Meteor.userId());
+       },
+  "click #like": function(e, tmpl) {
+    Meteor.call('likevideo',this._id,Meteor.userId());
+       },
+  "click #delete": function(e, tmpl) {
+     var answer=confirm("Are you sure you want to delete this post?");
+     if(answer==true)
+     {
+    Meteor.call('deletevideo',videoid);
     window.location = '/'+hobbyname+'/main';
     alert('Deleted your post!!');
       }
@@ -787,6 +862,10 @@ if (Meteor.isServer) {
     Posts.remove({_id:postid});
     //remove the corresponding comments
   },
+  deletevideo:function(videoid){
+    Videoposts.remove({_id:videoid});
+    //remove the corresponding comments
+  },
   addvideopost: function (hobbyid,topic,url,picurl) {
     showChartopic=30;
             var c = topic.substr(0, showChartopic);
@@ -807,8 +886,40 @@ if (Meteor.isServer) {
       }
     });
       },
+  unlikevideo: function (postid,userid) {
+      Videoposts.update({
+      _id: postid
+    }, {
+      $pull:{likeusers:userid},
+      $inc:{likes:-1}
+    }, function(error, affectedDocs) {
+      if (error) {
+        throw new Meteor.Error(500, error.message);
+      } else {
+        return "Update Successful";
+      }
+    });
+      },
   like: function (postid,userid) { 
     Posts.update({
+      _id: postid
+    }, {
+      
+      $addToSet: {likeusers:userid},
+      $set: { timestamp:new Date()},
+      $set: {timeval:((new Date).valueOf())},
+      $inc:{likes:1}
+      
+    }, function(error, affectedDocs) {
+      if (error) {
+        throw new Meteor.Error(500, error.message);
+      } else {
+        return "Update Successful";
+      }
+    });
+  },
+  likevideo: function (postid,userid) { 
+    Videoposts.update({
       _id: postid
     }, {
       
@@ -881,6 +992,9 @@ for (var i=0; i<races.length; i++) {
 
  Meteor.publish("displaypost", function (postid) {
   return Posts.find({_id:postid});
+});
+ Meteor.publish("displayvideo", function (videoid) {
+  return Videoposts.find({_id:videoid});
 });
 
 
