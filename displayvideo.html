@@ -14,6 +14,9 @@
          <img style="height: 50px" src="{{profile.picture}}" />
          <img style="height: 50px" src=" {{services.twitter.profile_image_url}}" />
          {{/each}}
+
+         {{prettifyDate timestamp}}
+         
          {{#if creator}}
             <button id="delete">Delete the post</button>
          {{/if}}
