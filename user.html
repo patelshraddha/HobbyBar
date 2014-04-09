@@ -1,5 +1,137 @@
 <template name="user">
- <a href="#">{{currentUser.profile.name}}</a>
- <p> Here we are</p>
-{{currentUser.profile.name}}
+ 
+  <body>
+
+    <div id="wrapper">
+
+      <!-- Sidebar -->
+     
+        <!-- Brand and toggle get grouped for better mobile display -->
+       
+        <!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse navbar-ex1-collapse">
+               
+          <ul class="nav navbar-nav side-nav">
+            <li><a id="profile"><i class="fa fa-smile-o"></i> Profile</a></li>
+            <li><a id="feedback" class="holo"><i class="fa fa-globe"></i> Feedbacks</a></li>
+			<li><a id="posts" ><i class="fa fa-envelope"></i>Posts</a></li>
+			<li><a id="comments" class="holo"><i class="fa fa-comments-o"></i>Comments</a></li>
+			<li>
+              <a href="#" id="drop" class="holo"><i class="fa fa-caret-square-o-down"></i> Subsribed Hobbies</a>
+              <ul id="dropdown" class="holo">
+              	{{#each subscribed}}
+                <li><a href="#">{{hobbyname}}</a></li>
+                {{/each}}
+              </ul>
+            </li>
+          </ul>
+          </div>
+          
+        
+     
+      <div id="page-wrapper">
+
+        <div class="row" id="profilecontent">
+          <div class="col-lg-12">
+            <h1>Profile <small>Overview</small></h1>
+            <ol class="breadcrumb">
+              <li class="active"><i class="fa fa-dashboard"></i> Profile</li>
+            </ol>
+            <div class="alert alert-success alert-dismissable">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <a href="#">{{currentUser.profile.name}}</a>
+ 				<p> Here we are</p>
+			{{currentUser.profile.name}}
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+  
+       <div class="row" id="feedbackcontent">
+          <div class="col-lg-12">
+            <h1>Feedback<small>Overview</small></h1>
+            <ol class="breadcrumb">
+              <li class="active"><i class="fa fa-dashboard"></i> Feedback</li>
+            </ol>
+            <div class="alert alert-success alert-dismissable">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <a href="#">{{currentUser.profile.name}}</a>
+ 				<p> Here we are</p>
+			{{currentUser.profile.name}}
+            </div>
+          </div>
+        </div>
+
+        <div class="row" id="postcontent">
+          <div class="col-lg-12">
+            <h1>Posts <small>Overview</small></h1>
+            <ol class="breadcrumb">
+              <li class="active"><i class="fa fa-dashboard"></i>Posts</li>
+            </ol>
+            <div class="alert alert-success alert-dismissable">
+                 <div class="posts" id="posts">
+      
+      <ul>
+
+
+    {{#each filterpost}}
+    <li>
+
+    <a href="/Posts/{{_id}}">
+      <h2 class="ellipsis"><div class="headermore">{{topic}}</div></h2>
+      <p class="ellipsis"><div class="more">{{data}}</div></p>
+    </a>
+   </li>
+  {{/each}}
+  </ul>   
+
+    </div>
+
+    <div class="videoposts">
+      <ul>
+
+
+    {{#each filtervideopost}}
+    <li>
+    <a href="/Videoposts/{{_id}}">
+      <h2><div class="headermore">{{stopic}}</div></h2>
+      <img src='{{picurl}}'/>
+    </a>
+   </li>
+  {{/each}}
+  </ul>   
+
+</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row" id="commentcontent">
+          <div class="col-lg-12">
+            <h1>Comments<small>Overview</small></h1>
+            <ol class="breadcrumb">
+              <li class="active"><i class="fa fa-dashboard"></i>Comments</li>
+            </ol>
+            <div class="alert alert-success alert-dismissable">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+              <a href="#">{{currentUser.profile.name}}</a>
+ 				<p> Here we are</p>
+			{{currentUser.profile.name}}
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+        
+        </div>
+
+    </div>
+</body>
 </template>

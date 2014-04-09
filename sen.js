@@ -22,6 +22,21 @@ Router.map(function() {
   this.route('test');
   this.route('editpost');
   this.route('pagepost');
+  
+  this.route('user', {
+  path: '/user/:userid',
+  waitOn:function(){
+            var postlist=Meteor.subscribe("userposts",this.params.userid);
+            var videolist=Meteor.subscribe("videoposts",this.params.userid);
+            var hobbylist=Meteor.subscribe("hobbylist");
+            return [postlist,videolist,hobbylist];
+        },
+  data: function (){
+    hobbyname  = this.params.hobbyname;
+    userid=this.params.userid;
+    return Hobbies.findOne({name: hobbyname}); }  });
+
+
   this.route('newpost', {
   path: '/:hobbyname/newpost',
   waitOn:function(){
@@ -241,12 +256,68 @@ Template.hobbymain.rendered = function() {
     });*/
 
 }
+
+
+
+
 Template.contact.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
 }
 Template.user.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
+  if(userid!=Meteor.userId())
+  {
+    $('.holo').hide();
+  }
+  $('#feedbackcontent').hide();
+   $('#postcontent').hide();
+    $('#commentcontent').hide();
+    // $('content').hide();
+
 }
+  Template.user.helpers({
+    
+    filterpost: function() {
+       
+         return Posts.find();
+    },
+    filtervideopost: function() {
+      
+         return Videoposts.find();
+    },
+
+
+  })
+
+ Template.user.events({
+  "click #profile": function(e, tmpl) {
+    $('#profilecontent').show();
+       $('#feedbackcontent').hide();
+   $('#postcontent').hide();
+    $('#commentcontent').hide();
+       },
+  "click #feedback": function(e, tmpl) {
+    $('#profilecontent').hide();
+       $('#feedbackcontent').show();
+   $('#postcontent').hide();
+    $('#commentcontent').hide();
+       },
+  "click #posts": function(e, tmpl) {
+    $('#profilecontent').hide();
+       $('#feedbackcontent').hide();
+   $('#postcontent').show();
+    $('#commentcontent').hide();
+       },
+    "click #comments": function(e, tmpl) {
+    $('#profilecontent').hide();
+       $('#feedbackcontent').hide();
+   $('#postcontent').hide();
+    $('#commentcontent').show();
+       },
+  
+
+   });
+
 
 Template.displaypost.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
@@ -538,6 +609,16 @@ Template.editpost.rendered = function() {
       
          return Videoposts.find();
     },
+
+
+  })
+
+  Template.header.helpers({
+    userid: function() {
+      
+       return Meteor.userId();
+      
+    }
 
 
   })
@@ -940,6 +1021,13 @@ if (Meteor.isServer) {
 
 Meteor.publish("users",function(){
    return Meteor.users.find();
+});
+
+Meteor.publish("userposts",function(userid){
+   return Posts.find({userid:userid});
+});
+Meteor.publish("uservideos",function(userid){
+   return Videoposts.find({userid:userid});
 });
 
 
