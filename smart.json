@@ -8,6 +8,6 @@
     "font-awesome": {},
     "paginated-subscription": {},
     "popcorn": {},
-    "jquery-ui": {}
+    "moment": {}
   }
 }

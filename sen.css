@@ -310,8 +310,8 @@ position: relative;
 }
 
 .posts ul li h2{
-    font-family:"Reenie Beanie",arial,sans-serif;
-     font-size:250%;
+    font-family:"Tahoma",arial,sans-serif;
+     font-size:150%;
 }
 
 
@@ -328,14 +328,13 @@ position: relative;
   float:left;
 }
 .posts ul li h2{
-  font-size:140%;
   font-weight:bold;
   padding-bottom:10px;
   /*overflow:hidden;*/
 }
 .posts ul li p{
-  font-family:"Reenie Beanie",arial,sans-serif;
-  font-size:180%;
+  font-family:"Tahoma",arial,sans-serif;
+  font-size:100%;
   overflow:hidden;
 }
 

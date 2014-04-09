@@ -395,7 +395,9 @@ Template.editpost.rendered = function() {
   });
 
 
-
+Handlebars.registerHelper("prettifyDate", function(timestamp) {
+    return moment(new Date(timestamp)).fromNow();
+});
 
  
  Meteor.subscribe("userData");
@@ -646,7 +648,6 @@ Template.editpost.rendered = function() {
       
          return (this.userid==Meteor.userId());
     },
-
 
   })
 
