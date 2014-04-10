@@ -2,6 +2,7 @@
 body, html {
   height: 100%;
   width:100%;
+  
 
 }
 
@@ -52,7 +53,7 @@ right:600px;
     font-size:17px;
     padding:5px 18px;
     text-decoration:none;
-    text-shadow:1px 4px 0px #ffffff;
+    
 }
 
 .newposter {
@@ -77,6 +78,23 @@ text-align: center;
     margin-left: 30px;
     margin-top: 30px;
     color: #3B170B;
+
+}
+
+.dispform{
+
+  position:absolute;
+  right: 200px;
+  left: 300px;
+  width: 600px;
+  padding: 50px;
+  height: 500px;
+  vertical-align: center;
+  align : center;
+  color: black;
+  -moz-border-radius: 30px;
+ border-radius: 15px;
+    padding:10px;
 
 }
 .form{
@@ -109,9 +127,78 @@ text-align: center;
 
 }
 
+#newpost { 
+  height: 104px; 
+  width: 104px; 
+  position: fixed; 
+  top: 40%; 
+  left:97.5%; 
+  z-index: 999;
+  transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg); 
+  -moz-transform: rotate(-90deg); 
+  -o-transform: rotate(-90deg); 
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+
+#newpost a { 
+  display: block; 
+  background: #fff; 
+  
+  padding: 8px;
+  color: #000; 
+  font-family: Arial, sans-serif; 
+  font-size: 17px; 
+  font-weight: bold; 
+  text-decoration: none; 
+  border-bottom: solid 1px #333;
+  border-left: solid 1px #333;
+  border-right: solid 1px #fff;
+}
+
+#newpost a:hover { 
+  background: #06c; 
+}
+
+
+#newvideo { 
+  height: 104px; 
+  width: 104px; 
+  position: fixed; 
+  top: 70%; 
+  left:97.5%; 
+  z-index: 999;
+  transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg); 
+  -moz-transform: rotate(-90deg); 
+  -o-transform: rotate(-90deg); 
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+
+#newvideo a { 
+  display: block; 
+  background: #fff; 
+  
+  padding: 8px;
+  color: #000; 
+  font-family: Arial, sans-serif; 
+  font-size: 17px; 
+  font-weight: bold; 
+  text-decoration: none; 
+  border-bottom: solid 1px #333;
+  border-left: solid 1px #333;
+  border-right: solid 1px #fff;
+}
+
+#newvideo a:hover { 
+  background: #06c; 
+}
+
+
+
 .cover {
   position: relative;
-  width: 600px;
+  width: 800px;
   margin: 20px auto;
   background:url("../images/n6.jpeg");
   background-size: 100%;
@@ -188,7 +275,17 @@ text-align: center;
 
 }
 
-
+.likebox{
+   background: white;
+   box-shadow: 2px;
+   border: 2px;
+   height: 50px;
+   width :500px;
+     -moz-border-radius: 30px;
+ border-radius: 15px;
+    border:solid 2px #3B170B;
+    margin-right: 20px; 
+}
 
 
 .form-only

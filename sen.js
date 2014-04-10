@@ -27,7 +27,7 @@ Router.map(function() {
   path: '/user/:userid',
   waitOn:function(){
             var postlist=Meteor.subscribe("userposts",this.params.userid);
-            var videolist=Meteor.subscribe("videoposts",this.params.userid);
+            var videolist=Meteor.subscribe("uservideos",this.params.userid);
             var hobbylist=Meteor.subscribe("hobbylist");
             return [postlist,videolist,hobbylist];
         },
@@ -124,15 +124,15 @@ Router.map(function() {
   this.route('hobbymain', {
   path: '/:hobbyname/main',
   waitOn:function(){
-    pageno=0;
-    vpageno=0;
-    postssuscribed=Meteor.subscribe('getposts', this.params.hobbyname,pageno);
-    videopostssuscribed=Meteor.subscribe('getvideoposts', this.params.hobbyname,vpageno);
-    pagespost=Meteor.subscribe('postcount');
-    pagesvideos=Meteor.subscribe('videocount');
-    return [Meteor.subscribe('hobbylist'),postssuscribed,videopostssuscribed];
+    
+    postssuscribed=Meteor.subscribe('getposts', this.params.hobbyname,0);
+    videopostssuscribed=Meteor.subscribe('getvideoposts', this.params.hobbyname,0);
+    return [Meteor.subscribe('hobbylist')];
         },
   data: function (){
+     pageno=0;
+    vpageno=0;
+    Session.set('pageno',pageno);
     hobbyname  = this.params.hobbyname;
     return Hobbies.findOne({name: hobbyname}); }  });
 
@@ -203,6 +203,64 @@ Template.hobbymain.rendered = function() {
     }
     e.preventDefault(); // prevent the default action (scroll / move caret)
     });
+    postcount=-1;
+    videocount=-1;
+    if(hobbyname!=undefined)
+    {
+      
+      
+      Meteor.call('getpostpages',hobbyname, function(err, data) {
+  if (err)
+    console.log(err);
+    Session.set('postcount',data);
+    if(Session.get('postcount')==0)
+     {
+        $('#posts').hide();
+      }
+      else
+      {
+        $('#posts').show();
+      }
+      
+   });
+      Meteor.call('getvideopages',hobbyname, function(err, data) {
+  if (err)
+    console.log(err);
+    videocount=data;
+    if(videocount==0)
+     {
+        $('#videoposts').hide();
+      }
+      else
+      {
+        $('#videoposts').show();
+      }
+   });
+
+
+    
+   if(Session.get('pageno')==0)
+{
+  alert(Session.get('pageno'));
+          $('#previous').hide();
+ }
+    else
+    {
+      alert(Session.get('pageno'));
+      $('#previous').show();
+}
+ /*
+    if(Session.get('pageno')==(Session.get('postcount')-1))
+        $('#next').hide();
+    else
+      $('#next').show();*/
+ 
+          
+    }
+    
+    
+
+
 
 
 
@@ -411,25 +469,21 @@ Handlebars.registerHelper("prettifyDate", function(timestamp) {
     Meteor.call('addhobby',this.hobbyid);
        },
   "click #previous": function(e, tmpl) {
-         if(pageno!=0)
-         {
+         
             pageno=pageno-1;
             postssuscribed.stop();
             postssuscribed=Meteor.subscribe('getposts',hobbyname,pageno);
-         }
-         
+            Session.set('pageno',pageno);
          
          
          
        },
   "click #next": function(e, tmpl) {
-       
-       //$('#previous').show();
-       pageno=pageno+1;
-       
+      
+       pageno=pageno+1; 
        postssuscribed.stop();
        postssuscribed=Meteor.subscribe('getposts',hobbyname,pageno);
-       
+       Session.set('pageno',pageno);
        },
   "click #vprevious": function(e, tmpl) {
          
@@ -1017,7 +1071,19 @@ if (Meteor.isServer) {
         return "Update Successful";
       }
     });
-  } 
+  },
+  getpostpages: function (hobbyname) { 
+    
+    var hobbyid;
+    Hobbies.find({name:hobbyname}).forEach(function(myDoc) {hobbyid=myDoc.hobbyid});
+     return Math.ceil(Posts.find({hobbyid:hobbyid}).count()/8);
+  },
+  getvideopages: function (hobbyname) { 
+    
+    var hobbyid;
+    Hobbies.find({name:hobbyname}).forEach(function(myDoc) {hobbyid=myDoc.hobbyid});
+     return Math.ceil(Videoposts.find({hobbyid:hobbyid}).count()/8);
+  }  
 });
 
 Meteor.publish("users",function(){

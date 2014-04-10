@@ -1,5 +1,6 @@
 <template name="hobbymain">
-<div class="hobbycontainer" style="background: url('{{imagesrc}}');background-size: cover;height:100%;width:100%;background-attachment:fixed;">
+
+<div class="hobbycontainer" style="background: url('{{imagesrc}}');background-size:       cover;height:100%;width:100%;background-attachment:fixed;">
  
 	
     <div class="page-scroll">
@@ -7,21 +8,21 @@
  	 	 <i class="fa fa-angle-double-down animated"></i>
      	 </a>                       
     </div>
-
+  
 
     <div>
 
     	{{#if checkhobby}}
-    	   <button id="suscribe" class="suscribebutton; btn btn-success">Suscribe</button>
-
+    	   <button id="suscribe" class="suscribebutton btn btn-success">Subscribe</button>
+        
          
     	   {{else}}
-
-         <a href="/{{name}}/newpost"><button class="suscribebutton newposter">New post</button></a>
-         <a href="/{{name}}/newvideopost"><button class="suscribebutton newvideoposter">New video post</button></a>
+         
+          <div id="newpost"><a href="/{{name}}/newpost">New post</a></div>
+         <div id="newvideo"><a href="/{{name}}/newvideopost">New video</a></div>
 
         
-    	   <button id="unsuscribe" class="suscribebutton">Unsuscribe</button>
+    	   <button id="unsuscribe" class="suscribebutton  btn btn-danger">Unsubscribe</button>
     	{{/if}}
     </div>
   
@@ -31,13 +32,17 @@
 
 
 <div class="posts" id="posts">
-      <button id='previous'> Previous </button> <button id='next'> Next</button>
+      <button id='previous' class="btn btn-primary"> Previous </button> <button id='next'  class="btn btn-primary" style="float:right"> Next</button>
       <ul>
     {{#each filterpost}}
     <li>
 
+
+    
+
     <a href="/Posts/{{_id}}">
-      <h2><div class="headermore">{{stopic}}</div></h2>
+      <p><div class="headermore"><b>{{stopic}}</b></div></p>
+
       <p><div class="more">{{sdata}}</div></p>
 
     </a>
@@ -47,13 +52,13 @@
 
     </div>
 
-    <div class="videoposts">
-      <button id='vprevious'> Previous </button> <button id='vnext'> Next</button>
+    <div class="videoposts" id="videoposts">
+      <button id='vprevious'  class="btn btn-primary"> Previous </button> <button id='vnext'  class="btn btn-primary" style="float:right"> Next</button>
       <ul>
     {{#each filtervideopost}}
     <li>
     <a href="/Videoposts/{{_id}}">
-      <h2><div class="headermore">{{stopic}}</div></h2>
+      <p><div class="headermore"><b>{{stopic}}</b></div></p>
       <img src='{{picurl}}'/>
     </a>
    </li>

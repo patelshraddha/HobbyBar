@@ -1,14 +1,20 @@
 <template name="displayvideo">
-   <div class="post-q-bg" style="background: url('{{imagesrc}}');background-size: cover;height:100%;width:100%;background-attachment:fixed;">
-    <div class="form" style=" align:center">
+    <div style="background: url('../images/n1.jpeg');background-size: cover;width:100%;background-attachment:fixed;position:absolute;top:-1em;" >
+<div class="cover" style="margin-top:125px;width:1000px">
+<div style="padding-left:140px; padding-right:100px">
+        
         <h1 class="p-heading">{{topic}}</h1>
-       <div id="video" style="width: 360px; height: 300px;" ></div>  
-         {{#if checklike}}
+        <div id="video" style="width: 700px; height: 400px;" ></div>  
+       <br />
+       {{#if checklike}}
             <button id="unlike">Unlike</button>
           {{else}}
           <button id="like">Like</button>
           {{/if}}
+          <br/>
          <p>No of likes: {{likes}}</p>
+        
+        <div style="height:70px;width:70px">
          {{#each author}}
          <p>Created by:{{profile.name}} </p>
          <img style="height: 50px" src="{{profile.picture}}" />
@@ -19,10 +25,46 @@
          
          {{#if creator}}
             <button id="delete">Delete the post</button>
+        {{/if}}
+        </div>
+        <br/>
+        <br/>
+        <h4>Comment</h4>
+        <div style="height:70px;width:70px">
+         {{#each author}}
+         <img style="height: 50px;float:left" src="{{profile.picture}}" />
+         <img style="height: 50px" src=" {{services.twitter.profile_image_url}}" />
+         {{/each}}
+        </div>
+        <div><p>Display all comments related to post.</p>
+        </div>
+        <br/>
+<div style="width:50%">Like     Dislike</div> <div style="width:50%;">Created by    timestamp</div>
+<br/>
+<div style="height:70px;width:70px">
+         {{#each author}}
+         <p>Created by:{{profile.name}} </p>
+         <img style="height: 50px" src="{{profile.picture}}" />
+         <img style="height: 50px" src=" {{services.twitter.profile_image_url}}" />
+         {{/each}}
+        </div>
+        <div>
+             <form style="float:left;padding-left:60px">
+            
+            <textarea id="data" type="text"  class="q-descrip" style="margin-left:0px;width:600px;height:50px"></textarea>
+         </form>
+            <br/>
+        </div>
+        <br/>
+        <br/>
+<div style="width:50%;">Like     Dislike</div> <div style="width:50%;">Created by    timestamp</div>
+<br/>
+ {{#if creator}}
+            <button id="delete" style="float:left;margin-top:15px;position:absolute;left:right: 200px;left: 300px;vertical-align:bottom;align :center;">Delete the post</button>
+
          {{/if}}
-    </div>  
-  </div>
-
-
-
+       </div>
+     </div> 
+    </div>
 </template>
+
