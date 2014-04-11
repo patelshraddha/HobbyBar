@@ -1,70 +1,66 @@
 <template name="displaypost">
     <div style="background: url('../images/n1.jpeg');background-size: cover;width:100%;background-attachment:fixed;position:absolute;top:-1em;" >
-<div class="cover" style="margin-top:125px">
-<div style="padding-left:100px; padding-right:100px">
+       <div class="cover" style="margin-top:125px">
+      <div style="padding-left:130px; padding-right:130px">
         
         <h1 class="p-heading">{{topic}}</h1>
+        <br/>
         <p>{{data}}</p>  
        <br />
        {{#if checklike}}
-            <button id="unlike">Unlike</button>
+            <img src="../images/dislike.png" id="unlike" class="like" style="height: 40px;width:40px;"/>
           {{else}}
-          <button id="like">Like</button>
+           <img src="../images/like.png" id="like" class="like" style="height: 40px;width:40px;"/>
           {{/if}}
           <br/>
-         <p>No of likes: {{likes}}</p>
+         <p>No of likes: {{likes}}<div style="float:right">{{prettifyDate timestamp}}</div></p>
         
-        <div style="height:70px;width:70px">
+        <div style="height:70px;width:70px;width:50%">
          {{#each author}}
-         <p>Created by:{{profile.name}} </p>
+        <p>
          <img style="height: 50px" src="{{profile.picture}}" />
          <img style="height: 50px" src=" {{services.twitter.profile_image_url}}" />
-         {{/each}}
-
-      
-        <div>{{prettifyDate timestamp}}</div>
-           
-        
+         Created by:{{profile.name}}
+         </p>
+         
+         {{/each}} 
 
         </div>
-        <br/>
-        <br/>
-        <h4>Comment</h4>
-        <div style="height:70px;width:70px">
-         {{#each author}}
-         <p>Created by:{{profile.name}} </p>
-         <img style="height: 50px;float:left" src="{{profile.picture}}" />
+        <div style="height:70px;width:70px;float:left">
+         <img style="height: 50px;padding-top:10px" src="{{currentUser.profile.picture}}" />
          <img style="height: 50px" src=" {{services.twitter.profile_image_url}}" />
-         {{/each}}
-        </div>
-        <div><p>Display all comments related to post.</p>
-        </div>
-        <br/>
-<div style="width:50%">Like     Dislike</div> <div style="width:50%;">Created by    timestamp</div>
-<br/>
-<div style="height:70px;width:70px">
-         {{#each author}}
-         <p>Created by:{{profile.name}} </p>
-         <img style="height: 50px" src="{{profile.picture}}" />
-         <img style="height: 50px" src=" {{services.twitter.profile_image_url}}" />
-         {{/each}}
         </div>
         <div>
-             <form style="float:left;padding-left:60px">
             
-            <textarea id="data" type="text"  class="q-descrip" style="margin-left:0px;width:450px;height:50px"></textarea>
-         </form>
+            <textarea id="data" type="text"  class="q-descrip" style="margin-left:0px;width:400px;height:40px"></textarea>
+
             <br/>
         </div>
-        <br/>
-        <br/>
-<div style="width:50%;">Like     Dislike</div> <div style="width:50%;">Created by    timestamp</div>
+<div style="width:100%;padding-right:50px"><button id="comment" style="float:right;margin-right:50px">Comment</button></div>
 <br/>
+        <h4>Comment</h4>
+        <div style="width:100%;float:left">
+         {{#each comments}}
+           <img style="height: 50px;margin-right:20px" src="{{pic}}" />
+          {{comment}}
+         
+
+          <div style="width:100%;padding-right:50px;padding-top:15px"> <img src="../images/like.png" id="like1" class="like" style="height: 20px;width:20px;padding-right:10px"/>No of likes :{{likes}}<p style="float:right">Created {{prettifyDate timestamp}}</p></div>
+          <br/>
+         {{/each}}
+        </div>
+        <div><p></p>
+        </div>
+        <br/>
+        
+        <br/>
+        <div>
 {{#if creator}}
 
             <a href="/Posts/{{_id}}/Editpost"><button>Edit</button></a>
             <button id="delete">Delete the post</button>
          {{/if}}
+     </div>
        </div>
      </div> 
     </div>

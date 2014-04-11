@@ -1,6 +1,7 @@
 Hobbies = new Meteor.Collection("hobbies");
 Posts =new Meteor.Collection("posts");
 Videoposts=new Meteor.Collection("videoposts");
+Comments=new Meteor.Collection("comments");
 
 
 
@@ -22,7 +23,6 @@ Router.map(function() {
   this.route('test');
   this.route('editpost');
   this.route('pagepost');
-  
   this.route('user', {
   path: '/user/:userid',
   waitOn:function(){
@@ -70,7 +70,8 @@ Router.map(function() {
   waitOn:function(){
             postid=this.params.postid;
             postdetails=Meteor.subscribe("displaypost",postid);
-            return [postdetails];
+            commentdetails=Meteor.subscribe('getcomments',postid);
+            return [postdetails,commentdetails];
         },
   data: function (){
     var hobbyid;
@@ -503,6 +504,32 @@ Handlebars.registerHelper("prettifyDate", function(timestamp) {
 });
 }
   
+Template.displaypost.events({            // check this once  -----Roshni
+  
+  "click #comment": function(e, tmpl){
+         var x=$('#data').val();
+         
+         if (x==null || x=="")
+         {
+
+           alert("No comment added!!!!");
+           return false;
+         }
+        
+          if(postid!=undefined)
+          {
+          Meteor.call('addcomment',postid,x);
+           }
+
+          
+        },
+
+    
+
+   });
+
+//---------------------------
+
   Template.newpost.events({
   
   "click #post": function(e, tmpl){
@@ -670,6 +697,10 @@ Handlebars.registerHelper("prettifyDate", function(timestamp) {
       
          return (this.userid==Meteor.userId());
     },
+    comments: function() {
+      
+      return Comments.find();
+    },
 
   })
 
@@ -705,6 +736,13 @@ Handlebars.registerHelper("prettifyDate", function(timestamp) {
        },
   "click #like": function(e, tmpl) {
     Meteor.call('like',this._id,Meteor.userId());
+       },
+  "click #unlike1": function(e, tmpl) {
+   
+    Meteor.call('unlike1',this._id,Meteor.userId());
+       },
+  "click #like1": function(e, tmpl) {
+    Meteor.call('like1',this._id,Meteor.userId());
        },
   "click #delete": function(e, tmpl) {
      var answer=confirm("Are you sure you want to delete this post?");
@@ -1022,6 +1060,21 @@ if (Meteor.isServer) {
       }
     });
   },
+  like1 :function(commentid,userid){     // Roshni
+    Comments.update({
+      _id:commentid},{
+        $addToSet:{likeusers:userid},
+        $set: {timestamp:new Date()},
+        $set: {timeval: ((new Date).valueOf())},
+        $inc: {likes:1}
+      },function(error, affectedDocs) {
+      if (error) {
+        throw new Meteor.Error(500, error.message);
+      } else {
+        return "Update Successful";
+      }
+    });
+  },
   likevideo: function (postid,userid) { 
     Videoposts.update({
       _id: postid
@@ -1039,6 +1092,18 @@ if (Meteor.isServer) {
         return "Update Successful";
       }
     });
+  },
+  addcomment: function(postid,comment){    
+  var pic=0;
+  var pictwitter=0;
+
+   Meteor.users.find({_id:Meteor.userId()}).forEach(function(myDoc) {pic=myDoc.profile.picture});
+  /* Meteor.users.find({_id:Meteor.userId()}).forEach(function(myDoc) {pictwitter=myDoc.services.twitter.profile_image_url});
+   if(pic==undefined)
+     pic=pictwitter;*/
+                  // please check ----Roshni
+
+Comments.insert({postid:postid,comment:comment,userid:Meteor.userId(),pic:pic,likes:0,likeusers:[Meteor.userId()],timestamp:new Date(),timeval:((new Date).valueOf())});
   },
   getpostpages: function (hobbyname) { 
     
@@ -1105,7 +1170,11 @@ for (var i=0; i<races.length; i++) {
 
 
 
+ Meteor.publish("getcomments",function(postid){      //  Roshni
 
+    var data=Comments.find({postid:postid},{sort:{timeval: -1}});
+    return data;
+ });
 
 
 

@@ -4,6 +4,8 @@
     "mini-pages": {},
     "iron-router": {},
     "popcorn": {},
-    "font-awesome": {}
+    "font-awesome": {},
+    "jquery-ui": {},
+    "moment": {}
   }
 }

@@ -42,8 +42,13 @@
 /* Start: Bootbusiness specific CSS */
 .content {
   padding: 30px 0;
-  background: url('../images/content.png');
+  background: url('../images/content1.jpg');
   background-attachment:fixed;
+}
+
+.signin-content{
+background: url('../images/content.png');
+
 }
 .thumbnail img {
   width: 100%;
@@ -79,7 +84,7 @@
 }
 .widget-footer {
   padding: 6%;
-  background-color: #EEEEEC;
+  background-color: #F5ECCE;
   border-top: 1px solid #DDD;
 }
 .widget-footer p {

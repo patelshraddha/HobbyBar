@@ -18,8 +18,8 @@
                 <div class="hero-unit">
                   <div class="row-fluid">
                     <div class="span7 marketting-info">
-                      <h1>{{name}}</h1>
-                      <p>{{description}}
+                      <h1 class="font-clr">{{name}}</h1>
+                      <p class="font-clr">{{description}}
                       </p>                    
                     </div>
                     <div class="span5">
@@ -38,8 +38,8 @@
                 <div class="hero-unit">
                   <div class="row-fluid">
                     <div class="span7 marketting-info">
-                      <h1>{{name}}</h1>
-                      <p>{{description}}
+                      <h1 class="font-clr">{{name}}</h1>
+                      <p class="font-clr">{{description}}
                       </p>                   
                     </div>
                     <div class="span5">
@@ -59,7 +59,7 @@
       <!-- Start: PRODUCT LIST -->
         <div class="container">
           <div class="page-header">
-            <h2>Hobbies in a Glance</h2>
+            <h2 class="font-clr">Hobbies in a Glance</h2>
           </div>
           <div class="row-fluid">
             <ul class="thumbnails">
@@ -68,9 +68,9 @@
               {{#each hobbies}}
               <li class="span4">
                 <div class="thumbnail">
-                  <img src="{{imagesrc}}" alt="product name">
+                  <a href="/{{name}}/main" class="btn"><img src="{{imagesrc}}" alt="product name"></a>
                   <div class="caption">
-                    <h3>{{name}}</h3>
+                    <h3 class="font-clr">{{name}}</h3>
                    
                   </div>
                   <div class="widget-footer">
