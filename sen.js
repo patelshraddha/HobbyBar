@@ -408,46 +408,14 @@ Template.editpost.rendered = function() {
 
  Template.header.events({
     'click #signin' : function () {
-     
-  
-  var boxContentString =$('#modal-content').html();
-   box=bootbox.dialog(boxContentString/*,[
-     
-    {
-        "label" : "login with twitter",
-        "class" : "icon-twitter icon-large",
-        "callback": function(e){
-           Meteor.loginWithTwitter({
-                
-                requestPermissions: ['email']
+      var boxContentString =$('#modal-content').html();
+    bootbox.dialog({message: boxContentString});
 
-            }, function (err) {
-                if(err) {
-                        
-                } else {
-                    Meteor.call("incrementcount",Meteor.userId(),function(error, affectedDocs) {
-                     if (error) {
-                            console.log(error.message);
-                     } else {
-                         // Do whatever
-                            }
-                     });
-                }
-            });
-            //do stuff
-        }   
-    },
-    {
-        "label" : "Button 2",
-        "callback": function(e){
-            //do stuff
-        }
-    }
-]*/
 
-);
+    
 
-    Session.set('box',box);
+
+    
    }
    
   });

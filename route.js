@@ -4,7 +4,7 @@ var IR_BeforeHooks = {
     	
         if (!(Meteor.loggingIn() || Meteor.user())) {
           this.redirect('/');
-          bootbox.alert("Please sign in to continue.", function() {
+            bootbox.alert("<h3>Please sign in to continue</h3>", function() {
           });
            this.stop();
         }

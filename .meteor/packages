@@ -13,10 +13,7 @@ insecure
 mini-pages
 iron-router
 less
-jquery
-bootboxjs
-font-awesome
 
-paginated-subscription
 popcorn
-moment
+jquery-ui
+font-awesome
