@@ -386,7 +386,7 @@ Template.user.rendered = function() {
         video.stop();
         post=Meteor.subscribe("posthobby",this.hobbyid);
         video=Meteor.subscribe("videohobby",this.hobbyid);
-        $('#content').show();
+        $('#hobbycontent').show();
        $('#feedbackcontent').hide();
    $('#postcontent').hide();
     $('#commentcontent').hide();
