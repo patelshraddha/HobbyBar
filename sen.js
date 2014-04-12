@@ -346,6 +346,21 @@ Template.user.rendered = function() {
          return (this.userid==Meteor.userId());
        }
     },
+    name: function() {
+         var name;
+           Meteor.users.find({_id:this.userid}).forEach(function(myDoc) {name=myDoc.profile.name});
+           return name;
+    },
+    timestamp: function() {
+         var name;
+           Meteor.users.find({_id:this.userid}).forEach(function(myDoc) {name=myDoc.createdAt});
+           return name;
+    },
+    email: function() {
+         var name;
+           Meteor.users.find({_id:this.userid}).forEach(function(myDoc) {name=myDoc.profile.email});
+           return name;
+    },
     filterpost: function() {
       
       return Posts.find();
@@ -1218,11 +1233,11 @@ Meteor.publish("users",function(){
 });
 
 Meteor.publish("posthobby",function(hobbyid){
-   return Posts.find({hobbyid:hobbyid},{sort:{timeval: -1}});
+   return Posts.find({hobbyid:hobbyid},{sort:{likes: -1}});
 });
 
 Meteor.publish("videohobby",function(hobbyid){
-   return Videoposts.find({hobbyid:hobbyid},{sort:{timeval: -1}});
+   return Videoposts.find({hobbyid:hobbyid},{sort:{likes: -1}});
 });
 
 Meteor.publish("userposts",function(userid){
