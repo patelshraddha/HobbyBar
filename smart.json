@@ -5,6 +5,7 @@
     "iron-router": {},
     "popcorn": {},
     "font-awesome": {},
+
     "jquery-ui": {},
     "moment": {}
   }
