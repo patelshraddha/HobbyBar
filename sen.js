@@ -23,18 +23,23 @@ Router.map(function() {
   this.route('test');
   this.route('editpost');
   this.route('pagepost');
+
+  this.route('loading');
+  
+
   this.route('user', {
   path: '/user/:userid',
   waitOn:function(){
-            var postlist=Meteor.subscribe("userposts",this.params.userid);
-            var videolist=Meteor.subscribe("uservideos",this.params.userid);
             var hobbylist=Meteor.subscribe("hobbylist");
-            return [postlist,videolist,hobbylist];
+             postlist=Meteor.subscribe("userposts",this.params.userid);
+             post=Meteor.subscribe("posthobby",0);
+        video=Meteor.subscribe("videohobby",0);
+             videolist=Meteor.subscribe("uservideos",this.params.userid);
+            return [hobbylist,postlist,videolist,post,video];
         },
   data: function (){
-    hobbyname  = this.params.hobbyname;
     userid=this.params.userid;
-    return Hobbies.findOne({name: hobbyname}); }  });
+     }  });
 
 
   this.route('newpost', {
@@ -138,14 +143,7 @@ Router.map(function() {
     return Hobbies.findOne({name: hobbyname}); }  });
 
 
-  this.route('user', {
-  path: '/user/:userid',
-  data: function (){
-    userid  = this.params.userid;
-    templateData = {
-      userid: userid,
-        };
-    return templateData;  },  });
+  
 
   this.route('notFound', {
   path: '*'
@@ -324,6 +322,8 @@ Template.contact.rendered = function() {
 }
 Template.user.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
+  count=0;
+  countall=0;
   if(userid!=Meteor.userId())
   {
     $('.holo').hide();
@@ -331,18 +331,41 @@ Template.user.rendered = function() {
   $('#feedbackcontent').hide();
    $('#postcontent').hide();
     $('#commentcontent').hide();
-    // $('content').hide();
+    $('#hobbycontent').hide();
+    if(userid!=undefined)
+  {
+    $('#dropdown').hide();
+    $('#dropdownall').hide();
+  }
 
 }
   Template.user.helpers({
-    
+    diffuser: function() {
+         if(this.userid!=undefined)
+         {
+         return (this.userid==Meteor.userId());
+       }
+    },
     filterpost: function() {
-       
-         return Posts.find();
+      
+      return Posts.find();
+
     },
     filtervideopost: function() {
-      
-         return Videoposts.find();
+      return Videoposts.find();
+         
+    },
+    subscribed: function() {
+
+       var subscribed;
+       Meteor.users.find({_id:this.userid}).forEach(function(myDoc) {subscribed=myDoc.suscribed});
+       if(subscribed!=undefined)
+       {
+       return  Hobbies.find({hobbyid:{$in:subscribed}});
+     }
+    },
+    all: function() {
+       return  Hobbies.find();
     },
 
 
@@ -354,26 +377,73 @@ Template.user.rendered = function() {
        $('#feedbackcontent').hide();
    $('#postcontent').hide();
     $('#commentcontent').hide();
+     $('#hobbycontent').hide();
+       },
+  "click .hobbypage": function(e, tmpl) {
+        postlist.stop();
+        videolist.stop();
+        post.stop();
+        video.stop();
+        post=Meteor.subscribe("posthobby",this.hobbyid);
+        video=Meteor.subscribe("videohobby",this.hobbyid);
+        $('#content').show();
+       $('#feedbackcontent').hide();
+   $('#postcontent').hide();
+    $('#commentcontent').hide();
+     $('#profilecontent').hide();
+
+       },
+  "click #drop": function(e, tmpl) {
+       if((count%2)==0)
+       {
+         $('#dropdown').show();
+        count++;
+       }
+       else
+       {
+         $('#dropdown').hide();
+        count--;
+       }
+       },
+  "click #dropall": function(e, tmpl) {
+       if((countall%2)==0)
+       {
+         $('#dropdownall').show();
+        countall++;
+       }
+       else
+       {
+         $('#dropdownall').hide();
+        countall--;
+       }
        },
   "click #feedback": function(e, tmpl) {
     $('#profilecontent').hide();
        $('#feedbackcontent').show();
    $('#postcontent').hide();
     $('#commentcontent').hide();
+    $('#hobbycontent').hide();
        },
   "click #posts": function(e, tmpl) {
     $('#profilecontent').hide();
        $('#feedbackcontent').hide();
    $('#postcontent').show();
     $('#commentcontent').hide();
+    $('#hobbycontent').hide();
+        postlist.stop();
+        videolist.stop();
+        post.stop();
+        video.stop();
+        postlist=Meteor.subscribe("userposts",this.userid);
+        videolist=Meteor.subscribe("uservideos",this.userid);
        },
     "click #comments": function(e, tmpl) {
     $('#profilecontent').hide();
        $('#feedbackcontent').hide();
    $('#postcontent').hide();
     $('#commentcontent').show();
-       },
-  
+    $('#hobbycontent').hide();
+       }, 
 
    });
 
@@ -511,14 +581,17 @@ Template.displaypost.events({            // check this once  -----Roshni
          
          if (x==null || x=="")
          {
-
-           alert("No comment added!!!!");
+          bootbox.alert("<h3>No comment added!!!!</h3>", function() {
+          });
+          
            return false;
          }
         
           if(postid!=undefined)
           {
+            $('#data').val("");
           Meteor.call('addcomment',postid,x);
+
            }
 
           
@@ -538,12 +611,14 @@ Template.displaypost.events({            // check this once  -----Roshni
          
          if (x==null || x=="")
          {
-           alert("No heading of post found!!!!");
+          bootbox.alert("<h3>No heading of post found!!</h3>", function() {
+          });
            return false;
          }
          if(y==null || y=="")
         {
-          alert("No url found");
+          bootbox.alert("<h3>No data found!!</h3>", function() {
+          });
           return false;
         }
         if(_.contains(Meteor.user().suscribed,this.hobbyid))
@@ -554,7 +629,9 @@ Template.displaypost.events({            // check this once  -----Roshni
         }
         else
         {
-          alert('You are not suscribed!!');
+          bootbox.alert("<h3>You are not subscribed!!!!</h3>", function() {
+          });
+         
           return false;
         }
 
@@ -596,12 +673,16 @@ Template.displaypost.events({            // check this once  -----Roshni
          
          if (x==null || x=="")
          {
-           alert("No heading of post found!!!!");
+          bootbox.alert("<h3>No heading of post found!!</h3>", function() {
+          });
+          
            return false;
          }
          if(y==null || y=="")
         {
-          alert("No data found :(");
+          bootbox.alert("<h3>No data found!!!!</h3>", function() {
+          });
+         
           return false;
         }
         if(_.contains(Meteor.user().suscribed,this.hobbyid))
@@ -610,8 +691,11 @@ Template.displaypost.events({            // check this once  -----Roshni
             if (url.indexOf('youtube.com') > -1) {
             
                    var id = url.split('v=')[1].split('&')[0];
+                   
                 if (!id) {
-                      alert("Not a valid youtube url");
+                  bootbox.alert("<h3>Not a valid youtube url!!</h3>", function() {
+          });
+                      
                       return false;
                 }
                 var m=('http://i1.ytimg.com/vi/'+id+'/hqdefault.jpg');
@@ -620,7 +704,8 @@ Template.displaypost.events({            // check this once  -----Roshni
                 return true;}
            else
            {
-             alert("Not a valid youtube url");
+             bootbox.alert("<h3>Not a valid youtube url!!</h3>", function() {
+          });
              return false;
            }
           
@@ -628,7 +713,9 @@ Template.displaypost.events({            // check this once  -----Roshni
         }
         else
         {
-          alert('You are not suscribed!!');
+          bootbox.alert("<h3>You are not subscribed!!</h3>", function() {
+          });
+          
           return false;
         }
 
@@ -750,7 +837,7 @@ Template.displaypost.events({            // check this once  -----Roshni
      {
     Meteor.call('deletepost',postid);
     window.location = '/'+hobbyname+'/main';
-    alert('Deleted your post!!');
+    //alert('Deleted your post!!');
       }
        }
 
@@ -772,7 +859,7 @@ Template.displaypost.events({            // check this once  -----Roshni
      {
     Meteor.call('deletevideo',videoid);
     window.location = '/'+hobbyname+'/main';
-    alert('Deleted your post!!');
+   // alert('Deleted your post!!');
       }
        }
 
@@ -786,12 +873,15 @@ Template.displaypost.events({            // check this once  -----Roshni
          
          if (x==null || x=="")
          {
-           alert("No heading of post found!!!!");
+          bootbox.alert("<h3>No heading of post found!!</h3>", function() {
+          });
            return false;
          }
          if(y==null || y=="")
         {
-          alert("No url found");
+          bootbox.alert("<h3>No data found!!</h3>", function() {
+          });
+          
           return false;
         }
        // if(_.contains(Meteor.user().suscribed,this.hobbyid))
@@ -823,6 +913,10 @@ Template.displaypost.events({            // check this once  -----Roshni
   "click #logout": function(e, tmpl) {
 
     Meteor.logout();
+       },
+   "click #profile": function(e, tmpl) {
+        window.location = '/user/'+Meteor.userId();
+    
        }
    });
   
@@ -1116,11 +1210,19 @@ Comments.insert({postid:postid,comment:comment,userid:Meteor.userId(),pic:pic,li
     var hobbyid;
     Hobbies.find({name:hobbyname}).forEach(function(myDoc) {hobbyid=myDoc.hobbyid});
      return Math.ceil(Videoposts.find({hobbyid:hobbyid}).count()/8);
-  }  
+  },
 });
 
 Meteor.publish("users",function(){
    return Meteor.users.find();
+});
+
+Meteor.publish("posthobby",function(hobbyid){
+   return Posts.find({hobbyid:hobbyid},{sort:{timeval: -1}});
+});
+
+Meteor.publish("videohobby",function(hobbyid){
+   return Videoposts.find({hobbyid:hobbyid},{sort:{timeval: -1}});
 });
 
 Meteor.publish("userposts",function(userid){
