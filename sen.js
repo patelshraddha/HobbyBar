@@ -2,6 +2,7 @@ Hobbies = new Meteor.Collection("hobbies");
 Posts =new Meteor.Collection("posts");
 Videoposts=new Meteor.Collection("videoposts");
 Comments=new Meteor.Collection("comments");
+Videocomments=new Meteor.Collection("videocomments");
 
 
 
@@ -16,8 +17,8 @@ Router.configure({
 
 
 
-Router.map(function() {
-  this.route('home', {path: '/'});
+Router.map(function() {                          // define routing
+  this.route('home', {path: '/'});            // (template name) path{}
   this.route('home');
   this.route('contact');
   this.route('test');
@@ -82,11 +83,12 @@ Router.map(function() {
     return Posts.findOne(); }  });
 
   this.route('displayvideo', {
-  path: '/VideoPosts/:videoid',
+  path: '/VideoPost/:videoid',
   waitOn:function(){
             videoid=this.params.videoid;
             videodetails=Meteor.subscribe("displayvideo",videoid);
-            return [videodetails];
+            commentdetails=Meteor.subscribe('getvidcomments',videoid);
+            return [videodetails,commentdetails];
         },
   data: function (){
     var hobbyid;
@@ -517,8 +519,32 @@ Template.displaypost.events({            // check this once  -----Roshni
          }
         
           if(postid!=undefined)
-          {
+          { $('#data').val("");
           Meteor.call('addcomment',postid,x);
+           }
+
+          
+        },
+
+    
+
+   });
+
+Template.displayvideo.events({            // check this once  -----Roshni
+  
+  "click #comment": function(e, tmpl){
+         var x=$('#vdata').val();
+         
+         if (x==null || x=="")
+         {
+           alert("No comment added!!!!");
+           return false;
+         }
+        
+          if(videoid!=undefined)
+          {
+          $('#vdata').val("");
+          Meteor.call('addvidcomment',videoid,x);
            }
 
           
@@ -701,6 +727,16 @@ Template.displaypost.events({            // check this once  -----Roshni
       
       return Comments.find();
     },
+    checklike1: function() {
+      if(Posts.findOne()==undefined)
+      {
+       return false;
+     }
+      else
+      {  
+      return _.contains(Posts.findOne().likeusers,Meteor.userId());
+       }
+    },
 
   })
 
@@ -724,7 +760,10 @@ Template.displaypost.events({            // check this once  -----Roshni
       
          return (this.userid==Meteor.userId());
     },
+    vidcomments : function(){
 
+      return Videocomments.find();
+    },
 
   })
 
@@ -1028,6 +1067,20 @@ if (Meteor.isServer) {
       }
     });
       },
+      unlike1: function (postid,userid) {
+      Comments.update({
+      _id: postid
+    }, {
+      $pull:{likeusers:userid},
+      $inc:{likes:-1}
+    }, function(error, affectedDocs) {
+      if (error) {
+        throw new Meteor.Error(500, error.message);
+      } else {
+        return "Update Successful";
+      }
+    });
+      },
   unlikevideo: function (postid,userid) {
       Videoposts.update({
       _id: postid
@@ -1105,6 +1158,18 @@ if (Meteor.isServer) {
 
 Comments.insert({postid:postid,comment:comment,userid:Meteor.userId(),pic:pic,likes:0,likeusers:[Meteor.userId()],timestamp:new Date(),timeval:((new Date).valueOf())});
   },
+   addvidcomment: function(videoid,comment){    
+  var pic=0;
+  var pictwitter=0;
+
+   Meteor.users.find({_id:Meteor.userId()}).forEach(function(myDoc) {pic=myDoc.profile.picture});
+  /*Meteor.users.find({_id:Meteor.userId()}).forEach(function(myDoc) {pictwitter=myDoc.services.twitter.profile_image_url});
+   if(pic==undefined)
+     pic=pictwitter;*/
+                  // please check ----Roshni
+
+Videocomments.insert({videoid:videoid,comment:comment,userid:Meteor.userId(),pic:pic,likes:0,likeusers:[Meteor.userId()],timestamp:new Date(),timeval:((new Date).valueOf())});
+  },
   getpostpages: function (hobbyname) { 
     
     var hobbyid;
@@ -1176,6 +1241,11 @@ for (var i=0; i<races.length; i++) {
     return data;
  });
 
+ Meteor.publish("getvidcomments",function(videoid){      //  Roshni
+
+    var data=Videocomments.find({videoid:videoid},{sort:{timeval: -1}});
+    return data;
+ });
 
 
  Meteor.publish("hobbies", function () {
