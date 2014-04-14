@@ -4,6 +4,7 @@ Videoposts=new Meteor.Collection("videoposts");
 Comments=new Meteor.Collection("comments");
 Videocomments=new Meteor.Collection("videocomments");
 
+Admin=new Meteor.Collection("admindb");
 
 
 
@@ -457,17 +458,18 @@ Template.admin.helpers({
     }
 
       //Dynamically adding a hobby on screen by the admin
-
-      "click #addhobby": function(e, tmpl) {
+      /*"click #addhobby": function(e, tmpl) {
         Meteor.call('addhobby',this.hobbyid);
-      }
-    }   
+      }*/
+       
    });
 
 
 
 
-
+Template.admin.admindb = function() {
+  return Admin.find();
+}
 
 Template.displaypost.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
