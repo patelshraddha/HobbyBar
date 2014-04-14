@@ -455,12 +455,20 @@ Template.admin.helpers({
       $('#postcontent').remove();
       $('#commentcontent').remove();
       Meteor.call('deletepost',this.postid);
-    }
+    },
 
-      //Dynamically adding a hobby on screen by the admin
-      /*"click #addhobby": function(e, tmpl) {
-        Meteor.call('addhobby',this.hobbyid);
-      }*/
+    //  Dynamically adding a hobby on screen by the admin
+      "click #addnewhobby": function(e, tmpl) {
+        $('#profilecontent').hide();
+       $('#feedbackcontent').hide();
+   $('#postcontent').hide();
+    $('#commentcontent').show();
+    $('#hobbycontent').hide();
+      },
+
+      "click #number_of_users": function(e, tmpl) {
+        Meteor.call('count_users',this.count_users);
+      }
        
    });
 
