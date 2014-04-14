@@ -197,7 +197,7 @@ Template.user.helpers({
 
 
   });
-
+  
  Template.user.events({
   "click #profile": function(e, tmpl) {
     $('#profilecontent').show();
@@ -449,6 +449,19 @@ Template.admin.helpers({
     $('#hobbycontent').hide();
        }, 
 
+       //Deleting the post by the admin
+    "click #deletepost": function(e, tmpl) {
+      $('#postcontent').remove();
+      $('#commentcontent').remove();
+      Meteor.call('deletepost',this.postid);
+    }
+
+      //Dynamically adding a hobby on screen by the admin
+
+      "click #addhobby": function(e, tmpl) {
+        Meteor.call('addhobby',this.hobbyid);
+      }
+    }   
    });
 
 
