@@ -9,32 +9,32 @@
         <!-- Brand and toggle get grouped for better mobile display -->
        
         <!-- Collect the nav links, forms, and other content for toggling -->
-		<div class="collapse navbar-collapse navbar-ex1-collapse">
+      <div class="collapse navbar-collapse navbar-ex1-collapse">
                
           <ul class="nav navbar-nav side-nav">
             <li><a id="profile"><i class="fa fa-smile-o"></i> Profile</a></li>
            <!-- <li><a id="feedback" class="holo"><i class="fa fa-globe"></i> Feedbacks</a></li>-->
-			<li><a id="posts" ><i class="fa fa-envelope"></i>Posts</a></li>
+            <li><a id="posts" ><i class="fa fa-envelope"></i>Posts</a></li>
 
-     
+            <li><a id="addhobby" ><i class="fa fa-edit"></i>Add Hobby</a></li>
 
-		<!--	<li><a id="comments" class="holo"><i class="fa fa-comments-o"></i>Comments</a></li>-->
+    <!--  <li><a id="comments" class="holo"><i class="fa fa-comments-o"></i>Comments</a></li>-->
 
-			
+      
 
-       {{#if diffuser}}
-			<li>
+            {{#if diffuser}}
+            <li>
        
               <a href="#" id="drop" class="holo"><i class="fa fa-caret-square-o-down"></i> Subscribed Hobbies</a>
               <ul id="dropdown" class="holo">
-              	{{#each subscribed}}
+                {{#each subscribed}}
 
                 <li><a href="#" id="{{altname}}" class="hobbypage">{{altname}}</a></li>
 
                 {{/each}}
               </ul>
-      </li>
-      <li>
+            </li>
+            <li>
               <a href="#" id="dropall" class="holo"><i class="fa fa-caret-square-o-down"></i> All Hobbies</a>
               <ul id="dropdownall" class="holo">
                 {{#each all}}
@@ -45,12 +45,12 @@
               </ul>
             </li>
 
-        {{/if}}
+            {{/if}}
 
 
 
           </ul>
-          </div>
+      </div>
           
         
      
@@ -88,8 +88,8 @@
             <div class="alert alert-success alert-dismissable">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
               <a href="#">{{currentUser.profile.name}}</a>
- 				      <p> Here we are</p>
-			        {{currentUser.profile.name}}
+              <p> Here we are</p>
+              {{currentUser.profile.name}}
             </div>
           </div>
        </div>
@@ -199,8 +199,8 @@
             <div class="alert alert-success alert-dismissable">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
               <a href="#">{{currentUser.profile.name}}</a>
- 				<p> Here we are</p>
-			{{currentUser.profile.name}}
+        <p> Here we are</p>
+      {{currentUser.profile.name}}
             </div>
           </div>
         </div>-->
