@@ -467,7 +467,11 @@ Template.admin.helpers({
       },
 
       "click #number_of_users": function(e, tmpl) {
-        Meteor.call('count_users',this.count_users);
+        $('#profilecontent').hide();
+       $('#feedbackcontent').hide();
+   $('#postcontent').hide();
+    $('#commentcontent').show();
+    $('#hobbycontent').hide();
       }
        
    });
