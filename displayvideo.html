@@ -44,7 +44,16 @@
               <a href="/user/{{userid}}"><img style="height: 50px;margin-right:20px" src="{{pic}}" /></a>
           {{comment}}
 
-          <div style="width:100%;padding-right:50px;padding-top:15px"> <!--<img src="../images/like.png" id="like1" class="like" style="height: 20px;width:20px;padding-right:10px"/>No of likes :{{likes}}--><p style="float:right">Created {{prettifyDate timestamp}}</p></div>
+        
+        <div style="width:100%;padding-right:50px;padding-top:15px"> 
+         {{#if checklike1}}
+            <img src="../images/dislike.png" id="unlike1" class="dislikecomment" style="height: 20px;width:20px;"/>
+          {{else}}
+           <img src="../images/like.png" id="like1" class="likecomment" style="height: 20px;width:20px;"/>
+          {{/if}}
+          <br/>
+         <p>No of likes: {{likes}}<div style="float:right">{{prettifyDate timestamp}}</div></p>
+          </div>
           <br/>
          {{/each}}
         </div>
@@ -54,10 +63,10 @@
         
         <br/>
         <div>
-{{#if creator}}
+<!--{{#if creator}}-->
 
             <button id="delete">Delete video</button>
-         {{/if}}
+         <!--{{/if}}-->
      </div>
        </div>
      </div> 

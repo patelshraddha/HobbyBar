@@ -47,13 +47,13 @@
          
 
           <div style="width:100%;padding-right:50px;padding-top:15px"> 
-          <!--{{#if checklike1}}
-            <img src="../images/dislike.png" id="{{_id}}" class="dislikecomment" style="height: 20px;width:20px;"/>
+         {{#if checklike1}}
+            <img src="../images/dislike.png" id="unlike1" class="dislikecomment" style="height: 20px;width:20px;"/>
           {{else}}
-           <img src="../images/like.png" id="{{_id}}" class="likecomment" style="height: 20px;width:20px;"/>
+           <img src="../images/like.png" id="like1" class="likecomment" style="height: 20px;width:20px;"/>
           {{/if}}
-          <br/>-->
-         <p><!--No of likes: {{likes}}--><div style="float:right">{{prettifyDate timestamp}}</div></p>
+          <br/>
+         <p>No of likes: {{likes}}<div style="float:right">{{prettifyDate timestamp}}</div></p>
           </div>
           <br/>
          {{/each}}
@@ -71,6 +71,7 @@
          {{/if}}
           
      </div>
+     <button class="correctbutton">correct</button>
        </div>
      </div> 
     </div>
