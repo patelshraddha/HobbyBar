@@ -694,3 +694,10 @@ left:100px;
 #page-wrapper {
   padding: 15px 25px;
   }
+
+
+
+/*/////////////////////////*/
+.pull-besideHeader{
+  padding-left: -30px;
+}

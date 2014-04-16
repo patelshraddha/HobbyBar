@@ -23,6 +23,7 @@
 	text-shadow: none;
 	color: white;
   font-weight: bold;
+  padding-right:-50px;
 }
 .navbar .nav li.dropdown > .dropdown-toggle .caret {
 	border-top-color: white;
