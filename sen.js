@@ -108,6 +108,11 @@ Template.hobbymain.rendered = function() {
 Template.contact.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
 }
+
+
+ 
+
+
 Template.user.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
   count=0;
@@ -892,19 +897,7 @@ Template.displayvideo.events({            // check this once  -----Roshni
 
 
 
-  Template.test.events({
-  "click #hi": function(e, tmpl){
-          /* alert("you clicked");
-            $("#div1").fadeIn();
-    $("#div2").fadeIn("slow");
-    $("#div3").fadeIn("slow");*/
-         $('html, body').animate({
-        scrollTop: $("#div5").offset().top+230
-    }, 1000);
-          
-        },
-
-     });
+  
 
  
 
