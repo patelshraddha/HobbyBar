@@ -8,7 +8,8 @@
       "popcorn": {},
       "font-awesome": {},
       "jquery-ui": {},
-      "moment": {}
+      "moment": {},
+      "autocomplete": {}
     },
     "packages": {
       "router": {
@@ -46,6 +47,11 @@
         "tag": "v2.5.1",
         "commit": "8c9bc5d3fc96705057737cb9743d555417f6e551"
       },
+      "autocomplete": {
+        "git": "https://github.com/mizzao/meteor-autocomplete.git",
+        "tag": "v0.3.0",
+        "commit": "3130f6911e3ece890532be7c669b1ffa42dbb097"
+      },
       "page-js-ie-support": {
         "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",
         "tag": "v1.3.5",
@@ -60,6 +66,11 @@
         "git": "https://github.com/EventedMind/blaze-layout.git",
         "tag": "v0.2.4",
         "commit": "b40e9b0612329288d75cf52ad14a7da64bb8618f"
+      },
+      "jquery-migrate": {
+        "git": "https://github.com/canadaduane/meteor-jquery-migrate.git",
+        "tag": "v2.0.0",
+        "commit": "636819c9de59f66410e148867b229869bb045cea"
       }
     }
   }

@@ -7,7 +7,7 @@
           <div class="container">
 
             <a href="/" class="brand brand-bootbus"><img class="invert-color" src="/images/logo.png" width="50%" height ="50%"/></a>
-    
+
             <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
@@ -38,6 +38,7 @@
                       <li>
                         <a href="/" id="logout">Logout</a>
                       </li>
+
                   {{/if}}
                       
                   
@@ -145,6 +146,11 @@
   
               </ul>
             </div>
+            <div style='float:left;position:fixed;width:15%;background:black;  '>
+      {{> inputAutocomplete settings=settings id="autocomplete-input" class="input-xlarge" placeholder="Type here..." style=''}}
+   
+    </div>
+    
           </div>
         </div>
       </div>
