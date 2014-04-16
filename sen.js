@@ -418,6 +418,10 @@ Template.admin.helpers({
 
        },
 
+  "click #addhobby": function(e, tmpl) {
+      window.location = '/admin/'+Meteor.userId()+'/hobbyedit';
+     },
+
   "click #drop": function(e, tmpl) {
        if((count%2)==0)
        {
@@ -718,6 +722,10 @@ Template.displayvideo.events({            // check this once  -----Roshni
     
 
    });
+
+Template.hobbyedit.rendered = function() {
+  $("html,body").animate({scrollTop: 0},500);
+}
 
 //---------------------------
 

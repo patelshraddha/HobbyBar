@@ -699,3 +699,25 @@ left:100px;
 #page-wrapper {
   padding: 15px 25px;
   }
+
+
+
+/*/////////////////////////*/
+.pull-besideHeader{
+  padding-left: -30px;
+}
+/*////////////for hobby edit///////////////*/
+.hobbynew{
+  margin-left: 220px;
+  left: 100px;
+  width: 600px;
+  padding:50px;
+  position: fixed;
+  top: 70px;
+  height: 100%;
+  border-radius: 0;
+  border: none;
+  background-color: #ffffff;
+  overflow-y: hidden;
+  color: #000000;
+}
