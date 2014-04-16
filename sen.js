@@ -902,7 +902,11 @@ Template.displayvideo.events({            // check this once  -----Roshni
      }
       else
       {  
-      return _.contains(Posts.findOne().likeusers,Meteor.userId());
+        //return _.contains(this.likeusers,Meteor.userId());
+        if(this.likeusers.length>0)
+          return true;
+        else
+          return false;
        }
     },
 
@@ -931,6 +935,20 @@ Template.displayvideo.events({            // check this once  -----Roshni
     vidcomments : function(){
 
       return Videocomments.find();
+    },
+    checklike1: function() {
+      if(Videoposts.findOne()==undefined)
+      {
+       return false;
+     }
+      else
+      {  
+        //return _.contains(this.likeusers,Meteor.userId());
+        if(this.likeusers.length>0)
+          return true;
+        else
+          return false;
+       }
     },
 
   })
@@ -972,6 +990,13 @@ Template.displayvideo.events({            // check this once  -----Roshni
        },
   "click #like": function(e, tmpl) {
     Meteor.call('likevideo',this._id,Meteor.userId());
+       },
+  "click #unlike1": function(e, tmpl) {
+   
+    Meteor.call('unlikevideocomment',this._id,Meteor.userId());
+       },
+  "click #like1": function(e, tmpl) {
+    Meteor.call('likevideocomment',this._id,Meteor.userId());
        },
   "click #delete": function(e, tmpl) {
      var answer=confirm("Are you sure you want to delete this post?");

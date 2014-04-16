@@ -106,9 +106,23 @@ if (Meteor.isServer) {
       }
     });
       },
-      unlike1: function (postid,userid) {
+      unlike1: function (commentid,userid) {
       Comments.update({
-      _id: postid
+      _id: commentid
+    }, {
+      $pull:{likeusers:userid},
+      $inc:{likes:-1}
+    }, function(error, affectedDocs) {
+      if (error) {
+        throw new Meteor.Error(500, error.message);
+      } else {
+        return "Update Successful";
+      }
+    });
+      },
+      unlikevideocomment: function (commentid,userid) {
+      Videocomments.update({
+      _id: commentid
     }, {
       $pull:{likeusers:userid},
       $inc:{likes:-1}
@@ -167,6 +181,21 @@ if (Meteor.isServer) {
       }
     });
   },
+  likevideocomment :function(commentid,userid){     // Roshni
+    Videocomments.update({
+      _id:commentid},{
+        $addToSet:{likeusers:userid},
+        $set: {timestamp:new Date()},
+        $set: {timeval: ((new Date).valueOf())},
+        $inc: {likes:1}
+      },function(error, affectedDocs) {
+      if (error) {
+        throw new Meteor.Error(500, error.message);
+      } else {
+        return "Update Successful";
+      }
+    });
+  },
   likevideo: function (postid,userid) { 
     Videoposts.update({
       _id: postid
@@ -195,7 +224,7 @@ if (Meteor.isServer) {
      pic=pictwitter;*/
                   // please check ----Roshni
 
-Comments.insert({postid:postid,comment:comment,userid:Meteor.userId(),pic:pic,likes:0,likeusers:[Meteor.userId()],timestamp:new Date(),timeval:((new Date).valueOf())});
+Comments.insert({postid:postid,comment:comment,userid:Meteor.userId(),pic:pic,likes:0,likeusers:[],timestamp:new Date(),timeval:((new Date).valueOf())});
   },
    addvidcomment: function(videoid,comment){    
   var pic=0;
@@ -207,7 +236,7 @@ Comments.insert({postid:postid,comment:comment,userid:Meteor.userId(),pic:pic,li
      pic=pictwitter;*/
                   // please check ----Roshni
 
-Videocomments.insert({videoid:videoid,comment:comment,userid:Meteor.userId(),pic:pic,likes:0,likeusers:[Meteor.userId()],timestamp:new Date(),timeval:((new Date).valueOf())});
+Videocomments.insert({videoid:videoid,comment:comment,userid:Meteor.userId(),pic:pic,likes:0,likeusers:[],timestamp:new Date(),timeval:((new Date).valueOf())});
   },
   getpostpages: function (hobbyname) { 
     
