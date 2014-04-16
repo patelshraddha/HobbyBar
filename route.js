@@ -55,6 +55,21 @@ Router.map(function() {
     userid=this.params.userid;
      }  });
 
+  this.route('admin', {
+  path: '/admin/:userid',
+  waitOn:function(){
+            var hobbylist=Meteor.subscribe("hobbylist");
+
+             postlist=Meteor.subscribe("userposts",this.params.userid);
+             post=Meteor.subscribe("posthobby",0);
+        video=Meteor.subscribe("videohobby",0);
+             videolist=Meteor.subscribe("uservideos",this.params.userid);
+            return [hobbylist,postlist,videolist,post,video];
+
+        },
+  data: function (){
+    userid=this.params.userid;
+     }  });
 
   this.route('newpost', {
   path: '/:hobbyname/newpost',

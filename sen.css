@@ -7,7 +7,6 @@ body, html {
 }
 
 
-
 @font-face {
     font-family: Reenie Beanie; 
     src:url("../fonts/ReenieBeanie.ttf");
@@ -647,21 +646,21 @@ left:100px;
  .side-nav {
   margin-left: -225px;
   left: 225px;
-  width: 225px;
+  width: 200px;
   position: fixed;
   top: 70px;
   height: 100%;
   border-radius: 0;
   border: none;
-  background-color: #222222;
+  background-color: #000000;
   overflow-y: auto;
   }
 
-    .side-nav>li.dropdown>ul.dropdown-menu {
+  /*.side-nav>li.dropdown>ul.dropdown-menu {
   position: relative;
   min-width: 225px;
   margin: 0;
-  padding: 0;
+  padding: 2px;
   border: none;
   border-radius: 0;
   background-color: transparent;
@@ -679,15 +678,15 @@ left:100px;
   .side-nav>li.dropdown>ul.dropdown-menu>li>a:focus {
   color: #fff;
   background-color: #080808;
-  }
+  }*/
 
   .side-nav>li>a {
-  width: 225px;
+  /*width: 150px;*/
   }
 
   .navbar-inverse .navbar-nav>li>a:hover,
   .navbar-inverse .navbar-nav>li>a:focus {
-  background-color: #080808;
+  background-color: #000000;
   }
 #wrapper {
   padding-left: 225px;
