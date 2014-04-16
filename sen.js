@@ -104,13 +104,29 @@ Template.hobbymain.rendered = function() {
 
 
 
+Template.header.settings = {
+  position: 'bottom',
+  limit: 5,  // more than 20, to emphasize matches outside strings *starting* with the filter
+  rules: [
+    {
+      token: '',
+      collection: Meteor.users,  // Meteor.Collection object means client-side collection
+      field: 'profile.name',
+      // set to true to search anywhere in the field, which cannot use an index.
+       // 'ba' will match 'bar' and 'baz' first, then 'abacus'
+      template: Template.details,
+      callback: function(doc) { window.location = '/user/'+doc._id;}
+    }
+  ]
+};
+
 
 Template.contact.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
 }
 
 
- 
+
 
 
 Template.user.rendered = function() {

@@ -357,7 +357,7 @@ for (var i=0; i<races.length; i++) {
             "locale",
             "hd");
 
-        // console.log(profile);
+        
         user.profile = profile;
         user.suscribed=[];
         user.count= 0;

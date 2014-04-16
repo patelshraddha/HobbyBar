@@ -1,6 +1,8 @@
 <template name="user">
  
   <body>
+  	
+    
     <div id="wrapper" style="padding-left: 155px;width:80%">
 
       <!-- Sidebar -->
@@ -217,11 +219,16 @@
         </div>
 
     </div>
+ 
 
-
-
+</body>
 
     
-</body>
+
 </template>
 
+<template name="details">
+	<small><img style="height: 25px;" src="{{profile.picture}}" />
+                            <img style="height: 25px ;" src=" {{services.twitter.profile_image_url}}" />
+  {{profile.name}}</small>
+</template>
