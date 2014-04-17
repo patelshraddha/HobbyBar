@@ -9,7 +9,8 @@
       "font-awesome": {},
       "jquery-ui": {},
       "moment": {},
-      "autocomplete": {}
+      "autocomplete": {},
+      "notifications": {}
     },
     "packages": {
       "router": {
@@ -51,6 +52,11 @@
         "git": "https://github.com/mizzao/meteor-autocomplete.git",
         "tag": "v0.3.0",
         "commit": "3130f6911e3ece890532be7c669b1ffa42dbb097"
+      },
+      "notifications": {
+        "git": "https://github.com/gfk-ba/meteor-notifications.git",
+        "tag": "v0.4.8",
+        "commit": "ed16633ce4996522907a41138b3ebc6134e15063"
       },
       "page-js-ie-support": {
         "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",

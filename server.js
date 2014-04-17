@@ -85,6 +85,9 @@ if (Meteor.isServer) {
     Posts.remove({_id:postid});
     //remove the corresponding comments
   },
+  addusername:function(username,userid){
+    Meteor.users.update({_id:userid},{$set:{'profile.username':username}});
+  },
   deletevideo:function(videoid){
     Videoposts.remove({_id:videoid});
     //remove the corresponding comments
@@ -217,7 +220,7 @@ if (Meteor.isServer) {
       }
     });
   },
-  addcomment: function(postid,comment){    
+  addcomment: function(postid,comment,usertags){    
   var pic=0;
   var pictwitter=0;   
   
@@ -226,11 +229,14 @@ if (Meteor.isServer) {
    if(pic==undefined)
      pic=pictwitter;*/
                   // please check ----Roshni
+        //    comment=      comment.replace(/@([^ ]+)/g, '<a href="/user/$1"><b>@$1</b></a>');
 
-  Comments.insert({postid:postid,comment:comment,userid:Meteor.userId(),pic:pic,likes:0,likeusers:[],timestamp:new Date(),timeval:((new Date).valueOf())});
+
+  
+Comments.insert({postid:postid,comment:comment,userid:Meteor.userId(),pic:pic,likes:0,likeusers:[],timestamp:new Date(),timeval:((new Date).valueOf()),usertags:usertags});
 
   },
-   addvidcomment: function(videoid,comment){    
+   addvidcomment: function(videoid,comment,usertags){    
   var pic=0;
   var pictwitter=0;
 
@@ -240,7 +246,7 @@ if (Meteor.isServer) {
      pic=pictwitter;*/
                   // please check ----Roshni
 
-Videocomments.insert({videoid:videoid,comment:comment,userid:Meteor.userId(),pic:pic,likes:0,likeusers:[],timestamp:new Date(),timeval:((new Date).valueOf())});
+Videocomments.insert({videoid:videoid,comment:comment,userid:Meteor.userId(),pic:pic,likes:0,likeusers:[],timestamp:new Date(),timeval:((new Date).valueOf()),usertags:usertags});
   },
   getpostpages: function (hobbyname) { 
     
@@ -359,7 +365,7 @@ for (var i=0; i<races.length; i++) {
 });
   Accounts.onCreateUser(function (options, user) {
      
-   
+  
 
     if (user.services.google !== undefined) {
       var accessToken = user.services.google.accessToken,
@@ -390,8 +396,9 @@ for (var i=0; i<races.length; i++) {
             "locale",
             "hd");
 
-        
         user.profile = profile;
+        user.profile.username=null;
+
         user.suscribed=[];
         user.count= 0;
         return user;
@@ -403,6 +410,7 @@ else if (user.services.facebook !== undefined) {
         
     }
     user.suscribed=[];
+     user.profile.username=null;
     user.count= 0;
     return user;
 }
@@ -410,7 +418,10 @@ else if (user.services.twitter !== undefined) {
     if (options.profile) {
         user.profile = options.profile;
     }
+    user.profile.picture=user.services.twitter.profile_image_url;
+    user.profile.email=user.services.twitter.email;
     user.suscribed=[];
+    user.profile.username=null;
     user.count= 0;
     return user;
 }

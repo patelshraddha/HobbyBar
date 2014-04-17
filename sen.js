@@ -126,6 +126,48 @@ Template.header.settings = {
   ]
 };
 
+Template.displaypost.settings = {
+  position: 'bottom',
+  limit: 5,  // more than 20, to emphasize matches outside strings *starting* with the filter
+  rules: [
+    {
+      token: '@',
+      collection: Meteor.users,  // Meteor.Collection object means client-side collection
+      field: 'profile.username',
+      // set to true to search anywhere in the field, which cannot use an index.
+       // 'ba' will match 'bar' and 'baz' first, then 'abacus'
+      template: Template.details,
+     callback:function(doc) {
+       var p=usertags.length;
+       usertags[p]=doc._id;
+      },
+        
+      
+    }
+  ]
+};
+
+Template.displayvideo.settings = {
+  position: 'bottom',
+  limit: 5,  // more than 20, to emphasize matches outside strings *starting* with the filter
+  rules: [
+    {
+      token: '@',
+      collection: Meteor.users,  // Meteor.Collection object means client-side collection
+      field: 'profile.username',
+      // set to true to search anywhere in the field, which cannot use an index.
+       // 'ba' will match 'bar' and 'baz' first, then 'abacus'
+      template: Template.details,
+     callback:function(doc) {
+       var p=usertags.length;
+       usertags[p]=doc._id;
+      },
+        
+      
+    }
+  ]
+};
+
 
 Template.contact.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
@@ -136,18 +178,61 @@ Template.user.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
   count=0;
   countall=0;
-  if(userid!=Meteor.userId())
+  box=undefined;
+  
+
+  Deps.autorun(function(){
+    if(Meteor.user())
+    {
+       console.log(Meteor.user().profile.username);
+  if(Meteor.user().profile.username==null)
   {
-    $('.holo').hide();
+   
+    if(box==undefined)
+    {
+        box=  bootbox.dialog({
+        message: "<form id='infos' action=''>    Username:   <input name='usernameInput' id='username'/></form>",
+        title: "Please enter your username.",
+        buttons: {
+          success: {
+            label: "Save",
+            className: "btn-success",
+            callback: function() {
+              var x=$('#username').val();
+              
+              if(Meteor.users.find({'profile.username':x}).count()==0)
+                  Meteor.call('addusername',$('#username').val(),Meteor.userId());
+              else
+              {
+                 bootbox.alert("<h3>Username already exists!!</h3>", function() {
+          });
+              return false;
+              }
+            }
+          }
+        }
+    });
+
+    
   }
-  $('#feedbackcontent').hide();
+  }
+}
+});
+   
+
+
+    if(this.userid!=undefined)
+  {
+    if(this.userid!=Meteor.userId())
+    {
+     $('.holo').hide();
+   }
+    $('#dropdown').hide();
+    $('#dropdownall').hide();
+    $('#feedbackcontent').hide();
    $('#postcontent').hide();
     $('#commentcontent').hide();
     $('#hobbycontent').hide();
-    if(userid!=undefined)
-  {
-    $('#dropdown').hide();
-    $('#dropdownall').hide();
   }
 
 }
@@ -175,11 +260,7 @@ Template.user.helpers({
            Meteor.users.find({_id:this.userid}).forEach(function(myDoc) {name=myDoc.profile.picture});
            return name;
     },
-    imagetwitter: function() {
-         var name;
-           Meteor.users.find({_id:this.userid}).forEach(function(myDoc) {name=myDoc.services.twitter.profile_image_url});
-           return name;
-    },
+    
     email: function() {
          var name;
            Meteor.users.find({_id:this.userid}).forEach(function(myDoc) {name=myDoc.profile.email});
@@ -509,15 +590,54 @@ Template.admin.admindb = function() {
   return Admin.find();
 }
 
+
+
+
+
 Template.displaypost.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
+  usertags=[];
+  }
 
+
+Template.comment.rendered = function() {
+ var i=1;
+ $('.commentr').each( function() {
+        
+        var name;
+        var content=$(this).text();
+        //alert(this.parent._id);
+         
+       content=content.replace(/@([^ ]+)/g, '<a href="/username/$1" onClick="Meteor.users.find({_id:$1})"><b>@$1</b></a>');
+        
+        $(this).html(content);
+      
+    }); 
+ 
 
 }
 
+Template.videocomment.rendered = function() {
+ var i=1;
+ $('.commentr').each( function() {
+        
+        var name;
+        var content=$(this).text();
+        //alert(this.parent._id);
+         
+       content=content.replace(/@([^ ]+)/g, '<a href="/username/$1" onClick="Meteor.users.find({_id:$1})"><b>@$1</b></a>');
+        
+        $(this).html(content);
+      
+    }); 
+ 
+
+}
+
+
 Template.displayvideo.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
-  
+   usertags=[];
   var example = Popcorn.youtube(
            '#video',url );
  
@@ -690,12 +810,27 @@ Template.displaypost.events({            // check this once  -----Roshni
                       }
               }
           if(k==0)
-             Meteor.call('addcomment',postid,x);
+          {
+             Meteor.call('addcomment',postid,x,usertags);
+             usertags=[];
+            Notifications.success('title', 'message');
+          }
            else
               bootbox.alert("<h3>The site prohibits you from using Foul language!!!!</h3>", function() {
           });
 
+
            }  
+
+
+            
+
+
+          
+
+           
+          
+
         },
    });
 
@@ -713,7 +848,9 @@ Template.displayvideo.events({            // check this once  -----Roshni
           if(videoid!=undefined)
           {
           $('#vdata').val("");
-          Meteor.call('addvidcomment',videoid,x);
+
+          Meteor.call('addvidcomment',videoid,x,usertags);
+          usertags=[];
            }
 
           
@@ -902,6 +1039,13 @@ Template.hobbyedit.rendered = function() {
       return _.contains(Posts.findOne().likeusers,Meteor.userId());
        }
     },
+    username: function() {
+      
+       var name;
+           Meteor.users.find({_id:this.userid}).forEach(function(myDoc) {name=myDoc.profile.username});
+           return name;
+ }, 
+      
     author: function() {
        
          return Meteor.users.find({_id:this.userid});
@@ -942,6 +1086,12 @@ Template.hobbyedit.rendered = function() {
       return _.contains(Videoposts.findOne().likeusers,Meteor.userId());
        }
     },
+    username: function() {
+      
+       var name;
+           Meteor.users.find({_id:this.userid}).forEach(function(myDoc) {name=myDoc.profile.username});
+           return name;
+    }, 
     author: function() {
        
          return Meteor.users.find({_id:this.userid});
