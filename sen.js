@@ -173,7 +173,9 @@ Template.contact.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
 }
 
-
+Template.header.rendered = function() {
+  count=0;
+}
 Template.user.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
   count=0;
@@ -659,6 +661,7 @@ Template.editpost.rendered = function() {
 
 
  Template.header.events({
+  
     'click #signin' : function () {
       var boxContentString =$('#modal-content').html();
     bootbox.dialog({message: boxContentString});
@@ -668,6 +671,18 @@ Template.editpost.rendered = function() {
 
 
     
+   },
+
+   'click #notification' : function() {
+    if(count%2==0){
+    $('#notifier').show();
+    count++;
+  }
+    else{
+       $('#notifier').hide();
+        count++;
+      }
+
    }
    
   });

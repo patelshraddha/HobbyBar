@@ -721,3 +721,12 @@ left:100px;
   overflow-y: hidden;
   color: #000000;
 }
+
+/*/////////////////notifier///////////////////////*/
+#notifier {
+  border: 1px solid green ;
+  }
+#notification{
+z-index:5;
+}
+}

@@ -36,15 +36,28 @@
                   {{#if loggingIn}}
                         <li><a>Logging in...</a></li>
                   {{else}}
+                  
                       <li>
-      
-                            <img style="height: 50px; padding-top:10px" src="{{currentUser.profile.picture}}" />
-                            
-           
+                        
+                        <a id="notification" ><i class="fa fa-globe fa-2x"></i></a>
+                          <div class="hide" id="notifier" >
+                            Display All Notifications <br>
+                            Clear Notifications
+                            {{#if clickGlobe}}
+                            <!--Show notifications-->
+                            {{/if}}
+                          </div>
+                        
+                      
+                      </li>
+
+                      <li>
+                       <img style="height: 50px; padding-top:10px" src="{{currentUser.profile.picture}}" />
                       </li>
                       <li>
                         <a id="profile">{{currentUser.profile.name}}</a>
                       </li>
+                      
                       <li>
                         <a href="/" id="logout">Logout</a>
                       </li>
