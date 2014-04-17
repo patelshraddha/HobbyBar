@@ -3,6 +3,7 @@ Posts =new Meteor.Collection("posts");
 Videoposts=new Meteor.Collection("videoposts");
 Comments=new Meteor.Collection("comments");
 Videocomments=new Meteor.Collection("videocomments");
+Notifier=new Meteor.Collection("notifier");
 
 Admin=new Meteor.Collection("admindb");
 Words = new Meteor.Collection(null);
@@ -812,8 +813,11 @@ Template.displaypost.events({            // check this once  -----Roshni
           if(k==0)
           {
              Meteor.call('addcomment',postid,x,usertags);
-             usertags=[];
-            Notifications.success('title', 'message');
+             
+              if(_.contains(usertags,Meteor.userId()))
+            Notifications.success(this.stopic,Meteor.user().profile.name+'  has tagged you in a comment.');
+           
+            usertags=[];
           }
            else
               bootbox.alert("<h3>The site prohibits you from using Foul language!!!!</h3>", function() {

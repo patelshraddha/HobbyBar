@@ -70,6 +70,10 @@ if (Meteor.isServer) {
        
           
     Posts.insert({hobbyid:hobbyid,data:data,stopic:stopic,sdata:sdata,topic:topic,userid:Meteor.userId(),likes:1,likeusers:[Meteor.userId()],timestamp:new Date(),timeval:((new Date).valueOf())});
+     
+
+    
+
   },
   updatepost:function(postid,topic,data)
   {
@@ -171,6 +175,35 @@ if (Meteor.isServer) {
         return "Update Successful";
       }
     });
+    var id;
+    Posts.find({_id:postid}).forEach(function(myDoc) {id=myDoc.userid});
+    if(Notifier.find({userid:id,postid:postid,post:true,like:true}).count()==0)
+    {
+
+       Notifier.insert({userid:id,postid:postid,post:true,comment:false,like:true,tag:false,unchecked:1,checked:0,lastliked:Meteor.userId(),timestamp:((new Date).valueOf())});
+    }
+    else
+    {
+      Notifier.update({
+      _id: id,postid:postid
+    }, {
+      
+      $set: {lastliked:userid},
+      $set: {timeval:((new Date).valueOf())},
+      $inc:{unchecked:1}
+      
+    }, function(error, affectedDocs) {
+      if (error) {
+        throw new Meteor.Error(500, error.message);
+      } else {
+        return "Update Successful";
+      }
+    });
+    }
+
+
+
+
   },
   like1 :function(commentid,userid){     // Roshni
     Comments.update({
@@ -219,7 +252,35 @@ if (Meteor.isServer) {
         return "Update Successful";
       }
     });
-  },
+    var id;
+    Videoposts.find({_id:postid}).forEach(function(myDoc) {id=myDoc.userid});
+    if(Notifier.find({userid:id,postid:postid,post:false,like:true}).count()==0)
+    {
+
+       Notifier.insert({userid:id,postid:postid,post:false,comment:false,like:true,tag:false,unchecked:1,checked:0,lastliked:Meteor.userId(),timestamp:((new Date).valueOf())});
+    }
+    else
+    {
+      Notifier.update({
+      _id: id,postid:postid
+    }, {
+      
+      $set: {lastliked:userid},
+      $set: {timeval:((new Date).valueOf())},
+      $inc:{unchecked:1}
+      
+    }, function(error, affectedDocs) {
+      if (error) {
+        throw new Meteor.Error(500, error.message);
+      } else {
+        return "Update Successful";
+      }
+    }); 
+
+   }
+ },
+
+
   addcomment: function(postid,comment,usertags){    
   var pic=0;
   var pictwitter=0;   
@@ -234,7 +295,32 @@ if (Meteor.isServer) {
 
   
 Comments.insert({postid:postid,comment:comment,userid:Meteor.userId(),pic:pic,likes:0,likeusers:[],timestamp:new Date(),timeval:((new Date).valueOf()),usertags:usertags});
+    
+    var id;
+    Posts.find({_id:postid}).forEach(function(myDoc) {id=myDoc.userid});
+    if(Notifier.find({userid:id,postid:postid,post:true,comment:true}).count()==0)
+    {
 
+       Notifier.insert({userid:id,postid:postid,post:true,comment:true,like:false,tag:false,unchecked:1,checked:0,lastliked:null,timestamp:((new Date).valueOf())});
+    }
+    else
+    {
+      Notifier.update({
+      _id: id,postid:postid
+    }, {
+      
+      
+      $set: {timeval:((new Date).valueOf())},
+      $inc:{unchecked:1}
+      
+    }, function(error, affectedDocs) {
+      if (error) {
+        throw new Meteor.Error(500, error.message);
+      } else {
+        return "Update Successful";
+      }
+    });
+    }
   },
    addvidcomment: function(videoid,comment,usertags){    
   var pic=0;
@@ -247,6 +333,40 @@ Comments.insert({postid:postid,comment:comment,userid:Meteor.userId(),pic:pic,li
                   // please check ----Roshni
 
 Videocomments.insert({videoid:videoid,comment:comment,userid:Meteor.userId(),pic:pic,likes:0,likeusers:[],timestamp:new Date(),timeval:((new Date).valueOf()),usertags:usertags});
+  
+    var id;
+    Videoposts.find({_id:postid}).forEach(function(myDoc) {id=myDoc.userid});
+    if(Notifier.find({userid:id,postid:postid,post:false,comment:true}).count()==0)
+    {
+
+       Notifier.insert({userid:id,postid:postid,post:false,comment:true,like:false,tag:false,unchecked:1,checked:0,lastliked:null,timestamp:((new Date).valueOf())});
+    }
+    else
+    {
+      Notifier.update({
+      _id: id,postid:postid
+    }, {
+      
+      
+      $set: {timeval:((new Date).valueOf())},
+      $inc:{unchecked:1}
+      
+    }, function(error, affectedDocs) {
+      if (error) {
+        throw new Meteor.Error(500, error.message);
+      } else {
+        return "Update Successful";
+      }
+    });
+    }
+
+
+
+
+
+
+
+
   },
   getpostpages: function (hobbyname) { 
     
