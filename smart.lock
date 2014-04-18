@@ -10,7 +10,8 @@
       "jquery-ui": {},
       "moment": {},
       "autocomplete": {},
-      "notifications": {}
+      "notifications": {},
+      "iron-router-progress": {}
     },
     "packages": {
       "router": {
@@ -57,6 +58,11 @@
         "git": "https://github.com/gfk-ba/meteor-notifications.git",
         "tag": "v0.4.8",
         "commit": "ed16633ce4996522907a41138b3ebc6134e15063"
+      },
+      "iron-router-progress": {
+        "git": "https://github.com/Multiply/iron-router-progress.git",
+        "tag": "v0.3.1",
+        "commit": "3f7900feb4bb70a1289b39a1fdcd1f438c0335b3"
       },
       "page-js-ie-support": {
         "git": "https://github.com/tmeasday/meteor-page-js-ie-support.git",

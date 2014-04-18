@@ -4,6 +4,7 @@ Videoposts=new Meteor.Collection("videoposts");
 Comments=new Meteor.Collection("comments");
 Videocomments=new Meteor.Collection("videocomments");
 Notifier=new Meteor.Collection("notifier");
+Tags=new Meteor.Collection("tags");
 
 Admin=new Meteor.Collection("admindb");
 Words = new Meteor.Collection(null);
@@ -109,14 +110,57 @@ Template.hobbymain.rendered = function() {
     
 }
 
+Template.newpost.settings = {
+  position: 'bottom',
+  limit: 5,  // more than 20, to emphasize matches outside strings *starting* with the filter
+  rules: [
+    {
+      token: '#',
+      collection: Tags,  // Meteor.Collection object means client-side collection
+      field: 'tag',
+      // set to true to search anywhere in the field, which cannot use an index.
+       // 'ba' will match 'bar' and 'baz' first, then 'abacus'
+      template: Template.hash,
+      callback: function(doc) {
+        var i=allhashtags.length;
+      allhashtags[i]=doc.tag;}
+    }
+  ]
+};
+
+Template.newvideopost.settings = {
+  position: 'bottom',
+  limit: 5,  // more than 20, to emphasize matches outside strings *starting* with the filter
+  rules: [
+    {
+      token: '#',
+      collection: Tags,  // Meteor.Collection object means client-side collection
+      field: 'tag',
+      // set to true to search anywhere in the field, which cannot use an index.
+       // 'ba' will match 'bar' and 'baz' first, then 'abacus'
+      template: Template.hash,
+      callback: function(doc) {
+        var i=allhashtags.length;
+      allhashtags[i]=doc.tag;}
+    }
+  ]
+};
 
 
 Template.header.settings = {
   position: 'bottom',
   limit: 5,  // more than 20, to emphasize matches outside strings *starting* with the filter
   rules: [
+    
     {
-      token: '',
+      token: '#',
+      collection: Tags,  // Meteor.Collection object means client-side collection
+      field: 'tag',
+      template: Template.hash,
+      callback: function(doc) { window.location = '/tag/'+doc.tag;}
+    },
+    {
+      token: '@',
       collection: Meteor.users,  // Meteor.Collection object means client-side collection
       field: 'profile.name',
       // set to true to search anywhere in the field, which cannot use an index.
@@ -131,6 +175,7 @@ Template.displaypost.settings = {
   position: 'bottom',
   limit: 5,  // more than 20, to emphasize matches outside strings *starting* with the filter
   rules: [
+
     {
       token: '@',
       collection: Meteor.users,  // Meteor.Collection object means client-side collection
@@ -176,6 +221,7 @@ Template.contact.rendered = function() {
 
 Template.header.rendered = function() {
   count=0;
+  Meteor.subscribe("hashtags");
 }
 Template.user.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
@@ -604,7 +650,7 @@ Template.displaypost.rendered = function() {
 
 
 Template.comment.rendered = function() {
- var i=1;
+
  $('.commentr').each( function() {
         
         var name;
@@ -618,6 +664,37 @@ Template.comment.rendered = function() {
     }); 
  
 
+}
+
+Template.displaytext.rendered = function() {
+ 
+ $('.data').each( function() {
+        
+        var name;
+        var content=$(this).text();
+        //alert(this.parent._id);
+         
+       content=content.replace(/#([^ ]+)/g, '<a href="/tag/$1" onClick="Meteor.users.find({_id:$1})"><b>#$1</b></a>');
+        
+        $(this).html(content);
+      
+    }); 
+}
+
+ Template.displayvideodata.rendered = function() {
+ 
+ $('.data').each( function() {
+        
+        var name;
+        var content=$(this).text();
+        //alert(this.parent._id);
+         
+       content=content.replace(/#([^ ]+)/g, '<a href="/tag/$1" onClick="Meteor.users.find({_id:$1})"><b>#$1</b></a>');
+        
+        $(this).html(content);
+      
+    }); 
+ 
 }
 
 Template.videocomment.rendered = function() {
@@ -697,6 +774,7 @@ Handlebars.registerHelper("prettifyDate", function(timestamp) {
  Meteor.subscribe("userData");
  Meteor.subscribe("hobbies");
  Meteor.subscribe("users");
+ 
  
 
 
@@ -793,6 +871,7 @@ Handlebars.registerHelper("prettifyDate", function(timestamp) {
 
  Template.newvideopost.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
+  allhashtags=[];
   $(document).keyup(function(e) {
 
   if (e.keyCode == 27) {window.location = '/'+hobbyname+'/main';}   // esc
@@ -905,7 +984,7 @@ Template.hobbyedit.rendered = function() {
         }
         if(_.contains(Meteor.user().suscribed,this.hobbyid))
         {
-          Meteor.call('addpost',this.hobbyid,x,y);
+          Meteor.call('addpost',this.hobbyid,x,y,allhashtags);
           window.location = '/'+this.name+'/main';
           return true;
         }
@@ -931,10 +1010,13 @@ Template.hobbyedit.rendered = function() {
 
   Template.newpost.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
+  
   $(document).keyup(function(e) {
 
   if (e.keyCode == 27) {window.location = '/'+hobbyname+'/main';}   // esc
 });
+
+  allhashtags=[];
 }
 
   Template.editpost.rendered = function() {
@@ -981,7 +1063,7 @@ Template.hobbyedit.rendered = function() {
                       return false;
                 }
                 var m=('http://i1.ytimg.com/vi/'+id+'/hqdefault.jpg');
-                Meteor.call('addvideopost',this.hobbyid,x,y,m);
+                Meteor.call('addvideopost',this.hobbyid,x,y,m,allhashtags);
                 window.location = '/'+this.name+'/main';
                 return true;}
            else
@@ -1139,6 +1221,23 @@ Template.hobbyedit.rendered = function() {
     },
 
   })
+
+
+  Template.hashpage.helpers({
+    
+    posts: function() {
+      return Posts.find();
+    },
+    videoposts: function() {
+      return Videoposts.find();
+    },
+
+  })
+
+
+
+
+
 
   
   Template.displaypost.events({

@@ -9,13 +9,17 @@
         <h1 class="p-heading">Post it!</h1>
         <div>
         <form>
+            {{#textareaAutocomplete settings=settings id="topic"  class="q-topic"}}
             
-            <textarea id="topic" class="q-topic"></textarea>
+            {{/textareaAutocomplete}}
+           
             </form>
         
          <form>
+             {{#textareaAutocomplete settings=settings id="data"  class="q-descrip"}}
             
-            <textarea id="data" type="text"  class="q-descrip"></textarea>
+            {{/textareaAutocomplete}}
+            
          </form>
          <div style="position : absolute;left:150px">
        <button type="button"  id="post" class="btn btn-default" >Post</button>
@@ -26,3 +30,6 @@
 </template>
 
    
+<template name="hash">
+    <small>#{{tag}}</small>
+</template>

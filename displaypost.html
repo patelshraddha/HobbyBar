@@ -3,10 +3,7 @@
        <div class="cover" style="margin-top:125px">
       <div style="padding-left:130px; padding-right:130px">
         
-        <h1 class="p-heading">{{topic}}</h1>
-        <br/>
-        <p>{{data}}</p>  
-       <br />
+        {{>displaytext}}
        {{#if checklike}}
             <img src="../images/dislike.png" id="unlike" class="like" style="height: 40px;width:40px;"/>
           {{else}}
@@ -81,6 +78,14 @@
        </div>
      </div> 
     </div>
+</template>
+
+
+<template name="displaytext">
+<h1 class="p-heading"><div class="data">{{topic}}</div></h1>
+        <br/>
+        <p><div class="data">{{data}}</div></p>  
+       <br />
 </template>
 
 <template name="comment">

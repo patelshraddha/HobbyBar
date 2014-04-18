@@ -6,6 +6,7 @@ var IR_BeforeHooks = {
           this.redirect('/');
             bootbox.alert("<h3>Please sign in to continue</h3>", function() {
           });
+            
            this.stop();
         }
     }
@@ -18,14 +19,12 @@ Router.before(IR_BeforeHooks.isLoggedIn,{except: ['contact','home','notFound']})
 
 
 Router.configure({
-  layoutTemplate: 'layout',
-  loadingTemplate: 'loading',
-  after: function () {
-        Session.set('hash', this.params.hash);
-    },
+  layoutTemplate: 'layout'
 });
 
-
+Router.configure({
+  loadingTemplate: 'loading'
+});
 
 
 Router.map(function() {                          
@@ -36,7 +35,7 @@ Router.map(function() {
   this.route('editpost');
   this.route('pagepost');
 
-  this.route('loading');
+  
   
 
   this.route('user', {
@@ -97,7 +96,8 @@ Router.map(function() {
   this.route('newpost', {
   path: '/:hobbyname/newpost',
   waitOn:function(){
-            return Meteor.subscribe("hobbylist");
+
+            return [Meteor.subscribe("hobbylist"),Meteor.subscribe("hashtags")];
         },
   data: function (){
     hobbyname  = this.params.hobbyname;
@@ -113,10 +113,20 @@ data: function (){
   return 1; }  });
 
 
+this.route('hashpage', {
+path: '/tag/:tag',
+waitOn:function(){
+         tag=this.params.tag;
+          return [Meteor.subscribe("gettag",tag),Meteor.subscribe("gettagposts",tag),Meteor.subscribe("gettagvideos",tag)];
+      },
+data: function (){
+  return 1; }  });
+
+
   this.route('newvideopost', {
   path: '/:hobbyname/newvideopost',
   waitOn:function(){
-            return Meteor.subscribe("hobbylist");
+            return [Meteor.subscribe("hobbylist"),Meteor.subscribe("hashtags")];
         },
   data: function (){
     hobbyname  = this.params.hobbyname;

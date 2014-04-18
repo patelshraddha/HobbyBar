@@ -1,0 +1,9 @@
+<template name="hashpage">
+{{#each posts}}
+<a href='/Posts/{{_id}}'><p>{{topic}}</p></a>
+<p>{{data}}</p>
+{{/each}}
+{{#each videoposts}}
+<a href='/Videopost/{{_id}}'><p>{{topic}}</p></a>
+{{/each}}
+</template>

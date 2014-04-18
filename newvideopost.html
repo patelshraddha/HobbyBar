@@ -5,8 +5,10 @@
         <h1 class="p-heading">Post a new Youtube video!</h1>
         <div>
         <form>
+           {{#textareaAutocomplete settings=settings id="topic"  class="q-topic"}}
             
-            <textarea id="topic" class="q-topic"></textarea>
+            {{/textareaAutocomplete}} 
+            
             </form>
         
          <form>

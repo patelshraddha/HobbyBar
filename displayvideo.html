@@ -3,10 +3,7 @@
        <div class="cover" style="margin-top:125px">
       <div style="padding-left:130px; padding-right:130px">
         
-        <h1 class="p-heading">{{topic}}</h1>
-        <br/>
-        <div id="video" style="width: 550px; height: 300px;" ></div>  
-       <br />
+        {{>displayvideodata}}
        {{#if checklike}}
             <img src="../images/dislike.png" id="unlike" class="like" style="height: 40px;width:40px;"/>
           {{else}}
@@ -74,6 +71,14 @@
        </div>
      </div> 
     </div>
+</template>
+
+
+<template name="displayvideodata">
+<h1 class="p-heading"><div class="data">{{topic}}</div></h1>
+        <br/>
+        <div id="video" style="width: 550px; height: 300px;" ></div>  
+       <br />
 </template>
 
 <template name="videocomment">

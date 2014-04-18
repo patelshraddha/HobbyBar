@@ -58,19 +58,79 @@ if (Meteor.isServer) {
       }
     });
   },
-  addpost: function (hobbyid,topic,data) {
+  addpost: function (hobbyid,topic,data,hashtags) {
 
-           showChartopic=30;
+            showChartopic=30;
             var c = topic.substr(0, showChartopic);
             var stopic = c + '...';
             showChardata=70;
             var c = data.substr(0, showChardata);
             var sdata = c + '...';
-           
-       
-          
-    Posts.insert({hobbyid:hobbyid,data:data,stopic:stopic,sdata:sdata,topic:topic,userid:Meteor.userId(),likes:1,likeusers:[Meteor.userId()],timestamp:new Date(),timeval:((new Date).valueOf())});
-     
+            var arr = topic.split('#');
+            
+            
+
+Posts.insert({hobbyid:hobbyid,data:data,stopic:stopic,sdata:sdata,topic:topic,userid:Meteor.userId(),likes:1,likeusers:[Meteor.userId()],timestamp:new Date(),timeval:((new Date).valueOf())});
+      var postid="abc";
+      Posts.find({hobbyid:hobbyid,data:data,stopic:stopic,sdata:sdata,topic:topic,userid:Meteor.userId()}).forEach(function(myDoc) {postid=myDoc._id});;
+    
+          for(i=0;i<hashtags.length;i++)
+            {
+             Tags.update({
+             tag:hashtags[i]
+    }, {
+      
+      $addToSet: {posts:postid}
+      
+    }, function(error, affectedDocs) {
+      if (error) {
+        throw new Meteor.Error(500, error.message);
+      } else {
+        return "Update Successful";
+      }
+    });
+            }
+
+    var remaining=[];
+         var arr = topic.split('#');
+         
+      for(i=1;i<arr.length;i++)
+      {
+
+        var tag=arr[i].split(' ')[0];
+        
+              if(!_.contains(hashtags,tag))
+              {
+                if(!_.contains(remaining,tag))
+                {
+                  var p=remaining.length;
+                  remaining[p]=tag;
+                }
+              }
+      }
+      arr = data.split('#');
+         
+      for(i=1;i<arr.length;i++)
+      {
+        var tag=arr[i].split(' ')[0];
+        
+              if(!_.contains(hashtags,tag))
+              {
+                if(!_.contains(remaining,tag))
+                {
+                  var p=remaining.length;
+                  remaining[p]=tag;
+                }
+              }
+      }
+            for(i=0;i<remaining.length;i++)
+            {
+             Tags.insert({tag:remaining[i],posts:[postid]});
+            }
+
+    
+
+    
 
     
 
@@ -96,11 +156,53 @@ if (Meteor.isServer) {
     Videoposts.remove({_id:videoid});
     //remove the corresponding comments
   },
-  addvideopost: function (hobbyid,topic,url,picurl) {
+  addvideopost: function (hobbyid,topic,url,picurl,hashtags) {
     showChartopic=30;
             var c = topic.substr(0, showChartopic);
             var stopic = c + '...';
     Videoposts.insert({hobbyid:hobbyid,url:url,stopic:stopic,picurl:picurl,topic:topic,userid:Meteor.userId(),likes:1,likeusers:[Meteor.userId()],timestamp:new Date(),timeval:((new Date).valueOf())});
+     var postid="abc";
+      Videoposts.find({hobbyid:hobbyid,url:url,stopic:stopic,picurl:picurl,topic:topic,userid:Meteor.userId()}).forEach(function(myDoc) {postid=myDoc._id});;
+    
+          for(i=0;i<hashtags.length;i++)
+            {
+             Tags.update({
+             tag:hashtags[i]
+    }, {
+      
+      $addToSet: {videos:postid}
+      
+    }, function(error, affectedDocs) {
+      if (error) {
+        throw new Meteor.Error(500, error.message);
+      } else {
+        return "Update Successful";
+      }
+    });
+            }
+
+    var remaining=[];
+         var arr = topic.split('#');
+         
+      for(i=1;i<arr.length;i++)
+      {
+
+        var tag=arr[i].split(' ')[0];
+        
+              if(!_.contains(hashtags,tag))
+              {
+                if(!_.contains(remaining,tag))
+                {
+                  var p=remaining.length;
+                  remaining[p]=tag;
+                }
+              }
+      }
+      
+            for(i=0;i<remaining.length;i++)
+            {
+             Tags.insert({tag:remaining[i],videos:[postid]});
+            }
   },
   unlike: function (postid,userid) {
       Posts.update({
@@ -384,6 +486,30 @@ Videocomments.insert({videoid:videoid,comment:comment,userid:Meteor.userId(),pic
 
 Meteor.publish("users",function(){
    return Meteor.users.find();
+});
+
+Meteor.publish("gettag",function(tag){
+   return Tags.find({tag:tag});
+});
+
+
+
+Meteor.publish("gettagposts",function(tag){
+  
+   var posts;
+  Tags.find({tag:tag}).forEach(function(myDoc) {posts=myDoc.posts});
+   return Posts.find({_id:{$in:posts}});
+});
+
+Meteor.publish("gettagvideos",function(tag){
+  
+   var posts;
+  Tags.find({tag:tag}).forEach(function(myDoc) {posts=myDoc.videos});
+   return Videoposts.find({_id:{$in:posts}});
+});
+
+Meteor.publish("hashtags",function(){
+   return Tags.find();
 });
 
 Meteor.publish("posthobby",function(hobbyid){

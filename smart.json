@@ -8,6 +8,7 @@
     "jquery-ui": {},
     "moment": {},
     "autocomplete": {},
-    "notifications": {}
+    "notifications": {},
+    "iron-router-progress": {}
   }
 }
