@@ -260,6 +260,42 @@ Posts.insert({hobbyid:hobbyid,data:data,stopic:stopic,sdata:sdata,topic:topic,us
       }
     });
       },
+    updatenotification: function (notificationid,value,chk) {
+  
+Notifier.update({
+      _id:notificationid
+    }, {
+      
+      $set: {unchecked:0,seen:value},
+      $inc:{checked:chk}
+      
+    }, function(error, affectedDocs) {
+      if (error) {
+        throw new Meteor.Error(500, error.message);
+      } else {
+        return "Update Successful";
+      }
+    });
+
+  },
+  like1 :function(commentid,userid){     // Roshni
+    Comments.update({
+      _id:commentid},{
+        $addToSet:{likeusers:userid},
+        $set: {timestamp:new Date()},
+        $set: {timeval: ((new Date).valueOf())},
+        $inc: {likes:1}
+      },function(error, affectedDocs) {
+      if (error) {
+        throw new Meteor.Error(500, error.message);
+      } else {
+        return "Update Successful";
+      }
+    });
+
+
+       
+        },
   like: function (postid,userid) { 
     Posts.update({
       _id: postid
@@ -282,16 +318,15 @@ Posts.insert({hobbyid:hobbyid,data:data,stopic:stopic,sdata:sdata,topic:topic,us
     if(Notifier.find({userid:id,postid:postid,post:true,like:true}).count()==0)
     {
 
-       Notifier.insert({userid:id,postid:postid,post:true,comment:false,like:true,tag:false,unchecked:1,checked:0,lastliked:Meteor.userId(),timestamp:((new Date).valueOf())});
+       Notifier.insert({userid:id,postid:postid,post:true,comment:false,like:true,tag:false,unchecked:1,checked:0,lastliked:Meteor.userId(),timestamp:((new Date).valueOf()),seen:false});
     }
     else
     {
       Notifier.update({
-      _id: id,postid:postid
+      userid: id,postid:postid,like:true
     }, {
       
-      $set: {lastliked:userid},
-      $set: {timeval:((new Date).valueOf())},
+      $set: {lastliked:userid,timeval:((new Date).valueOf()),seen:false},
       $inc:{unchecked:1}
       
     }, function(error, affectedDocs) {
@@ -359,17 +394,17 @@ Posts.insert({hobbyid:hobbyid,data:data,stopic:stopic,sdata:sdata,topic:topic,us
     if(Notifier.find({userid:id,postid:postid,post:false,like:true}).count()==0)
     {
 
-       Notifier.insert({userid:id,postid:postid,post:false,comment:false,like:true,tag:false,unchecked:1,checked:0,lastliked:Meteor.userId(),timestamp:((new Date).valueOf())});
+       Notifier.insert({userid:id,postid:postid,post:false,comment:false,like:true,tag:false,unchecked:1,checked:0,lastliked:Meteor.userId(),timestamp:((new Date).valueOf()),seen:false});
     }
     else
     {
       Notifier.update({
-      _id: id,postid:postid
+      userid: id,postid:postid,like:true
     }, {
       
-      $set: {lastliked:userid},
-      $set: {timeval:((new Date).valueOf())},
-      $inc:{unchecked:1}
+      $set: {lastliked:userid,timeval:((new Date).valueOf()),seen:false},
+      $inc:{unchecked:1},
+
       
     }, function(error, affectedDocs) {
       if (error) {
@@ -403,16 +438,16 @@ Comments.insert({postid:postid,comment:comment,userid:Meteor.userId(),pic:pic,li
     if(Notifier.find({userid:id,postid:postid,post:true,comment:true}).count()==0)
     {
 
-       Notifier.insert({userid:id,postid:postid,post:true,comment:true,like:false,tag:false,unchecked:1,checked:0,lastliked:null,timestamp:((new Date).valueOf())});
+       Notifier.insert({userid:id,postid:postid,post:true,comment:true,like:false,tag:false,unchecked:1,checked:0,lastliked:null,timestamp:((new Date).valueOf()),seen:false});
     }
     else
     {
       Notifier.update({
-      _id: id,postid:postid
+      userid: id,postid:postid,comment:true
     }, {
       
       
-      $set: {timeval:((new Date).valueOf())},
+      $set: {timeval:((new Date).valueOf()),seen:false},
       $inc:{unchecked:1}
       
     }, function(error, affectedDocs) {
@@ -441,16 +476,16 @@ Videocomments.insert({videoid:videoid,comment:comment,userid:Meteor.userId(),pic
     if(Notifier.find({userid:id,postid:postid,post:false,comment:true}).count()==0)
     {
 
-       Notifier.insert({userid:id,postid:postid,post:false,comment:true,like:false,tag:false,unchecked:1,checked:0,lastliked:null,timestamp:((new Date).valueOf())});
+       Notifier.insert({userid:id,postid:postid,post:false,comment:true,like:false,tag:false,unchecked:1,checked:0,lastliked:null,timestamp:((new Date).valueOf()),seen:false});
     }
     else
     {
       Notifier.update({
-      _id: id,postid:postid
+      userid: id,postid:postid,comment:true
     }, {
       
       
-      $set: {timeval:((new Date).valueOf())},
+      $set: {timeval:((new Date).valueOf()),seen:false},
       $inc:{unchecked:1}
       
     }, function(error, affectedDocs) {
@@ -518,6 +553,10 @@ Meteor.publish("posthobby",function(hobbyid){
 
 Meteor.publish("videohobby",function(hobbyid){
    return Videoposts.find({hobbyid:hobbyid},{sort:{likes: -1}});
+});
+
+Meteor.publish("notifications",function(userid){
+  return Notifier.find({userid:userid});
 });
 
 Meteor.publish("userposts",function(userid){

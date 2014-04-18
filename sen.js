@@ -221,7 +221,14 @@ Template.contact.rendered = function() {
 
 Template.header.rendered = function() {
   count=0;
+
   Meteor.subscribe("hashtags");
+
+   $('#bubble').hide();
+ 
+
+  Meteor.subscribe("notifications",Meteor.userId());
+
 }
 Template.user.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
@@ -1120,7 +1127,33 @@ Template.hobbyedit.rendered = function() {
       
        return Meteor.userId();
       
-    }
+    },
+     
+    cnt: function() {
+      if(Notifier.find({seen:false}).count()==0)
+          $('#bubble').hide();
+
+       return Notifier.find({seen:false}).count();
+      },
+      count: function(){
+      if(this.unchecked==0)
+          return this.checked;
+      else
+        return this.unchecked;
+
+      },
+   username: function() {
+      
+       var name;
+           Meteor.users.find({_id:this.userid}).forEach(function(myDoc) {name=myDoc.profile.username});
+           return name;
+ }, 
+ notifylike:function(){
+  return Notifier.find({like:true});
+ },
+ notifycomment:function(){
+  return Notifier.find({comment:true});
+ },
 
 
   })
@@ -1348,7 +1381,15 @@ Template.hobbyedit.rendered = function() {
    "click #profile": function(e, tmpl) {
         window.location = '/user/'+Meteor.userId();
     
-       }
+       },
+    "click .clicked": function(e, tmpl) {
+    Meteor.call("updatenotification",this._id,true,this.unchecked);
+    if(this.post==true)
+        window.location = '/Posts/'+this.postid;
+
+    else
+      window.location = '/Videopost/'+this.postid;
+    },   
    });
   
   Template.home.helpers({

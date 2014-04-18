@@ -37,18 +37,23 @@
                         <li><a>Logging in...</a></li>
                   {{else}}
                   
+
+
                       <li>
-                        
-                        <a id="notification" ><i class="fa fa-globe fa-2x"></i></a>
-                          <div class="hide" id="notifier" >
-                            Display All Notifications <br>
-                            Clear Notifications
-                            {{#if clickGlobe}}
-                            <!--Show notifications-->
-                            {{/if}}
-                          </div>
-                        
-                      
+
+                       <ul class="navigation">
+  
+   <a id="notification" style="color:white" ><i class="fa fa-globe fa-2x main" style="align:right"><div class="noti_bubble cnt_notice" id='bubble'>{{cnt}}</div></i></a>
+    {{#each notifylike}}
+
+         <li class="n1"><a class="clicked"> {{username}} and {{count}} liked your post.</a></li>
+       {{/each}}
+       {{#each notifycomment}}
+           <li class="n1"><a class="clicked">{{count}} person commented on your post.</a></li>
+    {{/each}}
+</ul>
+                         
+
                       </li>
 
                       <li>
