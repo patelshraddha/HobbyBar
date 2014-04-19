@@ -54,7 +54,13 @@
     {{#if isadmin}}
          {{#each notifyreportuser}}
            <li class="n1"><a class="clicked">{{count}} people reported the user  {{reportedusername}}.</a></li>
-    {{/each}}
+         {{/each}}
+         {{#each notifyreportpost}}
+           <li class="n1"><a class="clicked">{{count}} people reported a post.</a></li>
+         {{/each}}
+         {{#each notifyreportvideo}}
+           <li class="n1"><a class="clicked">{{count}} people reported a video.</a></li>
+         {{/each}}
       {{/if}}
     
 </ul>

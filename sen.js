@@ -1513,6 +1513,12 @@ Template.displayvideo.events({
  notifyreportuser:function(){
   return Notifier.find({report:true});
  },
+ notifyreportpost:function(){
+  return Notifier.find({reportpost:true});
+ },
+ notifyreportvideo:function(){
+  return Notifier.find({reportvideo:true});
+ },
  reportedusername:function(){
   var name='';
   Meteor.users.find({_id:this.reportuserid}).forEach(function(myDoc) {name=myDoc.profile.name});
@@ -1621,6 +1627,33 @@ Template.displayvideo.events({
 
   
   Template.displaypost.events({
+   "click #report": function(e, tmpl) {
+      
+      
+       bootbox.dialog({
+  message: "<h3>Are you sure you want to report this post?</h3>",
+  buttons: {
+    success: {
+      label: "No",
+      className: "btn-success",
+      callback: function() {
+        return true;
+      }
+    },
+    danger: {
+      label: "Yes",
+      className: "btn-danger",
+      callback: function() {
+        var p=Meteor.call('reportpost',postid);
+        
+        
+           Notifications.warn('Reported post','You have reported this post.Trying to report again will not report the post.');
+         return true;
+      }
+    }
+  }
+});
+       },
   "click #unlike": function(e, tmpl) {
    
     Meteor.call('unlike',this._id,Meteor.userId());
@@ -1650,6 +1683,33 @@ Template.displayvideo.events({
 
 
   Template.displayvideo.events({
+    "click #report": function(e, tmpl) {
+      
+      
+       bootbox.dialog({
+  message: "<h3>Are you sure you want to report this video?</h3>",
+  buttons: {
+    success: {
+      label: "No",
+      className: "btn-success",
+      callback: function() {
+        return true;
+      }
+    },
+    danger: {
+      label: "Yes",
+      className: "btn-danger",
+      callback: function() {
+        var p=Meteor.call('reportvideo',videoid);
+        
+        
+           Notifications.warn('Reported post','You have reported this video.Trying to report again will not report the post.');
+         return true;
+      }
+    }
+  }
+});
+       },
   "click #unlike": function(e, tmpl) {
    
     Meteor.call('unlikevideo',this._id,Meteor.userId());
@@ -1738,6 +1798,10 @@ Template.displayvideo.events({
       window.location = '/Videopost/'+this.postid;
     else if(this.report==true)
       window.location = '/user/'+this.reportuserid;
+    else if(this.reportpost==true)
+      window.location = '/Posts/'+this.reportpostid;
+    else if(this.reportvideo==true)
+      window.location = '/Videopost/'+this.reportpostid;
     },  
 
    });

@@ -1,7 +1,11 @@
 <template name="displaypost">
    {{#if isadmin}}
       <button id="deletepost" class="btn btn-danger" style="left:9% ;margin-top:3%;position:relative;z-index:999 ">Delete post</button>
+      {{else}}
+      <button id="report" class="btn btn-danger" style="left:9% ;margin-top:3%;position:relative;z-index:999 ">Report Post</button>
+
       {{/if}}
+      
     <div style="background: url('../images/n1.jpeg');background-size: cover;width:100%;background-attachment:fixed;position:absolute;top:-1em;"  >
       
        <div class="cover" style="margin-top:125px">
