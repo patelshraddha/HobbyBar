@@ -133,10 +133,10 @@ this.route('hashpage', {
 path: '/tag/:tag',
 waitOn:function(){
          tag=this.params.tag;
-          return [Meteor.subscribe("gettag",tag),Meteor.subscribe("gettagposts",tag),Meteor.subscribe("gettagvideos",tag)];
+          return [Meteor.subscribe("gettagposts",tag),Meteor.subscribe("gettagvideos",tag)];
       },
 data: function (){
-  return 1; }  });
+  return tag; }  });
 
 
   this.route('newvideopost', {

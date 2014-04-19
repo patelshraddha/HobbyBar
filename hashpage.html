@@ -1,4 +1,43 @@
 <template name="hashpage">
+<div style="background-color:#BDBDBD;background-size: cover;width:100%;background-attachment:fixed;height:100%" >
+<div id="container"> 
+
+
+    <table class="zebra">
+        <thead>
+            <tr>
+                <h4><th>Posts having #{{gettag}}</th></h4>
+                
+            </tr>
+        </thead>
+        <tbody>
+        	{{#each posts}}
+        	<tr><a href='/Posts/{{_id}}'><td>
+           {{stopic}}<br>
+          {{sdata}}
+          </td></a></tr>
+          {{/each}}
+        </tbody>
+     </table>
+     <table class="zebra">
+        <thead>
+            <tr>
+                <h4><th>Videos having #{{gettag}}</th></h4>
+                
+            </tr>
+        </thead>
+        <tbody>
+        	{{#each videoposts}}
+        	<tr><a href='/Videopost/{{_id}}'><td>
+           <p>{{stopic}}</p>
+          
+          </td></a></tr>
+          {{/each}}
+        </tbody>
+    </table>
+</div>
+</div>    
+
 {{#each posts}}
 <a href='/Posts/{{_id}}'><p>{{topic}}</p></a>
 <p>{{data}}</p>
@@ -6,4 +45,5 @@
 {{#each videoposts}}
 <a href='/Videopost/{{_id}}'><p>{{topic}}</p></a>
 {{/each}}
+
 </template>

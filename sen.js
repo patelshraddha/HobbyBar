@@ -1617,7 +1617,9 @@ Template.displayvideo.events({
     videoposts: function() {
       return Videoposts.find();
     },
-
+    gettag: function() {
+      return tag;
+    },
   })
 
 

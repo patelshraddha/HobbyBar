@@ -129,7 +129,7 @@ Posts.insert({hobbyid:hobbyid,data:data,stopic:stopic,sdata:sdata,topic:topic,us
       }
             for(i=0;i<remaining.length;i++)
             {
-             Tags.insert({tag:remaining[i],posts:[postid]});
+             Tags.insert({tag:remaining[i],posts:[postid],videos:[]});
             }
 
     
@@ -249,7 +249,7 @@ Posts.insert({hobbyid:hobbyid,data:data,stopic:stopic,sdata:sdata,topic:topic,us
       
             for(i=0;i<remaining.length;i++)
             {
-             Tags.insert({tag:remaining[i],videos:[postid]});
+             Tags.insert({tag:remaining[i],videos:[postid],posts:[]});
             }
   },
   unlike: function (postid,userid) {
@@ -722,7 +722,7 @@ Meteor.publish("gettagposts",function(tag){
 
 Meteor.publish("gettagvideos",function(tag){
   
-   var posts;
+   var posts=[];
   Tags.find({tag:tag}).forEach(function(myDoc) {posts=myDoc.videos});
    return Videoposts.find({_id:{$in:posts}});
 });
