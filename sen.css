@@ -9,6 +9,8 @@ body, html {
 /*kjlmlmlm*/
 
 /* NAVIGATION */
+.class-with-width { width: 600px !important;
+                    height: 1400px !important; }
 
 
 .zebra caption{

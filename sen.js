@@ -1010,6 +1010,17 @@ Template.editpost.rendered = function() {
    
   });
 
+ Template.home.events({
+  
+    'click #videodekho' : function () {
+      var x="<div id='video' style='width:525px; height: 350px;'' ></div><script> var example = Popcorn.youtube('#video','https://www.youtube.com/watch?v=8jsWINX30HU' );example.footnote({start: 2,end: 6,text: 'Pop!',target: 'footnotediv' });</script>"
+            bootbox.dialog({message: x});
+   },
+
+   
+   
+  });
+
 
 Handlebars.registerHelper("prettifyDate", function(timestamp) {
     return moment(new Date(timestamp)).fromNow();
@@ -1665,6 +1676,7 @@ Template.noti.helpers({
       return Posts.find();
     },
     videoposts: function() {
+
       return Videoposts.find();
     },
     gettag: function() {
