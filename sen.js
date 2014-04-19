@@ -226,6 +226,18 @@ Template.admin.helpers({
            Meteor.users.find({_id:Session.get('deleteid')}).forEach(function(myDoc) {name=myDoc.profile.email});
            return name;
     },
+    count: function() {
+          var name='';
+          if(Session.get('deleteid')!='')
+           Meteor.users.find({_id:Session.get('deleteid')}).forEach(function(myDoc) {name=myDoc.count});
+           return name;
+    },
+    lastloggedin: function() {
+          var name='';
+          if(Session.get('deleteid')!='')
+           Meteor.users.find({_id:Session.get('deleteid')}).forEach(function(myDoc) {name=myDoc.lastlogged});
+           return name;
+    },
 
     hobbyname: function() {
          var name='';
@@ -251,6 +263,7 @@ Template.admin.helpers({
           
            return 'Hobbyid     '+name;
     },
+
     
 
 

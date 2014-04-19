@@ -13,6 +13,10 @@ if (Meteor.isServer) {
         
         'count' : 1
 
+      },
+      $set:
+      {
+        'lastlogged': new Date(),
       }
     }, function(error, affectedDocs) {
       if (error) {
