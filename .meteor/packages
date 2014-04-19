@@ -19,5 +19,7 @@ jquery-ui
 font-awesome
 moment
 autocomplete
+cfs-gridfs
 notifications
 iron-router-progress
+cfs-filesystem

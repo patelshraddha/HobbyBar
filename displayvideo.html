@@ -1,4 +1,7 @@
 <template name="displayvideo">
+  {{#if isadmin}}
+      <button id="deletevideo" class="btn btn-danger" style="left:9% ;margin-top:3%;position:relative;z-index:999 ">Delete video</button>
+      {{/if}}
     <div style="background: url('../images/n1.jpeg');background-size: cover;width:100%;background-attachment:fixed;position:absolute;top:-1em;" >
        <div class="cover" style="margin-top:125px">
       <div style="padding-left:130px; padding-right:130px">
@@ -29,6 +32,8 @@
         </div>
         <div>
 
+
+
             {{#textareaAutocomplete settings=settings id="vdata" type="text"  class="q-descrip" style="margin-left:0px;width:400px;height:40px"}}
             
             {{/textareaAutocomplete}}
@@ -40,7 +45,11 @@
         <div style="width:100%;float:left">
          {{#each vidcomments}}
               <a href="/user/{{userid}}"><img style="height: 50px;margin-right:20px" src="{{pic}}" /></a>
+
               <a href="/user/{{userid}}">{{username}}</a>
+               {{#if isadmin}}
+                     <a id="deletecomment" style="margin-left:50%">Delete comment</a>
+              {{/if}}
             {{>videocomment }}
 
         

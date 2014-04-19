@@ -57,7 +57,10 @@
                       </li>
 
                       <li>
-                       <img style="height: 50px; padding-top:10px" src="{{currentUser.profile.picture}}" />
+
+                      <img style="height: 50px; padding-top:10px" src="{{currentUser.profile.picture}}" />
+
+                      
                       </li>
                       <li>
                         <a id="profile">{{currentUser.profile.name}}</a>
@@ -89,10 +92,13 @@
                 if(err) {
                         
                 } else {
-                
-
-                    window.location.href = '/user/'+Meteor.userId();
+                    var admin;
+                    Meteor.users.find({_id:Meteor.userId()}).forEach(function(myDoc) {admin=myDoc.admin});
                     
+                    if(admin==false)
+                    window.location.href = '/user/'+Meteor.userId();
+                    else
+                    window.location.href = '/admin/main';
                     Meteor.call('incrementcount',Meteor.userId(),function(error, affectedDocs) {
                      if (error) {
                             console.log(error.message);
@@ -115,7 +121,14 @@
                 if(err) {
                     
                 } else {
-                     window.location.href = '/user/'+Meteor.userId();
+                    var admin;
+                    Meteor.users.find({_id:Meteor.userId()}).forEach(function(myDoc) {admin=myDoc.admin});
+                    
+                    if(admin==false)
+                    window.location.href = '/user/'+Meteor.userId();
+                    else
+                    window.location.href = '/admin/main';
+                    
                      box.modal('hide');
                      Meteor.call('incrementcount',Meteor.userId(),function(error, affectedDocs) {
                      if (error) {
@@ -132,15 +145,21 @@
                     </a>
                  
                     <a class="btn-google" id="logingoogle" onClick="Meteor.loginWithGoogle({
-                
                 requestPermissions: ['email']
                 //Meteor.users.update({_id:Meteor.userId()}, {$inc:{count: 1}});
             }, function (err) {
                 if(err) {
                         
                 } else {
+                    var admin;
+                    Meteor.users.find({_id:Meteor.userId()}).forEach(function(myDoc) {admin=myDoc.admin});
+                    
+                    if(admin==false)
                     window.location.href = '/user/'+Meteor.userId();
-                  
+                    else
+                    window.location.href = '/admin/main';
+
+
                     box.modal('hide');
                     Meteor.call('incrementcount',Meteor.userId(),function(error, affectedDocs) {
                      if (error) {

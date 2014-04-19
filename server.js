@@ -135,6 +135,50 @@ Posts.insert({hobbyid:hobbyid,data:data,stopic:stopic,sdata:sdata,topic:topic,us
     
 
   },
+
+  createnewhobby:function(id,name,description)
+  {
+    Hobbies.insert({hobbyid:id,name:name,description:description,altname:name,imagesrc:'../images/hobbies/hobby'+id+'.jpg'});
+  },
+  
+  deleteuser:function(userid)
+  {
+     Meteor.users.remove({_id:userid});  
+  },
+  deletehobby:function(hobbyname)
+  {
+    var id;
+    Hobbies.find({name:hobbyname}).forEach(function(myDoc) {id=myDoc.hobbyid});
+     Hobbies.remove({name:hobbyname}); 
+     Posts.remove({hobbyid:id});
+     Videposts.remove({hobbyid:id});
+  },
+  deletepost:function(postid)
+  {
+   
+     Posts.remove({_id:postid});
+     Comments.remove({postid:postid});
+  },
+  deletevideo:function(postid)
+  {
+   
+     Videoposts.remove({_id:postid});
+     Videocomments.remove({postid:postid});
+  },
+   deletepostcomment:function(id)
+  {
+   
+     
+     Comments.remove({_id:id});
+  },
+  deletevideocomment:function(id)
+  {
+   
+     
+     Videocomments.remove({_id:id});
+  },
+
+
   updatepost:function(postid,topic,data)
   {
      showChartopic=30;
@@ -523,6 +567,14 @@ Meteor.publish("users",function(){
    return Meteor.users.find();
 });
 
+Meteor.publish("allposts",function(){
+   return Posts.find();
+});
+
+Meteor.publish("allvideos",function(){
+   return Videoposts.find();
+});
+
 Meteor.publish("gettag",function(tag){
    return Tags.find({tag:tag});
 });
@@ -683,7 +735,7 @@ for (var i=0; i<races.length; i++) {
 
         user.profile = profile;
         user.profile.username=null;
-
+        user.admin=false;
         user.suscribed=[];
         user.count= 0;
         return user;
@@ -696,6 +748,7 @@ else if (user.services.facebook !== undefined) {
     }
     user.suscribed=[];
      user.profile.username=null;
+     user.admin=false;
     user.count= 0;
     return user;
 }
@@ -707,6 +760,7 @@ else if (user.services.twitter !== undefined) {
     user.profile.email=user.services.twitter.email;
     user.suscribed=[];
     user.profile.username=null;
+    user.admin=false;
     user.count= 0;
     return user;
 }

@@ -9,22 +9,40 @@ var IR_BeforeHooks = {
             
            this.stop();
         }
+    },
+    isAdmin: function() {
+      
+      
+        
+           var admin;
+                    Meteor.users.find({_id:Meteor.userId()}).forEach(function(myDoc) {admin=myDoc.admin});
+                    
+                    if(admin==false)
+                       { this.redirect('/user/'+Meteor.userId());
+            bootbox.alert("<h3>You aren't the admin hence don't have any access to the admin page.</h3>", function() {
+          });}
+            
+           this.stop();
+        
     }
 
     // add more before hooks here
 }
 
+
+
 // (Global) Before hooks for any route
 Router.before(IR_BeforeHooks.isLoggedIn,{except: ['contact','home','notFound']});
+Router.before(IR_BeforeHooks.isAdmin,{only: ['admin']});
 
 
 Router.configure({
-  layoutTemplate: 'layout'
-});
-
-Router.configure({
+  layoutTemplate: 'layout',
   loadingTemplate: 'loading'
 });
+
+
+
 
 
 Router.map(function() {                          
@@ -54,6 +72,19 @@ Router.map(function() {
     userid=this.params.userid;
      }  });
 
+   this.route('admin', {
+  path: '/admin/main',
+  waitOn:function(){
+            
+             post=Meteor.subscribe("allposts");
+              video=Meteor.subscribe("allvideos");
+             
+            return [post,video];
+
+        },
+  data: function (){
+    userid=this.params.userid;
+     }  });
 
 
    this.route('user', {
@@ -77,21 +108,18 @@ Router.map(function() {
 
 
 
-  this.route('admin', {
-  path: '/admin/:userid',
+ 
+
+
+  this.route('hobbyedit', {
+  path: '/admin/:userid/hobbyedit',
   waitOn:function(){
-            var hobbylist=Meteor.subscribe("hobbylist");
-
-             postlist=Meteor.subscribe("userposts",this.params.userid);
-             post=Meteor.subscribe("posthobby",0);
-        video=Meteor.subscribe("videohobby",0);
-             videolist=Meteor.subscribe("uservideos",this.params.userid);
-            return [hobbylist,postlist,videolist,post,video];
-
+            return Meteor.subscribe("hobbylist");
         },
   data: function (){
-    userid=this.params.userid;
-     }  });
+    return 1; }  });
+
+
 
   this.route('newpost', {
   path: '/:hobbyname/newpost',

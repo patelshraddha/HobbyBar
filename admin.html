@@ -3,54 +3,14 @@
   <body>
 
     <div id="wrapper" style="padding-left: 155px;width:80%">
-
-      <!-- Sidebar -->
-     
-        <!-- Brand and toggle get grouped for better mobile display -->
-       
-        <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse navbar-ex1-collapse">
                
           <ul class="nav navbar-nav side-nav">
-            <li><a id="profile"><i class="fa fa-smile-o"></i> Profile</a></li>
-           <!-- <li><a id="feedback" class="holo"><i class="fa fa-globe"></i> Feedbacks</a></li>-->
-            <li><a id="posts" ><i class="fa fa-envelope"></i>Posts</a></li>
+            <li><a id="trends"><i class="fa fa-smile-o"></i>Trends</a></li>
+           
+           <li><a id="edithobby" ><i class="fa fa-edit"></i>Add and delete Hobby</a></li>
 
-            <li><a id="addhobby" ><i class="fa fa-edit"></i>Add New Hobby</a></li>
-
-            <li><a id="number_of_users" ><i class="fa fa-user"></i>Number of Users</a></li>
-
-    <!--  <li><a id="comments" class="holo"><i class="fa fa-comments-o"></i>Comments</a></li>-->
-
-      
-
-            {{#if diffuser}}
-            <li>
-       
-              <a href="#" id="drop" class="holo"><i class="fa fa-caret-square-o-down"></i> Subscribed Hobbies</a>
-              <ul id="dropdown" class="holo">
-                {{#each subscribed}}
-
-                <li><a href="#" id="{{altname}}" class="hobbypage">{{altname}}</a></li>
-
-                {{/each}}
-              </ul>
-            </li>
-            <li>
-              <a href="#" id="dropall" class="holo"><i class="fa fa-caret-square-o-down"></i> All Hobbies</a>
-              <ul id="dropdownall" class="holo">
-                {{#each all}}
-
-                <li><a href="/{{altname}}/main">{{altname}}</a></li>
-
-                {{/each}}
-              </ul>
-            </li>
-
-            {{/if}}
-
-
-
+            <li><a id="edituser" ><i class="fa fa-user"></i>Edit user details</a></li>
           </ul>
       </div>
           
@@ -58,162 +18,121 @@
      
       <div id="page-wrapper" style="padding-top:0px">
 
-        <div class="row" id="profilecontent">
+        <div class="row" id="trendcontent">
           <div class="col-lg-12" >
-            <h1>Profile <small>    Overview</small></h1>
+            <h1>Latest Trends </h1>
             <ol class="breadcrumb">
-              <li class="active"><i class="fa fa-dashboard"></i> Profile</li>
+              <li class="active"><i class="fa fa-dashboard"></i>User Details</li>
             </ol>
             <div class="alert alert-success alert-dismissable" style="width:30%;left:50%">
-              <img style="height: 200px; padding-top:10px" src="{{imagesrc}}" />
-                            <img style="height: 200px ; padding-top:10px" src=" {{imagetwitter}}" />
-                          <br/>
-                          <br/>
-             <p><h2> {{name}}</h2></p>
-              <p><h4>Joined {{prettifyDate timestamp}}</h4></p>
-             <p>{{email}}</p>
+                <p>Total users      {{totalusers}}</p> 
+                <p>Users joined today     {{today}}</p>             
+                <p>Users joined within last week     {{week}}</p> 
+                <p>Users joined within last month     {{month}}</p>
+                <p>Users joined within last year     {{year}}</p>
+            </div>
+
+              <ol class="breadcrumb">
+              <li class="active"><i class="fa fa-dashboard"></i>Hobby Details</li>
+            </ol>
+            
+            
+              {{#each hobbydetails}}
+              <div class="alert alert-success alert-dismissable" style="width:30%;left:50%">
+                 <p><b><h3>{{altname}}</h3></b></p>
+                <p>Total subscribed users:       {{subusers}}</p> 
+                <p>Number of posts    {{postscount}}</p>             
+                <p>Number of videos    {{videoscount}}</p>  
+                </div> 
+              {{/each}}
+            
+             </div>
+        </div>
+
+
+         <div class="row" id="hobbycontent">
+          <div class="col-lg-12">
+            <h1>Hobby<small> Editing</small></h1>
+            <ol class="breadcrumb">
+              <li class="active"><i class="fa fa-dashboard"></i>Add a hobby</li>
+            </ol>
+            <div>
+             <div class="alert alert-success alert-dismissable">
+            <div class="hobbyinner">
+                <form>
+            
+                <p>Hobby ID: </p> <input id="newhobbyid" type="text" name="hobbyid"><br>
+
+                <p>Hobby Name: </p> <input id="newhobbyname" type="text" name="hobbyname"><br>
+                
+                <p>Description:</p> <textarea id="hobbydes" type="text"  class="hobbydescrip"></textarea>
+                <br>
+
+                <p>Your image:</p> <input type="file" name="pic" id="pic"><br> <br>
+                 <button type="button"  id="post" class="btn ">Create Hobby!</button>
+                </form>
+                
+              </div>
             </div>
           </div>
-        </div>
+
+
+            <ol class="breadcrumb">
+              <li class="active"><i class="fa fa-dashboard"></i>Remove a hobby</li>
+            </ol>
+
+            <div class="alert alert-success alert-dismissable">
+              {{> inputAutocomplete settings=hobbysettings id="autocomplete-input" class="input-xlarge" placeholder="Type hobbyname" style=''}}
+              <div id='hobbydetails'>
+              <img style="height: 200px; padding-top:10px" src="{{hobbyimagesrc}}" />
+                <li><a id="deletehobby" style="left:70%"><h1>Delete hobby</h1></a></li> 
+             <p><h2> {{hobbyname}}</h2></p>
+             <p><h4> {{hobbyid}}</h4></p>
+             </div>
+            </div>
+          </div>
+       </div>
+
+
+
+
+
+
+
+       <div class="row" id="usercontent">
+          <div class="col-lg-12">
+            <h1>User<small> Editing</small></h1>
+            <ol class="breadcrumb">
+              <li class="active"><i class="fa fa-dashboard"></i>Remove a user</li>
+            </ol>
+
+            <div class="alert alert-success alert-dismissable">
+              {{> inputAutocomplete settings=usersettings id="autocomplete-input" class="input-xlarge" placeholder="Type name or @ and username" style=''}}
+              <div id='userdetails'>
+              <img style="height: 200px; padding-top:10px" src="{{imagesrc}}" />
+                <li><a id="deleteuser" style="left:70%"><h1>Delete User</h1></a></li> 
+             <p><h2> {{name}}</h2></p>
+             <p><h2> @{{username}}</h2></p>
+              <p><h4>Joined {{prettifyDate timestamp}}</h4></p>
+             
+             <p>{{email}}</p>
+             </div>
+            </div>
+          </div>
+       </div>
+        
 
 
 
 
 
   
-       <div class="row" id="feedbackcontent">
-          <div class="col-lg-12">
-            <h1>Feedback<small>    Overview</small></h1>
-            <ol class="breadcrumb">
-              <li class="active"><i class="fa fa-dashboard"></i> Feedback</li>
-            </ol>
-            <div class="alert alert-success alert-dismissable">
-              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-              <a href="#">{{currentUser.profile.name}}</a>
-              <p> Here we are</p>
-              {{currentUser.profile.name}}
-            </div>
-          </div>
-       </div>
-
-
-
-
-        <div class="row" id="postcontent">
-          <div class="col-lg-12">
-            <h1>Posts <small>    Overview</small></h1>
-            <ol class="breadcrumb">
-              <li class="active"><i class="fa fa-dashboard"></i>Posts</li>
-            </ol>
-            
-
-                 <div class="posts" id="posts">
       
-      <ul>
-
-
-       {{#each filterpost}}
-       <li>
-
-         <a href="/Posts/{{_id}}">
-           <h2 class="ellipsis"><div class="headermore">{{stopic}}</div></h2>
-           <p class="ellipsis"><div class="more">{{sdata}}</div></p>
-         </a>
-       </li>
-       {{/each}}
-      </ul>   
-
-    </div>
-
-   <!-- <div class="videoposts">
-      <ul>
-
-
-   {{#each filtervideopost}}
-    <li>
-    <a href="/Videoposts/{{_id}}">
-      <h2><div class="headermore">{{stopic}}</div></h2>
-      <img src='{{picurl}}'/>
-    </a>
-   </li>
-  {{/each}}
-  </ul>   
-
-</div>-->
-            
-          </div>
-        </div>
-
-        <div class="row" id="hobbycontent">
-          <div class="col-lg-12">
-            <h1>Hobby Posts<small>       Overview</small></h1>
-            <ol class="breadcrumb">
-              <li class="active"><i class="fa fa-dashboard"></i>Posts</li>
-            </ol>
-             <div class="posts" id="posts">
-              <ul>
-              {{#each filterpost}}
-              <li>
-
-               <a href="/Posts/{{_id}}">
-                <h2 class="ellipsis"><div class="headermore">{{stopic}}</div></h2>
-                <p class="ellipsis"><div class="more">{{sdata}}</div></p>
-               </a>
-              </li>
-              {{/each}}
-             </ul>   
-
-            </div>
-
-           <div class="videoposts">
-           <ul>
-
-
-           {{#each filtervideopost}}
-           <li>
-            <a href="/Videopost/{{_id}}">
-            <h2><div class="headermore">{{stopic}}</div></h2>
-            <img src='{{picurl}}'/>
-            </a>
-           </li>
-           {{/each}}
-           </ul>   
-
-          </div>
-            
-         </div>
-       </div>
-
-        
 
 
 
-
-
-
-
-       <!-- <div class="row" id="commentcontent">
-          <div class="col-lg-12">
-            <h1>Comments<small>    Overview</small></h1>
-            <ol class="breadcrumb">
-              <li class="active"><i class="fa fa-dashboard"></i>Comments</li>
-            </ol>
-            <div class="alert alert-success alert-dismissable">
-              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-              <a href="#">{{currentUser.profile.name}}</a>
-        <p> Here we are</p>
-      {{currentUser.profile.name}}
-            </div>
-          </div>
-        </div>-->
-
-
-
-
-
-        
-        </div>
-
+      
+   </div>
   </div>
 </body>
 </template>

@@ -25,7 +25,9 @@
     	   <button id="unsuscribe" class="suscribebutton  btn btn-danger">Unsubscribe</button>
     	{{/if}}
     </div>
-  
+      {{#if isadmin}}
+      <button id="deletehobby" class="suscribebutton  btn btn-danger" style="left:0%">Delete hobby</button>
+      {{/if}}
    
 
 </div>
@@ -71,4 +73,9 @@
 
 
 
+</template>
+
+<template name="hobby">
+  <small><img style="height: 25px;" src="{{imagesrc}}" />
+                   {{name}}</small>
 </template>
