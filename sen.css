@@ -88,7 +88,7 @@ table {
 .noti_bubble {
     position:absolute;
     top: -6px;
-    right:-6px;
+    right:8px;
     padding:1px 2px 1px 2px;
     background-color:red;
     color:white;

@@ -46,14 +46,20 @@
    <a id="notification" style="color:white" ><i class="fa fa-globe fa-2x main" style="align:right"><div class="noti_bubble cnt_notice" id='bubble'>{{cnt}}</div></i></a>
     {{#each notifylike}}
 
+
          <li class="n1"><a class="clicked"> {{count}} person liked your post.</a></li>
+
+         <li class="n1"><a class="clicked"> {{username}} and {{count}} liked your post.</a></li>
+        
        {{/each}}
        {{#each notifycomment}}
            <li class="n1"><a class="clicked">{{count}} person commented on your post.</a></li>
+               
     {{/each}}
     {{#if isadmin}}
          {{#each notifyreportuser}}
            <li class="n1"><a class="clicked">{{count}} people reported the user  {{reportedusername}}.</a></li>
+
          {{/each}}
          {{#each notifyreportpost}}
            <li class="n1"><a class="clicked">{{count}} people reported a post.</a></li>
@@ -62,7 +68,11 @@
            <li class="n1"><a class="clicked">{{count}} people reported a video.</a></li>
          {{/each}}
       {{/if}}
-    
+
+             
+
+      
+      <li class="n1"><a  href="/noti"> Show More</a></li>
 </ul>
                          
 

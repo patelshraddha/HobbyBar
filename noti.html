@@ -1,0 +1,54 @@
+
+<template name="noti">
+ <div style="background-color:#BDBDBD;background-size: cover;width:100%;background-attachment:fixed;height:100%" >
+<div id="container"> 
+
+
+	<table class="zebra">
+		<thead>
+        	<tr>
+				<h4><th>NOTIFICATIONS</th></h4>
+				
+            </tr>
+		</thead>
+        <tbody>
+        
+        
+            	
+  	  {{#each notifylike}}
+<tr>
+            	
+         <a class="clicked" width="100%"> <td>{{username}} and {{count}} liked your post.</td></a>
+        </tr>
+       {{/each}}
+       {{#each notifycomment}}
+       <tr>
+           <a class="clicked" width="100%"><td>{{count}} person commented on your post.</td></a>
+           </tr>    
+    {{/each}}
+    {{#if isadmin}}
+         {{#each notifyreportuser}}
+         <tr>
+          <a class="clicked" width="100%"><td>{{count}} people reported the user  {{reportedusername}}.</td></a>
+             </tr>
+    {{/each}}
+    
+      {{/if}}
+          	
+            	
+            	
+            	
+            	
+            	
+            	
+              
+           
+            
+           
+        </tbody>
+	</table>
+</div>
+</div>    
+</template>
+
+

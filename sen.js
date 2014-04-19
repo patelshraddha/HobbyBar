@@ -608,6 +608,11 @@ Template.header.rendered = function() {
 
 }
 
+Template.noti.rendered = function() {
+  Meteor.subscribe("notifications",Meteor.userId());
+
+}
+
 
 Template.user.rendered = function() {
   $("html,body").animate({scrollTop: 0},500);
@@ -1484,6 +1489,8 @@ Template.displayvideo.events({
        return Meteor.userId();
       
     },
+    
+     
      
     cnt: function() {
       if(Notifier.find({seen:false}).count()==0)
@@ -1518,6 +1525,39 @@ Template.displayvideo.events({
  },
  notifyreportvideo:function(){
   return Notifier.find({reportvideo:true});
+ },
+ reportedusername:function(){
+  var name='';
+  Meteor.users.find({_id:this.reportuserid}).forEach(function(myDoc) {name=myDoc.profile.name});
+          
+  return name;
+ },
+
+
+  })
+Template.noti.helpers({
+   
+  count: function(){
+      if(this.unchecked==0)
+          return this.checked;
+      else
+        return this.unchecked;
+
+      },
+   username: function() {
+      
+       var name;
+           Meteor.users.find({_id:this.userid}).forEach(function(myDoc) {name=myDoc.profile.username});
+           return name;
+ }, 
+ notifylike:function(){
+  return Notifier.find({like:true});
+ },
+ notifycomment:function(){
+  return Notifier.find({comment:true});
+ },
+ notifyreportuser:function(){
+  return Notifier.find({report:true});
  },
  reportedusername:function(){
   var name='';
