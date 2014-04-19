@@ -1564,13 +1564,13 @@ Template.displayvideo.events({
       return Comments.find();
     },
     checklike1: function() {
-      if(Posts.findOne()==undefined)
+      if(Comments.findOne()==undefined)
       {
        return false;
      }
       else
       {  
-      return _.contains(Posts.findOne().likeusers,Meteor.userId());
+      return _.contains(Comments.findOne().likeusers,Meteor.userId());
        }
     },
   })
@@ -1604,6 +1604,16 @@ Template.displayvideo.events({
     vidcomments : function(){
 
       return Videocomments.find();
+    },
+        checklike1: function() {
+      if(Videocomments.findOne()==undefined)
+      {
+       return false;
+     }
+      else
+      {  
+      return _.contains(Videocomments.findOne().likeusers,Meteor.userId());
+       }
     },
 
   })
@@ -1718,6 +1728,13 @@ Template.displayvideo.events({
        },
   "click #like": function(e, tmpl) {
     Meteor.call('likevideo',this._id,Meteor.userId());
+       },
+    "click #unlike1": function(e, tmpl) {
+   
+    Meteor.call('unlikevideocomment',this._id,Meteor.userId());
+       },
+  "click #like1": function(e, tmpl) {
+    Meteor.call('likevideocomment',this._id,Meteor.userId());
        },
   "click #delete": function(e, tmpl) {
      var answer=confirm("Are you sure you want to delete this post?");

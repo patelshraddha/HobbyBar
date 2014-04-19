@@ -9,6 +9,7 @@
     "moment": {},
     "autocomplete": {},
     "notifications": {},
-    "iron-router-progress": {}
+    "iron-router-progress": {},
+    "cfs-gridfs": {}
   }
 }

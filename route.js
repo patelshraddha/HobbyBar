@@ -52,7 +52,7 @@ Router.map(function() {
   this.route('test');
   this.route('editpost');
   this.route('pagepost');
-
+  this.route('notification');
   
   
 
