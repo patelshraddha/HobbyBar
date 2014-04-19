@@ -15,7 +15,10 @@
       {{#if isadmin}}
          <li><a id="delete"><h3>Delete User</h3></a></li>
          {{else}}
+         {{#if diffuser}}
+         {{else}}
          <li><a id="report"><h3>Report User</h3></a></li>
+         {{/if}}
       {{/if}}
 
      
