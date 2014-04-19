@@ -78,8 +78,9 @@ Router.map(function() {
             
              post=Meteor.subscribe("allposts");
               video=Meteor.subscribe("allvideos");
-             
-            return [post,video];
+             postcomments=Meteor.subscribe("allcomments");
+              videocomments=Meteor.subscribe("allvideocomments");
+            return [post,video,postcomments,videocomments];
 
         },
   data: function (){

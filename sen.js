@@ -176,6 +176,37 @@ Template.admin.helpers({
            Meteor.users.find({_id:Session.get('deleteid')}).forEach(function(myDoc) {name=myDoc.profile.username});
            return name;
     },
+     userposts: function() {
+          
+          if(Session.get('deleteid')!='')
+          {
+           return Posts.find({userid:Session.get('deleteid')}).count();
+           
+         }
+         else
+          return 0;
+    },
+    uservideos: function() {
+          
+          if(Session.get('deleteid')!='')
+          {
+          return Videoposts.find({userid:Session.get('deleteid')}).count();
+           
+         }
+         else
+          return 0;
+    },
+     usercomments: function() {
+          
+          if(Session.get('deleteid')!='')
+          {
+          return Comments.find({userid:Session.get('deleteid')}).count()+Videocomments.find({userid:Session.get('deleteid')}).count();
+           
+         }
+         else
+          return 0;
+    },
+
     timestamp: function() {
           var name='';
           if(Session.get('deleteid')!='')
@@ -760,6 +791,33 @@ Template.user.helpers({
   }
 });
        },
+
+  "click #report": function(e, tmpl) {
+       bootbox.dialog({
+  message: "<h3>Are you sure you want to report this user?</h3>",
+  buttons: {
+    success: {
+      label: "No",
+      className: "btn-success",
+      callback: function() {
+        return true;
+      }
+    },
+    danger: {
+      label: "Yes",
+      className: "btn-danger",
+      callback: function() {
+        var p=Meteor.call('reportuser',this.userid);
+        var name;
+        Meteor.users.find({_id:this.userid}).forEach(function(myDoc) {name=myDoc.profile.name});
+           Notifications.warn('Reported user','You have reported '+name+'.Trying to report again will not report the user.');
+         return true;
+      }
+    }
+  }
+});
+       },
+
 
   "click #dropall": function(e, tmpl) {
        if((countall%2)==0)
@@ -1439,6 +1497,15 @@ Template.displayvideo.events({
  notifycomment:function(){
   return Notifier.find({comment:true});
  },
+ notifyreportuser:function(){
+  return Notifier.find({report:true});
+ },
+ reportedusername:function(){
+  var name='';
+  Meteor.users.find({_id:this.reportuserid}).forEach(function(myDoc) {name=myDoc.profile.name});
+          
+  return name;
+ },
 
 
   })
@@ -1649,13 +1716,17 @@ Template.displayvideo.events({
     
        },
     "click .clicked": function(e, tmpl) {
+
     Meteor.call("updatenotification",this._id,true,this.unchecked);
     if(this.post==true)
         window.location = '/Posts/'+this.postid;
 
-    else
+    else if(this.video==true)
       window.location = '/Videopost/'+this.postid;
-    },   
+    else if(this.report==true)
+      window.location = '/user/'+this.reportuserid;
+    },  
+
    });
   
   Template.home.helpers({

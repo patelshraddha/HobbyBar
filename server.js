@@ -561,6 +561,45 @@ Videocomments.insert({videoid:videoid,comment:comment,userid:Meteor.userId(),pic
     Hobbies.find({name:hobbyname}).forEach(function(myDoc) {hobbyid=myDoc.hobbyid});
      return Math.ceil(Videoposts.find({hobbyid:hobbyid}).count()/8);
   },
+  reportuser: function (userid) { 
+    var id;
+      Meteor.users.find({admin:true}).forEach(function(myDoc) {id=myDoc._id});
+      var p=Notifier.find({reportuserid:userid,report:true}).count();
+    
+    if(Notifier.find({reportuserid:userid,report:true}).count()==0)
+    {
+      
+       Notifier.insert({userid:id,reportuserid:userid,report:true,reportarray:[Meteor.userId()],unchecked:1,checked:0,timestamp:((new Date).valueOf()),seen:false});
+    }
+    else
+    {
+       var reportarray;
+       Notifier.find({reportuserid:userid,report:true}).forEach(function(myDoc) {reportarray=myDoc.reportarray});
+       if(!_.contains(reportarray,Meteor.userId()))
+      {
+      Notifier.update({
+      userid: id,reportuserid:userid,report:true
+    }, {
+      
+      $set: {timeval:((new Date).valueOf()),seen:false},
+      $inc:{unchecked:1},
+      $addToSet: {reportarray:Meteor.userId()},
+      
+      
+    }, function(error, affectedDocs) {
+      if (error) {
+        throw new Meteor.Error(500, error.message);
+      } else {
+        return "Update Successful";
+      }
+    });
+     }
+      else
+        return 'Not reported';
+    }
+
+     
+  },
 });
 
 Meteor.publish("users",function(){
@@ -573,6 +612,14 @@ Meteor.publish("allposts",function(){
 
 Meteor.publish("allvideos",function(){
    return Videoposts.find();
+});
+
+Meteor.publish("allcomments",function(){
+   return Comments.find();
+});
+
+Meteor.publish("allvideocomments",function(){
+   return Videocomments.find();
 });
 
 Meteor.publish("gettag",function(tag){
